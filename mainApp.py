@@ -95,7 +95,7 @@ if __name__ == "__main__":
     # application
     name = "students's dungeon"
     minsize = ((width * 2 + 1) * size, (height * 2 + 1) * size)
-    myapp = App(title=name, minSize=minsize, laby=Labyrinthe(height, width), hero=hero())
+    myapp = App(title=name, minSize=minsize, laby=Labyrinthe(height, width), hero=Hero())
     myapp.build_can(height=(height * 2 + 1) * size - 2, width=(width * 2 + 1) * size - 2, bg="black")
     # image
     pDun = Photo("img/dungeon", (size, size))
