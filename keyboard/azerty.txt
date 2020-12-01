@@ -1,0 +1,10 @@
+déplacement gauche :
+déplacement droite :
+déplacement haut :
+déplacement bas :
+utiliser/ramasser :
+changer de personnage :
+mettre en pause :
+combattre :
+activer pouvoir :
+inventair :
