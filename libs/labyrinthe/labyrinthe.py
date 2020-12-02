@@ -83,6 +83,7 @@ class Labyrinthe:  # creation du Labyrinthe
         """
         fonction qui cree toute les cellule du Labyrinthe
         """
+        self.laby = []
         line = self.height  # hauteur du Labyrinthe
         rows = self.width  # largeur du Labyrinthe
         for y in range(0, 2 * line + 1):
