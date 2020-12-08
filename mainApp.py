@@ -121,3 +121,78 @@ if __name__ == "__main__":
     myapp.launch()
 
     # myapp.resizable(width=False,height=False)
+"""
+def afficher():
+    pygame.init()
+    fenetre = pygame.display.set_mode((600, 400))
+
+
+    perso = pygame.image.load("img/player/blue/mage.png")
+    pygame.display.set_icon(perso)
+
+    pygame.display.set_caption("Escape the Donjon")
+
+    conti = True
+    while conti:
+        acceuil = pygame.image.load("img/acceuil/acceuil.jpg").convert()
+        fenetre.blit(acceuil, (0, 0))
+
+        pygame.display.flip()
+
+        continue_jeu = True
+        continue_acceuil = True
+
+        while continue_acceuil:
+            for event in pygame.event.get():
+                if event.type == QUIT or event.type == KEYDOWN and event.key == K_ESCAPE:
+                    continue_acceuil = False
+                    continue_jeu = False
+                    conti = False
+                    choix_tail = 0
+
+                elif event.type == KEYDOWN:
+                    if event.key == K_F1:
+                        continue_acceuil = 0
+                        choix_tail = 1
+
+                    elif event.key == K_F2:
+                        continue_acceuil = 0
+                        choix_tail = 2
+
+                    elif event.key == K_F3:
+                        continue_acceuil = 0
+                        choix_tail = 3
+
+                    elif event.key == K_F4:
+                        continue_acceuil = 0
+                        choix_tail = 4
+
+        if choix_tail != 0:
+            level."appel de la classe qui affiche le laby"
+            level."appel fct pour generer"
+            level."def afficher(fenetre)"
+
+
+        while continue_jeu:
+            for event in pygame.event.get():
+                if event.type == pygame.QUIT:
+                    continue_jeu = False
+                    conti = False
+
+                elif event.key == K_a:
+                    Labyrinthe.heroMove('droite')
+                elif event.key == K_d:
+                    Labyrinthe.heroMove('gauche')
+                elif event.key == K_s:
+                    Labyrinthe.heroMove('bas')
+                elif event.key == K_w:
+                    Labyrinthe.heroMove('haut')
+
+            fenetre.blit(fond, (0, 0))
+            fond = pygame.image.load("img/floor/floor.jpeg")
+            pygame.display.set_icon(fond)
+            pygame.display.flip()
+
+            if les coord de la sortiie:
+                continue_jeu = 0
+"""
