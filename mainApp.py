@@ -1,39 +1,16 @@
+from random import randrange
+
 import pygame
 from pygame.locals import *
+from PIL import ImageTk, Image
+from libs.labyrinthe import Labyrinthe
+from libs.hero import Hero
+from libs.photo import Photo
+
+
 # import sys
 
 
-pygame.init()
-
-ecran = pygame.display.set_mode((600, 400))
-pygame.display.set_caption('Escape teh Donjon')
-acceuil = pygame.image.load("img/acceuil/acceuil.jpg").convert()
-ecran.blit(acceuil, (0, 0))
-
-perso = pygame.image.load("img/player/blue/mage.png").convert_alpha()
-position_perso = perso.get_rect()
-ecran.blit(perso, position_perso)
-
-
-conti = True
-while conti:
-    for event in pygame.event.get():
-        if event.type == pygame.QUIT:
-            conti = False
-        if event.type == KEYDOWN:
-            if event.key == K_DOWN:
-                position_perso = position_perso.move(0, 6)
-            if event.key == K_UP:
-                position_perso = position_perso.move(0, -6)
-            if event.key == K_RIGHT:
-                position_perso = position_perso.move(6, 0)
-            if event.key == K_LEFT:
-                position_perso = position_perso.move(-6, 0)
-
-    ecran.blit(acceuil, (0, 0))
-    ecran.blit(perso, position_perso)
-    pygame.display.flip()
-"""
 def interDungeon(size, width, height, laby, pDun):
     img_w = (width * 2 + 1) * size
     img_h = (height * 2 + 1) * size
@@ -82,9 +59,48 @@ def interDungeon(size, width, height, laby, pDun):
                     dungeon.paste(pDun.ground2, (xImg, yImg))
                 if laby.get_cell(x.x, x.y).end:
                     dungeon.paste(pDun.trap, (xImg, yImg))
-    dungeon.save("img/floor/floor.jpeg)
-    dungeon = ImageTk.PhotoImage(dungeon)
-    return dungeon
+    dungeon.save("img/floor/floor.jpeg")
+
+
+if __name__ == '__main__':
+    height, width = 5, 5
+    size = 32
+    laby = Labyrinthe(height, width)
+    hero = Hero()
+    pDun = Photo("img/dungeon", (size, size))
+    pPng = Photo("img/player/blue", (size, size))
+    interDungeon(size, width, height, laby, pDun)
+    pygame.init()
+
+    ecran = pygame.display.set_mode((600, 400))
+    pygame.display.set_caption('Escape teh Donjon')
+    acceuil = pygame.image.load("img/acceuil/acceuil.jpg").convert()
+    ecran.blit(acceuil, (0, 0))
+
+    perso = pygame.image.load("img/player/blue/mage.png").convert_alpha()
+    position_perso = perso.get_rect()
+    ecran.blit(perso, position_perso)
+
+    conti = True
+    while conti:
+        for event in pygame.event.get():
+            if event.type == pygame.QUIT:
+                conti = False
+            if event.type == KEYDOWN:
+                if event.key == K_DOWN:
+                    position_perso = position_perso.move(0, 6)
+                if event.key == K_UP:
+                    position_perso = position_perso.move(0, -6)
+                if event.key == K_RIGHT:
+                    position_perso = position_perso.move(6, 0)
+                if event.key == K_LEFT:
+                    position_perso = position_perso.move(-6, 0)
+
+        ecran.blit(acceuil, (0, 0))
+        ecran.blit(perso, position_perso)
+        pygame.display.flip()
+"""
+
 
 def interHero(app, hero, pPng, soldier=True):
     xCan = hero.x * size +2
@@ -149,7 +165,7 @@ if __name__ == "__main__":
     myapp.add_bind("<<move>>", move)
     myapp.launch()
     """
-    # myapp.resizable(width=False,height=False)
+# myapp.resizable(width=False,height=False)
 """
 def afficher():
     pygame.init()
