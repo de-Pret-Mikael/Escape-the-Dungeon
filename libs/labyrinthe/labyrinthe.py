@@ -205,7 +205,7 @@ class Labyrinthe:  # creation du Labyrinthe
         """
         self.end = {"x": x, "y": y}
 
-    def add_item(self, dictOfItem):
+    def add_item(self, listOfItem):
         listOfCell = []
         for y in self.laby:
             for x in y:
@@ -213,11 +213,8 @@ class Labyrinthe:  # creation du Labyrinthe
                     listOfCell.append(x)
         rand = random.randrange(0, len(listOfCell))
         cellRand = listOfCell[rand]
-        key = list(dictOfItem.keys())
-        value = list(dictOfItem.values())
-        for i in range(len(value)):
-            self.item.append(Chest(cellRand.x, cellRand.y, key[i], value[i]))
-            del cellRand
+        for i in listOfItem:
+            self.item.append(Chest(cellRand.x, cellRand.y, i[0], i[1]))
 
     def show(self):
         """permet de montrer le labyrinthe en console"""
