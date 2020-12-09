@@ -64,6 +64,7 @@ class Labyrinthe:  # creation du Labyrinthe
         self.end = {"x": None, "y": None}  # position de la fin
         self.laby = []  # tableau qui sera compose de tout les cellule du Labyrinthe
         self.wall = []  # tableau qui sera compose de tout les murs du Labyrinthe
+        self.item = []
         self.build_grid()  # creation de tout les cellule
         self.build_way()  # creation du chemin graace a l'algorithme
         self.start_and_end()  # positionnement du debut e de la fin
@@ -202,6 +203,15 @@ class Labyrinthe:  # creation du Labyrinthe
         :param y: position y de la fin du labyrinthe
         """
         self.end = {"x": x, "y": y}
+
+    def build_dict_item(self,name, x, y, pItem):
+        #{"name":nomdelitem, "x":x, "y":y, "objimg":img}
+        dictref = {}
+        dictref["name"] = name
+        dictref["x"] = x
+        dictref["y"] = y
+        dictref["objimg"] = pItem[name]
+        self.item.append(dictref)
 
     def show(self):
         """permet de montrer le labyrinthe en console"""

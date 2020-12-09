@@ -71,11 +71,12 @@ def interHero(size, pPng, soldier=True):
 
     hero.save("img/floor/hero.png")
 
-def interItems(size, pkey, items):
-    items = Image.new("RGBA", (size, size))
-    items.paste(pPng.cle, (0, 0))
 
-    items.save("img/floor/cle.png")
+def interKey(size, pKey, name):
+    items = Image.new("RGBA", (size, size))
+    items.paste(pKey[name], (0, 0))
+    items.save("img/floor/{}.png".format(name))
+
 
 def new_tail(heigth, width, size):
     laby.__init__(heigth, width)
@@ -84,16 +85,15 @@ def new_tail(heigth, width, size):
     interDungeon(size, width, height, laby, pDun)
 
 
-
 if __name__ == '__main__':
     height, width = 5, 5
     size = 32
     laby = Labyrinthe(height, width)
     hero = Hero()
     hero.setPosi(**laby.start)
-    pDun = Photo("img/dungeon", (size, size))
-    pPng = Photo("img/player/blue", (size, size))
-    interDungeon(size, width, height, laby, pDun)
+    pDun = None
+    pPng = None
+    pKey = None
     pygame.init()
 
     conti = True
@@ -134,7 +134,7 @@ if __name__ == '__main__':
                         save_K = 'K_F1'
                         pDun = Photo("img/dungeon", (size, size))
                         pPng = Photo(path_hero, (size, size))
-                        pkey = Photo(path_key, (size, size))
+                        pKey = Photo(path_key, (size, size))
                         new_tail(height, width, size)
 
 
@@ -145,7 +145,7 @@ if __name__ == '__main__':
                         save_K = 'K_F2'
                         pDun = Photo("img/dungeon", (size, size))
                         pPng = Photo(path_hero, (size, size))
-                        pkey = Photo(path_key, (size, size))
+                        pKey = Photo(path_key, (size, size))
                         new_tail(height, width, size)
 
                     elif event.key == K_F3:
@@ -155,7 +155,7 @@ if __name__ == '__main__':
                         save_K = 'K_F3'
                         pDun = Photo("img/dungeon", (size, size))
                         pPng = Photo(path_hero, (size, size))
-                        pkey = Photo(path_key, (size, size))
+                        pKey = Photo(path_key, (size, size))
                         new_tail(height, width, size)
 
                     elif event.key == K_F4:
@@ -165,7 +165,7 @@ if __name__ == '__main__':
                         save_K = 'K_F4'
                         pDun = Photo("img/dungeon", (size, size))
                         pPng = Photo(path_hero, (size, size))
-                        pkey = Photo(path_key, (size, size))
+                        pKey = Photo(path_key, (size, size))
                         new_tail(height, width, size)
 
                     elif event.key == K_F5:
@@ -175,7 +175,7 @@ if __name__ == '__main__':
                         save_K = 'K_F5'
                         pDun = Photo("img/dungeon", (size, size))
                         pPng = Photo(path_hero, (size, size))
-                        pkey = Photo(path_key, (size, size))
+                        pKey = Photo(path_key, (size, size))
                         new_tail(height, width, size)
 
                     elif event.key == K_F6:
