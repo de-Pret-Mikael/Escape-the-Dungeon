@@ -72,15 +72,16 @@ def interHero(size, pPng, soldier=True):
     hero.save("img/floor/hero.png")
 
 
-def interKey(size, pKey, name):
+def interItem(size, pItem, name):
     items = Image.new("RGBA", (size, size))
-    items.paste(pKey[name], (0, 0))
+    items.paste(pItem[name], (0, 0))
     items.save("img/floor/{}.png".format(name))
 
 
-def new_tail(heigth, width, size):
+def new_tail(heigth, width, size, item):
     laby.__init__(heigth, width)
     hero.setPosi(**laby.start)
+    laby.add_item(item)
     interHero(size, pPng, soldier=True)
     interDungeon(size, width, height, laby, pDun)
 
@@ -135,7 +136,8 @@ if __name__ == '__main__':
                         pDun = Photo("img/dungeon", (size, size))
                         pPng = Photo(path_hero, (size, size))
                         pKey = Photo(path_key, (size, size))
-                        new_tail(height, width, size)
+                        listOfItem = {"clebronze": pKey}
+                        new_tail(height, width, size, listOfItem)
 
 
                     elif event.key == K_F2:
@@ -146,7 +148,8 @@ if __name__ == '__main__':
                         pDun = Photo("img/dungeon", (size, size))
                         pPng = Photo(path_hero, (size, size))
                         pKey = Photo(path_key, (size, size))
-                        new_tail(height, width, size)
+                        listOfItem = {"clebronze": pKey}
+                        new_tail(height, width, size, listOfItem)
 
                     elif event.key == K_F3:
                         height, width, size = 20, 30, 16
@@ -156,7 +159,8 @@ if __name__ == '__main__':
                         pDun = Photo("img/dungeon", (size, size))
                         pPng = Photo(path_hero, (size, size))
                         pKey = Photo(path_key, (size, size))
-                        new_tail(height, width, size)
+                        listOfItem = {"clebronze": pKey}
+                        new_tail(height, width, size, listOfItem)
 
                     elif event.key == K_F4:
                         height, width, size = 30, 40, 16
@@ -166,7 +170,8 @@ if __name__ == '__main__':
                         pDun = Photo("img/dungeon", (size, size))
                         pPng = Photo(path_hero, (size, size))
                         pKey = Photo(path_key, (size, size))
-                        new_tail(height, width, size)
+                        listOfItem = {"clebronze": pKey}
+                        new_tail(height, width, size, listOfItem)
 
                     elif event.key == K_F5:
                         height, width, size = 30, 60, 15
@@ -176,7 +181,8 @@ if __name__ == '__main__':
                         pDun = Photo("img/dungeon", (size, size))
                         pPng = Photo(path_hero, (size, size))
                         pKey = Photo(path_key, (size, size))
-                        new_tail(height, width, size)
+                        listOfItem = {"clebronze": pKey}
+                        new_tail(height, width, size, listOfItem)
 
                     elif event.key == K_F6:
                         event.key = save_K

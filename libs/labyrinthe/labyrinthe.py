@@ -1,5 +1,6 @@
 # ▲▶▼◀■□●
 import random  # import de la librairie random
+from libs.chest import *
 
 
 class Cell:  # creation de la clss Cell qui sera utiliser par la class Labyrinthe
@@ -204,14 +205,19 @@ class Labyrinthe:  # creation du Labyrinthe
         """
         self.end = {"x": x, "y": y}
 
-    def build_dict_item(self,name, x, y, pItem):
-        #{"name":nomdelitem, "x":x, "y":y, "objimg":img}
-        dictref = {}
-        dictref["name"] = name
-        dictref["x"] = x
-        dictref["y"] = y
-        dictref["objimg"] = pItem[name]
-        self.item.append(dictref)
+    def add_item(self, dictOfItem):
+        listOfCell = []
+        for y in self.laby:
+            for x in y:
+                if not x.wall and not x.end and not x.hero:
+                    listOfCell.append(x)
+        rand = random.randrange(0, len(listOfCell))
+        cellRand = listOfCell[rand]
+        key = dictOfItem.keys()
+        value = dictOfItem.values()
+        for i in range(value):
+            self.item.append(Chest(cellRand.x, cellRand.y, key[i], value[i]))
+            del cellRand
 
     def show(self):
         """permet de montrer le labyrinthe en console"""
