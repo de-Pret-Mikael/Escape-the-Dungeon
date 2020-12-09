@@ -71,11 +71,18 @@ def interHero(size, pPng, soldier=True):
 
     hero.save("img/floor/hero.png")
 
+def interItems(size, pkey, items):
+    items = Image.new("RGBA", (size, size))
+    items.paste(pPng.cle, (0, 0))
+
+    items.save("img/floor/cle.png")
+
 def new_tail(heigth, width, size):
     laby.__init__(heigth, width)
     hero.setPosi(**laby.start)
     interHero(size, pPng, soldier=True)
     interDungeon(size, width, height, laby, pDun)
+
 
 
 if __name__ == '__main__':
@@ -108,6 +115,7 @@ if __name__ == '__main__':
         continue_jeu = True
         save_K = ''
         path_hero = "img/player/blue"
+        path_key = "img/key"
         while continue_acceuil:
             for event in pygame.event.get():
                 if event.type == QUIT or event.type == KEYDOWN and event.key == K_ESCAPE:
@@ -120,49 +128,54 @@ if __name__ == '__main__':
 
                 elif event.type == KEYDOWN:
                     if event.key == K_F1:
-                        height, width, size = 5, 5, 32
+                        height, width, size = 10, 10, 32
                         ecran = pygame.display.set_mode(((width * 2 + 1) * size, (height * 2 + 1) * size))
                         continue_acceuil = False
                         save_K = 'K_F1'
                         pDun = Photo("img/dungeon", (size, size))
                         pPng = Photo(path_hero, (size, size))
+                        pkey = Photo(path_key, (size, size))
                         new_tail(height, width, size)
 
 
                     elif event.key == K_F2:
-                        height, width, size = 10, 15, 32
+                        height, width, size = 15, 20, 25
                         ecran = pygame.display.set_mode(((width * 2 + 1) * size, (height * 2 + 1) * size))
                         continue_acceuil = False
                         save_K = 'K_F2'
                         pDun = Photo("img/dungeon", (size, size))
                         pPng = Photo(path_hero, (size, size))
+                        pkey = Photo(path_key, (size, size))
                         new_tail(height, width, size)
 
                     elif event.key == K_F3:
-                        height, width, size = 15, 25, 16
+                        height, width, size = 20, 30, 16
                         ecran = pygame.display.set_mode(((width * 2 + 1) * size, (height * 2 + 1) * size))
                         continue_acceuil = False
                         save_K = 'K_F3'
                         pDun = Photo("img/dungeon", (size, size))
                         pPng = Photo(path_hero, (size, size))
+                        pkey = Photo(path_key, (size, size))
                         new_tail(height, width, size)
 
                     elif event.key == K_F4:
-                        height, width, size = 20, 35, 10
+                        height, width, size = 30, 40, 16
                         ecran = pygame.display.set_mode(((width * 2 + 1) * size, (height * 2 + 1) * size))
                         continue_acceuil = False
                         save_K = 'K_F4'
                         pDun = Photo("img/dungeon", (size, size))
                         pPng = Photo(path_hero, (size, size))
+                        pkey = Photo(path_key, (size, size))
                         new_tail(height, width, size)
 
                     elif event.key == K_F5:
-                        height, width, size = 50, 50, 2
+                        height, width, size = 30, 60, 15
                         ecran = pygame.display.set_mode(((width * 2 + 1) * size, (height * 2 + 1) * size))
                         continue_acceuil = False
                         save_K = 'K_F5'
                         pDun = Photo("img/dungeon", (size, size))
                         pPng = Photo(path_hero, (size, size))
+                        pkey = Photo(path_key, (size, size))
                         new_tail(height, width, size)
 
                     elif event.key == K_F6:
