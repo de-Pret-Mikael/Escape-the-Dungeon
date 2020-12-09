@@ -72,9 +72,9 @@ def interHero(size, pPng, soldier=True):
     hero.save("img/floor/hero.png")
 
 
-def interItem(size, pItem, name):
+def interItem(x, y, size, pItem, name):
     items = Image.new("RGBA", (size, size))
-    items.paste(pItem[name], (0, 0))
+    items.paste(pItem.__dict__[name], (x, y))
     items.save("img/floor/{}.png".format(name))
 
 
@@ -84,6 +84,8 @@ def new_tail(heigth, width, size, item):
     laby.add_item(item)
     interHero(size, pPng, soldier=True)
     interDungeon(size, width, height, laby, pDun)
+    for i in laby.item:
+        interItem(i.x, i.y, size, i.pType, i.itemName)
 
 
 if __name__ == '__main__':

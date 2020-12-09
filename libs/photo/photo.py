@@ -1,19 +1,21 @@
 import subprocess
 import tkinter
-from PIL import ImageTk,Image
+from PIL import ImageTk, Image
 
 
 class Photo:
-    def __init__(self, path, sizetup=(32,32),photo=False):
+
+    def __init__(self, path, sizetup=(32, 32), photo=False):
         self.path = path
         self.photo = photo
         self.sizetup = sizetup
         self.build_dict()
 
+
     def build_photo(self, name):
         path = "{}/{}".format(self.path, name)
         img = Image.open(path)
-        img = img.resize(self.sizetup,Image.ANTIALIAS)
+        img = img.resize(self.sizetup, Image.ANTIALIAS)
         if self.photo:
             photo = ImageTk.PhotoImage(img)
             return photo

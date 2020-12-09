@@ -213,9 +213,9 @@ class Labyrinthe:  # creation du Labyrinthe
                     listOfCell.append(x)
         rand = random.randrange(0, len(listOfCell))
         cellRand = listOfCell[rand]
-        key = dictOfItem.keys()
-        value = dictOfItem.values()
-        for i in range(value):
+        key = list(dictOfItem.keys())
+        value = list(dictOfItem.values())
+        for i in range(len(value)):
             self.item.append(Chest(cellRand.x, cellRand.y, key[i], value[i]))
             del cellRand
 
