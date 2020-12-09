@@ -72,9 +72,9 @@ def interHero(size, pPng, soldier=True):
     hero.save("img/floor/hero.png")
 
 
-def interItem(x, y, size, pItem, name):
+def interItem(size, pItem, name):
     items = Image.new("RGBA", (size, size))
-    items.paste(pItem.__dict__[name], (x, y))
+    items.paste(pItem.__dict__[name], (0, 0))
     items.save("img/floor/{}.png".format(name))
 
 
@@ -85,7 +85,7 @@ def new_tail(heigth, width, size, item):
     interHero(size, pPng, soldier=True)
     interDungeon(size, width, height, laby, pDun)
     for i in laby.item:
-        interItem(i.x, i.y, size, i.pType, i.itemName)
+        interItem(size, i.pType, i.itemName)
 
 
 if __name__ == '__main__':
@@ -197,6 +197,12 @@ if __name__ == '__main__':
             hx = hero.x * size
             hy = hero.y * size
             ecran.blit(perso, (hx, hy, hx + size, hy + size))
+            for i in laby.item:
+                interItem(size, i.pType, i.itemName)
+                item = pygame.image.load("img/floor/{}.png".format(i.itemName))
+                ix = i.x * size
+                iy = i.y * size
+                ecran.blit(item, (ix, iy, ix + size, iy + size))
             for event in pygame.event.get():
                 if event.type == KEYDOWN:
                     if event.key == K_ESCAPE:
