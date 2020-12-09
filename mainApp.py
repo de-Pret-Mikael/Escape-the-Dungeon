@@ -82,6 +82,7 @@ def interDungeon(size, width, height, laby, pDun):
                     dungeon.paste(pDun.ground2, (xImg, yImg))
                 if laby.get_cell(x.x, x.y).end:
                     dungeon.paste(pDun.trap, (xImg, yImg))
+    dungeon.save("img/floor/floor.jpeg)
     dungeon = ImageTk.PhotoImage(dungeon)
     return dungeon
 
