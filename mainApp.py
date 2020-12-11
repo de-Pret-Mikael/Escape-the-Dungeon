@@ -138,7 +138,7 @@ if __name__ == '__main__':
                         pDun = Photo("img/dungeon", (size, size))
                         pPng = Photo(path_hero, (size, size))
                         pKey = Photo(path_key, (size, size))
-                        listOfItem = [("clebronze", pKey), ("clegold", pKey)]
+                        listOfItem = {"clebronze": pKey}
                         new_tail(height, width, size, listOfItem)
 
 
