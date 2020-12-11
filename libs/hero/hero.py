@@ -12,6 +12,8 @@ class Hero:
         self.lastx = 0  # avant dernière position x du héro
         self.lasty = 0  # avant dernière position y du héro
         self.fin = False  # le jeu est t'il fini (True/False)
+        self.soldier = True
+        self.color = "blue"
 
     @property
     def x(self):
