@@ -115,7 +115,8 @@ class Gui:
         tupSize = (size, size)
         self.update_all_photo(tupSize)
         self.laby = Labyrinthe(height, width)
-        self.hero.setPosi(**self.laby.start)
+        self.hero = Hero()
+        self.hero.setPosi(**self.start)
         self.laby.add_item(item)
         self.interHero(size, self.pPng)
         self.interDungeon(size, width, height, self.pDun)
@@ -123,7 +124,5 @@ class Gui:
             self.interItem(size, i.pType, i.itemName)
 
     def init_build(self, height, width, size, listOfItem):
-        tupSize = (size, size)
         self.continue_acceuil = False
-        self.update_all_photo(tupSize)
         self.new_dungeon(height, width, size, listOfItem)
