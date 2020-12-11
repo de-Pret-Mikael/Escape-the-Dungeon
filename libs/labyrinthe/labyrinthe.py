@@ -217,6 +217,13 @@ class Labyrinthe:  # creation du Labyrinthe
             self.item.append(Chest(cellRand.x, cellRand.y, i[0], i[1]))
             del listOfCell[rand]
 
+    def del_item(self, x, y):
+        listItem = list(map(lambda x:x.id,self.item))
+        id = "{},{}".format(x, y)
+        index = listItem.index(id)
+        del self.item[index]
+
+
     def show(self):
         """permet de montrer le labyrinthe en console"""
         for j in self.laby:

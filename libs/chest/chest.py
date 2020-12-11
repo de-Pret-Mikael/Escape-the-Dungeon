@@ -4,3 +4,7 @@ class Chest:
         self.y = y
         self.itemName = name
         self.pType = photo
+
+    @property
+    def id(self):
+        return "{},{}".format(self.x, self.y)
