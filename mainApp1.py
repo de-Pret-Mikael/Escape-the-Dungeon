@@ -73,7 +73,7 @@ if __name__ == '__main__':
 
         while gui.continue_jeu:
             pos_peso = gui.start
-            perso = pygame.image.load("img/floor/hero.png").convert_alpha()
+            perso = pygame.image.load("img/floor/hero.png")
             position_perso = perso.get_rect()
             hx = gui.hx * size
             hy = gui.hy * size

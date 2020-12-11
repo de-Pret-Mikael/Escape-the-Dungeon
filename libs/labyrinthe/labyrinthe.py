@@ -211,10 +211,11 @@ class Labyrinthe:  # creation du Labyrinthe
             for x in y:
                 if not x.wall and not x.end and not x.hero:
                     listOfCell.append(x)
-        rand = random.randrange(0, len(listOfCell))
-        cellRand = listOfCell[rand]
         for i in listOfItem:
+            rand = random.randrange(0, len(listOfCell))
+            cellRand = listOfCell[rand]
             self.item.append(Chest(cellRand.x, cellRand.y, i[0], i[1]))
+            del listOfCell[rand]
 
     def show(self):
         """permet de montrer le labyrinthe en console"""
