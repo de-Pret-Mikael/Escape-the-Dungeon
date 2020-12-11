@@ -138,7 +138,7 @@ if __name__ == '__main__':
                         pDun = Photo("img/dungeon", (size, size))
                         pPng = Photo(path_hero, (size, size))
                         pKey = Photo(path_key, (size, size))
-                        listOfItem = {"clebronze": pKey}
+                        listOfItem = [("clebronze", pKey)]
                         new_tail(height, width, size, listOfItem)
 
 
@@ -150,7 +150,7 @@ if __name__ == '__main__':
                         pDun = Photo("img/dungeon", (size, size))
                         pPng = Photo(path_hero, (size, size))
                         pKey = Photo(path_key, (size, size))
-                        listOfItem = {"clebronze": pKey}
+                        listOfItem = [("clebronze", pKey)]
                         new_tail(height, width, size, listOfItem)
 
                     elif event.key == K_F3:
@@ -161,7 +161,7 @@ if __name__ == '__main__':
                         pDun = Photo("img/dungeon", (size, size))
                         pPng = Photo(path_hero, (size, size))
                         pKey = Photo(path_key, (size, size))
-                        listOfItem = {"clebronze": pKey}
+                        listOfItem = [("clebronze", pKey)]
                         new_tail(height, width, size, listOfItem)
 
                     elif event.key == K_F4:
@@ -172,7 +172,7 @@ if __name__ == '__main__':
                         pDun = Photo("img/dungeon", (size, size))
                         pPng = Photo(path_hero, (size, size))
                         pKey = Photo(path_key, (size, size))
-                        listOfItem = {"clebronze": pKey}
+                        listOfItem = [("clebronze", pKey)]
                         new_tail(height, width, size, listOfItem)
 
                     elif event.key == K_F5:
@@ -183,7 +183,7 @@ if __name__ == '__main__':
                         pDun = Photo("img/dungeon", (size, size))
                         pPng = Photo(path_hero, (size, size))
                         pKey = Photo(path_key, (size, size))
-                        listOfItem = {"clebronze": pKey}
+                        listOfItem = [("clebronze", pKey)]
                         new_tail(height, width, size, listOfItem)
 
                     elif event.key == K_F6:

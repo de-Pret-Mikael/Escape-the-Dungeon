@@ -205,18 +205,16 @@ class Labyrinthe:  # creation du Labyrinthe
         """
         self.end = {"x": x, "y": y}
 
-    def add_item(self, dictOfItem):
+    def add_item(self, listOfItem):
         listOfCell = []
         for y in self.laby:
             for x in y:
                 if not x.wall and not x.end and not x.hero:
                     listOfCell.append(x)
-        rand = random.randrange(0, len(listOfCell))
-        cellRand = listOfCell[rand]
-        key = list(dictOfItem.keys())
-        value = list(dictOfItem.values())
-        for i in range(len(value)):
-            self.item.append(Chest(cellRand.x, cellRand.y, key[i], value[i]))
+        for i in listOfItem:
+            rand = random.randrange(0, len(listOfCell))
+            cellRand = listOfCell[rand]
+            self.item.append(Chest(cellRand.x, cellRand.y, i[0], i[1]))
             del cellRand
 
     def show(self):
