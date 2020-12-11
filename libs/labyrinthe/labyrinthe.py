@@ -218,12 +218,18 @@ class Labyrinthe:  # creation du Labyrinthe
             del listOfCell[rand]
 
     def del_item(self, x, y):
-        listItem = list(map(lambda x:x.id,self.item))
+        listItem = list(map(lambda x: x.id, self.item))
         id = "{},{}".format(x, y)
         if id in listItem:
             index = listItem.index(id)
+            item = self.item[index]
             del self.item[index]
+            return item
 
+    def exsit_item(self, x, y):
+        listItem = list(map(lambda x: x.id, self.item))
+        id = "{},{}".format(x, y)
+        return id in listItem
 
     def show(self):
         """permet de montrer le labyrinthe en console"""
