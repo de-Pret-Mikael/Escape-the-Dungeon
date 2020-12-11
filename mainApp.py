@@ -6,227 +6,113 @@ from PIL import ImageTk, Image
 from libs.labyrinthe import Labyrinthe
 from libs.hero import Hero
 from libs.photo import Photo
-
+from libs.affichage import *
 
 # import sys
-
-
-def interDungeon(size, width, height, laby, pDun):
-    img_w = (width * 2 + 1) * size
-    img_h = (height * 2 + 1) * size
-    dungeon = Image.new("RGB", (img_w, img_h))
-    for y in laby.laby:
-        for x in y:
-            xImg = x.x * size
-            yImg = x.y * size
-            if x.wall:
-                list = laby.wall_around(x.x, x.y)
-                top = "top" in list
-                down = "down" in list
-                left = "left" in list
-                right = "right" in list
-                if down and left and right:
-                    dungeon.paste(pDun.wallT, (xImg, yImg))
-                elif down and left and top:
-                    dungeon.paste(pDun.wallHR, (xImg, yImg))
-                elif down and right and top:
-                    dungeon.paste(pDun.wallHL, (xImg, yImg))
-                elif right and left:
-                    dungeon.paste(pDun.wallH, (xImg, yImg))
-                elif top and left:
-                    dungeon.paste(pDun.wallDR, (xImg, yImg))
-                elif top and right:
-                    dungeon.paste(pDun.wallDL, (xImg, yImg))
-                elif top and down:
-                    dungeon.paste(pDun.wallV, (xImg, yImg))
-                elif down and left:
-                    dungeon.paste(pDun.wallHR, (xImg, yImg))
-                elif down and right:
-                    dungeon.paste(pDun.wallHL, (xImg, yImg))
-                elif top:
-                    dungeon.paste(pDun.wallE, (xImg, yImg))
-                elif down:
-                    dungeon.paste(pDun.wallV, (xImg, yImg))
-                elif left:
-                    dungeon.paste(pDun.wallH, (xImg, yImg))
-                elif right:
-                    dungeon.paste(pDun.wallH, (xImg, yImg))
-            else:
-                rand = randrange(0, 2)
-                if rand:
-                    dungeon.paste(pDun.ground1, (xImg, yImg))
-                else:
-                    dungeon.paste(pDun.ground2, (xImg, yImg))
-                if laby.get_cell(x.x, x.y).end:
-                    dungeon.paste(pDun.trap, (xImg, yImg))
-    dungeon.save("img/floor/floor.jpeg")
-
-
-def interHero(size, pPng, soldier=True):
-    hero = Image.new("RGBA", (size, size))
-    if soldier:
-        hero.paste(pPng.soldier, (0, 0))
-    else:
-        hero.paste(pPng.mage, (0, 0))
-
-    hero.save("img/floor/hero.png")
-
-
-def interItem(size, pItem, name):
-    items = Image.new("RGBA", (size, size))
-    items.paste(pItem.__dict__[name], (0, 0))
-    items.save("img/floor/{}.png".format(name))
-
-
-def new_tail(heigth, width, size, item):
-    laby.__init__(heigth, width)
-    hero.setPosi(**laby.start)
-    laby.add_item(item)
-    interHero(size, pPng, soldier=True)
-    interDungeon(size, width, height, laby, pDun)
-    for i in laby.item:
-        interItem(size, i.pType, i.itemName)
-
-
 if __name__ == '__main__':
+    gui = Gui()
     height, width = 5, 5
     size = 32
-    laby = Labyrinthe(height, width)
-    hero = Hero()
-    hero.setPosi(**laby.start)
-    pDun = None
-    pPng = None
-    pKey = None
-    pygame.init()
-
     conti = True
-
-    ecran = pygame.display.set_mode(((width * 2 + 1) * size, (height * 2 + 1) * size))
+    gui.screen_set_mode(height, width, size)
     pygame.display.set_caption('Escape teh Donjon')
     while conti:
-
         acceuil = pygame.image.load("img/acceuil/acceuil.jpg").convert()
-        ecran.blit(acceuil, (0, 0))
-
+        gui.ecran.blit(acceuil, (0, 0))
         pygame.display.flip()
         for event in pygame.event.get():
-
             if event.type == pygame.QUIT:
                 conti = False
-
-        continue_acceuil = True
-        continue_jeu = True
-        save_K = ''
-        path_hero = "img/player/blue"
-        path_key = "img/key"
-        while continue_acceuil:
+        gui.continue_acceuil = True
+        gui.continue_jeu = True
+        while gui.continue_acceuil:
             for event in pygame.event.get():
                 if event.type == QUIT or event.type == KEYDOWN and event.key == K_ESCAPE:
                     height, width, size = 5, 5, 32
-                    ecran = pygame.display.set_mode(((width * 2 + 1) * size, (height * 2 + 1) * size))
-                    continue_acceuil = False
-                    continue_jeu = False
+                    gui.screen_set_mode(height, width, size)
+                    gui.continue_acceuil = False
+                    gui.continue_jeu = False
                     conti = False
-
 
                 elif event.type == KEYDOWN:
                     if event.key == K_F1:
                         height, width, size = 10, 10, 32
-                        ecran = pygame.display.set_mode(((width * 2 + 1) * size, (height * 2 + 1) * size))
-                        continue_acceuil = False
-                        save_K = 'K_F1'
-                        pDun = Photo("img/dungeon", (size, size))
-                        pPng = Photo(path_hero, (size, size))
-                        pKey = Photo(path_key, (size, size))
-                        listOfItem = [("clebronze", pKey), ("clegold", pKey)]
-                        new_tail(height, width, size, listOfItem)
-
+                        gui.screen_set_mode(height, width, size)
+                        listOfItem = [("clebronze", "pKey")]
+                        gui.init_build(height, width, size, listOfItem)
 
                     elif event.key == K_F2:
-                        height, width, size = 15, 20, 25
-                        ecran = pygame.display.set_mode(((width * 2 + 1) * size, (height * 2 + 1) * size))
-                        continue_acceuil = False
-                        save_K = 'K_F2'
-                        pDun = Photo("img/dungeon", (size, size))
-                        pPng = Photo(path_hero, (size, size))
-                        pKey = Photo(path_key, (size, size))
-                        listOfItem = {"clebronze": pKey}
-                        new_tail(height, width, size, listOfItem)
+                        height, width, size = 15, 20, 30
+                        gui.screen_set_mode(height, width, size)
+                        listOfItem = [("clebronze", "pKey"), ("cleargent", "pKey")]
+                        gui.init_build(height, width, size, listOfItem)
 
                     elif event.key == K_F3:
-                        height, width, size = 20, 30, 16
-                        ecran = pygame.display.set_mode(((width * 2 + 1) * size, (height * 2 + 1) * size))
-                        continue_acceuil = False
-                        save_K = 'K_F3'
-                        pDun = Photo("img/dungeon", (size, size))
-                        pPng = Photo(path_hero, (size, size))
-                        pKey = Photo(path_key, (size, size))
-                        listOfItem = {"clebronze": pKey}
-                        new_tail(height, width, size, listOfItem)
+                        height, width, size = 20, 30, 23
+                        gui.screen_set_mode(height, width, size)
+                        listOfItem = [("cleargent", "pKey"), ("clegold", "pKey")]
+                        gui.init_build(height, width, size, listOfItem)
 
                     elif event.key == K_F4:
-                        height, width, size = 30, 40, 16
-                        ecran = pygame.display.set_mode(((width * 2 + 1) * size, (height * 2 + 1) * size))
-                        continue_acceuil = False
-                        save_K = 'K_F4'
-                        pDun = Photo("img/dungeon", (size, size))
-                        pPng = Photo(path_hero, (size, size))
-                        pKey = Photo(path_key, (size, size))
-                        listOfItem = {"clebronze": pKey}
-                        new_tail(height, width, size, listOfItem)
+                        height, width, size = 30, 40, 15
+                        gui.screen_set_mode(height, width, size)
+                        listOfItem = [("clebronze", "pKey"), ("cleargent", "pKey"), ("clegold", "pKey")]
+                        gui.init_build(height, width, size, listOfItem)
 
                     elif event.key == K_F5:
                         height, width, size = 30, 60, 15
-                        ecran = pygame.display.set_mode(((width * 2 + 1) * size, (height * 2 + 1) * size))
-                        continue_acceuil = False
-                        save_K = 'K_F5'
-                        pDun = Photo("img/dungeon", (size, size))
-                        pPng = Photo(path_hero, (size, size))
-                        pKey = Photo(path_key, (size, size))
-                        listOfItem = {"clebronze": pKey}
-                        new_tail(height, width, size, listOfItem)
+                        gui.screen_set_mode(height, width, size)
+                        listOfItem = [("clebronze", "pKey"), ("cleargent", "pKey"), ("clegold", "pKey"), ("dieu", "pKey")]
+                        gui.init_build(height, width, size, listOfItem)
 
                     elif event.key == K_F6:
-                        event.key = save_K
-                        continue_acceuil = False
+                        gui.continue_acceuil = False
+                        print("coucou")
 
-        while continue_jeu:
-            pos_peso = laby.start
-            perso = pygame.image.load("img/floor/hero.png").convert_alpha()
+        while gui.continue_jeu:
+            pos_peso = gui.start
+            perso = pygame.image.load("img/floor/hero.png")
             position_perso = perso.get_rect()
-            hx = hero.x * size
-            hy = hero.y * size
-            ecran.blit(perso, (hx, hy, hx + size, hy + size))
-            for i in laby.item:
-                interItem(size, i.pType, i.itemName)
+            hx = gui.hx * size
+            hy = gui.hy * size
+            gui.ecran.blit(perso, (hx, hy, hx + size, hy + size))
+            for i in gui.item:
+                gui.interItem(size, i.pType, i.itemName)
                 item = pygame.image.load("img/floor/{}.png".format(i.itemName))
                 ix = i.x * size
                 iy = i.y * size
-                ecran.blit(item, (ix, iy, ix + size, iy + size))
+                gui.ecran.blit(item, (ix, iy, ix + size, iy + size))
             for event in pygame.event.get():
                 if event.type == KEYDOWN:
                     if event.key == K_ESCAPE:
-                        continue_jeu = False
+                        gui.continue_jeu = False
                     if event.key == K_DOWN:
-                        hero.bas(laby)
+                        gui.hero.bas(gui.laby)
                     if event.key == K_UP:
-                        hero.haut(laby)
+                        gui.hero.haut(gui.laby)
                     if event.key == K_RIGHT:
-                        hero.droite(laby)
+                        gui.hero.droite(gui.laby)
                     if event.key == K_LEFT:
-                        hero.gauche(laby)
-                    if event.key == K_e and hero.end(**laby.end):
-                        hero.end(**laby.end)
-                        continue_jeu = False
+                        gui.hero.gauche(gui.laby)
+                    if event.key == K_e:
+                        if gui.hero.end(**gui.laby.end):
+                            gui.hero.end(**gui.laby.end)
+                            gui.continue_jeu = False
+                        if gui.laby.exist_item(gui.hx, gui.hy):
+                            items = gui.laby.del_item(gui.hx, gui.hy)
+                            gui.hero.add_inventaire(items)
+
+
 
                 if event.type == pygame.QUIT:
-                    continue_jeu = False
+                    gui.continue_jeu = False
                     conti = False
+
 
             fond = pygame.image.load("img/floor/floor.jpeg")
             pygame.display.set_icon(fond)
             pygame.display.flip()
-            ecran.blit(fond, (0, 0))
-        ecran.blit(acceuil, (0, 0))
-        ecran.blit(perso, position_perso)
+            gui.ecran.blit(fond, (0, 0))
+        gui.ecran.blit(acceuil, (0, 0))
+        gui.ecran.blit(perso, position_perso)
         pygame.display.flip()
