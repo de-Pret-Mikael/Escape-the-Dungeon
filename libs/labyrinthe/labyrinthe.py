@@ -220,8 +220,9 @@ class Labyrinthe:  # creation du Labyrinthe
     def del_item(self, x, y):
         listItem = list(map(lambda x:x.id,self.item))
         id = "{},{}".format(x, y)
-        index = listItem.index(id)
-        del self.item[index]
+        if id in listItem:
+            index = listItem.index(id)
+            del self.item[index]
 
 
     def show(self):
