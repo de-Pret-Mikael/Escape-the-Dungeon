@@ -226,7 +226,7 @@ class Labyrinthe:  # creation du Labyrinthe
             del self.item[index]
             return item
 
-    def exsit_item(self, x, y):
+    def exist_item(self, x, y):
         listItem = list(map(lambda x: x.id, self.item))
         id = "{},{}".format(x, y)
         return id in listItem

@@ -34,37 +34,35 @@ if __name__ == '__main__':
                     gui.continue_jeu = False
                     conti = False
 
-
                 elif event.type == KEYDOWN:
                     if event.key == K_F1:
                         height, width, size = 10, 10, 32
                         gui.screen_set_mode(height, width, size)
-                        listOfItem = [("clebronze", "pKey"), ("clegold", "pKey")]
+                        listOfItem = [("clebronze", "pKey")]
                         gui.init_build(height, width, size, listOfItem)
 
-
                     elif event.key == K_F2:
-                        height, width, size = 15, 20, 25
+                        height, width, size = 15, 20, 30
                         gui.screen_set_mode(height, width, size)
-                        listOfItem = [("clebronze", "pKey"), ("clegold", "pKey")]
+                        listOfItem = [("clebronze", "pKey"), ("cleargent", "pKey")]
                         gui.init_build(height, width, size, listOfItem)
 
                     elif event.key == K_F3:
-                        height, width, size = 20, 30, 16
+                        height, width, size = 20, 30, 23
                         gui.screen_set_mode(height, width, size)
-                        listOfItem = [("clebronze", "pKey"), ("clegold", "pKey")]
+                        listOfItem = [("cleargent", "pKey"), ("clegold", "pKey")]
                         gui.init_build(height, width, size, listOfItem)
 
                     elif event.key == K_F4:
-                        height, width, size = 30, 40, 16
+                        height, width, size = 30, 40, 15
                         gui.screen_set_mode(height, width, size)
-                        listOfItem = [("clebronze", "pKey"), ("clegold", "pKey")]
+                        listOfItem = [("clebronze", "pKey"), ("cleargent", "pKey"), ("clegold", "pKey")]
                         gui.init_build(height, width, size, listOfItem)
 
                     elif event.key == K_F5:
                         height, width, size = 30, 60, 15
                         gui.screen_set_mode(height, width, size)
-                        listOfItem = [("clebronze", "pKey"), ("clegold", "pKey")]
+                        listOfItem = [("clebronze", "pKey"), ("cleargent", "pKey"), ("clegold", "pKey"), ("dieu", "pKey")]
                         gui.init_build(height, width, size, listOfItem)
 
                     elif event.key == K_F6:
@@ -96,13 +94,20 @@ if __name__ == '__main__':
                         gui.hero.droite(gui.laby)
                     if event.key == K_LEFT:
                         gui.hero.gauche(gui.laby)
-                    if event.key == K_e and gui.hero.end(**gui.laby.end):
-                        gui.hero.end(**gui.laby.end)
-                        gui.continue_jeu = False
+                    if event.key == K_e:
+                        if gui.hero.end(**gui.laby.end):
+                            gui.hero.end(**gui.laby.end)
+                            gui.continue_jeu = False
+                        if gui.laby.exist_item(gui.hx, gui.hy):
+                            items = gui.laby.del_item(gui.hx, gui.hy)
+                            gui.hero.add_inventaire(items)
+
+
 
                 if event.type == pygame.QUIT:
                     gui.continue_jeu = False
                     conti = False
+
 
             fond = pygame.image.load("img/floor/floor.jpeg")
             pygame.display.set_icon(fond)
