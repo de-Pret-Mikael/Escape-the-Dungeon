@@ -9,13 +9,34 @@ from libs.hero import Hero
 from libs.photo import Photo
 from libs.affichage import *
 
+# import sys
+if __name__ == '__main__':
+    pygame.init()
+    gui = Gui()
+    height, width = 5, 5
+    size = 32
+    conti = True
+    gui.screen_set_mode(height, width, size)
+    pygame.display.set_caption('Escape the Donjon')
+    while conti:
+        # acceuil = pygame.image.load("img/acceuil/acceuil.jpg").convert()
+        height, width, size = 10, 10, 32
+        gui.screen_set_mode(height, width, size)
+        menu = pygame_menu.Menu(300, 400, 'Escape the Donjon',
+                                theme=pygame_menu.themes.THEME_BLUE)
+        # gui.ecran.blit(acceuil, (0, 0))
+        menu.add_selector('Difficulty :', [('easy', 1), ('moins easy', K_F2), ('pas easy', K_F3), ('shit', K_F4),
+                                           ('Easy', K_F5)])  # , onchange=gui.set_difficulty())
+        menu.add_selector('personnage', [('guerie', 1), ('mage', 2)])
+        menu.add_button('Play', gui.start_the_game)
+        menu.add_button('Quit', pygame_menu.events.EXIT)
+        menu.mainloop(gui.ecran)
 
-def test123():
-    gui.start_the_game()
-    while gui.conti:
+        gui.ecran.blit(acceuil, (0, 0))
+        pygame.display.flip()
         for event in pygame.event.get():
             if event.type == pygame.QUIT:
-                gui.conti = False
+                conti = False
         gui.continue_acceuil = True
         gui.continue_jeu = True
         while gui.continue_acceuil:
@@ -25,41 +46,40 @@ def test123():
                     gui.screen_set_mode(height, width, size)
                     gui.continue_acceuil = False
                     gui.continue_jeu = False
-                    gui.conti = False
+                    conti = False
 
-                else:
-                    if gui.difficulty == K_F1:
+                elif event.type == KEYDOWN:
+                    if event.key == K_F1:
                         height, width, size = 10, 10, 32
                         gui.screen_set_mode(height, width, size)
                         listOfItem = [("clebronze", "pKey")]
                         gui.init_build(height, width, size, listOfItem)
 
-                    elif gui.difficulty == K_F2:
+                    elif event.key == K_F2:
                         height, width, size = 15, 20, 30
                         gui.screen_set_mode(height, width, size)
                         listOfItem = [("clebronze", "pKey"), ("cleargent", "pKey")]
                         gui.init_build(height, width, size, listOfItem)
 
-                    elif gui.difficulty == K_F3:
+                    elif event.key == K_F3:
                         height, width, size = 20, 30, 23
                         gui.screen_set_mode(height, width, size)
                         listOfItem = [("cleargent", "pKey"), ("clegold", "pKey")]
                         gui.init_build(height, width, size, listOfItem)
 
-                    elif gui.difficulty == K_F4:
+                    elif event.key == K_F4:
                         height, width, size = 30, 40, 16
                         gui.screen_set_mode(height, width, size)
                         listOfItem = [("clebronze", "pKey"), ("cleargent", "pKey"), ("clegold", "pKey")]
                         gui.init_build(height, width, size, listOfItem)
 
-                    elif gui.difficulty == K_F5:
+                    elif event.key == K_F5:
                         height, width, size = 30, 60, 15
                         gui.screen_set_mode(height, width, size)
-                        listOfItem = [("clebronze", "pKey"), ("cleargent", "pKey"), ("clegold", "pKey"),
-                                      ("dieu", "pKey")]
+                        listOfItem = [("clebronze", "pKey"), ("cleargent", "pKey"), ("clegold", "pKey"), ("dieu", "pKey")]
                         gui.init_build(height, width, size, listOfItem)
 
-                    elif gui.difficulty == K_F6:
+                    elif event.key == K_F6:
                         gui.continue_acceuil = False
                         print("coucou")
 
@@ -97,9 +117,12 @@ def test123():
                             items = gui.laby.del_item(gui.hx, gui.hy)
                             gui.hero.add_inventaire(items)
 
+
+
                 if event.type == pygame.QUIT:
                     gui.continue_jeu = False
-                    gui.conti = False
+                    conti = False
+
 
             fond = pygame.image.load("img/floor/floor.jpeg")
             pygame.display.set_icon(fond)
@@ -108,24 +131,3 @@ def test123():
         gui.ecran.blit(acceuil, (0, 0))
         gui.ecran.blit(perso, position_perso)
         pygame.display.flip()
-
-
-# import sys
-if __name__ == '__main__':
-    pygame.init()
-    gui = Gui()
-    height, width = 5, 5
-    size = 32
-    gui.screen_set_mode(height, width, size)
-    pygame.display.set_caption('Escape the Donjon')
-    height, width, size = 10, 10, 32
-    gui.screen_set_mode(height, width, size)
-    menu = pygame_menu.Menu(300, 400, 'Escape the Donjon',
-                            theme=pygame_menu.themes.THEME_BLUE)
-    # gui.ecran.blit(acceuil, (0, 0))
-    menu.add_selector('Difficulty :', [('easy', 1), ('moins easy', K_F2), ('pas easy', K_F3), ('shit', K_F4),
-                                       ('Easy', K_F5)])  # , onchange=gui.set_difficulty())
-    menu.add_selector('personnage', [('guerie', 1), ('mage', 2)])
-    menu.add_button('Play', test123)
-    menu.add_button('Quit', pygame_menu.events.EXIT)
-    menu.mainloop(gui.ecran)
