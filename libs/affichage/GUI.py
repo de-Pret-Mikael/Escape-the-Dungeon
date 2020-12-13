@@ -18,7 +18,7 @@ class Gui:
         self.ecran = None
         self.continue_acceuil = True
         self.continue_jeu = True
-        self.difficulty = None
+        self.difficulty = K_F1
         self.menu = True
 
     @property
