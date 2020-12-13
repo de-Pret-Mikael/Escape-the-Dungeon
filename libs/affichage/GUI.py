@@ -18,7 +18,6 @@ class Gui:
         self.ecran = None
         self.continue_acceuil = True
         self.continue_jeu = True
-        self.menu = True
 
     @property
     def start(self):
@@ -127,13 +126,3 @@ class Gui:
     def init_build(self, height, width, size, listOfItem):
         self.continue_acceuil = False
         self.new_dungeon(height, width, size, listOfItem)
-
-    def set_difficulty(self, value, difficulty):
-        if difficulty == ('easy', 1):
-            return value == K_F1
-
-
-    def start_the_game(self):
-        self.menu = False
-        self.continue_jeu = True
-        print('couco')

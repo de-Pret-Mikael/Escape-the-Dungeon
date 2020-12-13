@@ -2,7 +2,6 @@ from random import randrange
 
 import pygame
 from pygame.locals import *
-import pygame_menu
 from PIL import ImageTk, Image
 from libs.labyrinthe import Labyrinthe
 from libs.hero import Hero
@@ -11,7 +10,6 @@ from libs.affichage import *
 
 # import sys
 if __name__ == '__main__':
-    pygame.init()
     gui = Gui()
     height, width = 5, 5
     size = 32
@@ -19,19 +17,7 @@ if __name__ == '__main__':
     gui.screen_set_mode(height, width, size)
     pygame.display.set_caption('Escape the Donjon')
     while conti:
-        # acceuil = pygame.image.load("img/acceuil/acceuil.jpg").convert()
-        height, width, size = 10, 10, 32
-        gui.screen_set_mode(height, width, size)
-        menu = pygame_menu.Menu(300, 400, 'Escape the Donjon',
-                                theme=pygame_menu.themes.THEME_BLUE)
-        # gui.ecran.blit(acceuil, (0, 0))
-        menu.add_selector('Difficulty :', [('easy', 1), ('moins easy', K_F2), ('pas easy', K_F3), ('shit', K_F4),
-                                           ('Easy', K_F5)])  # , onchange=gui.set_difficulty())
-        menu.add_selector('personnage', [('guerie', 1), ('mage', 2)])
-        menu.add_button('Play', gui.start_the_game)
-        menu.add_button('Quit', pygame_menu.events.EXIT)
-        menu.mainloop(gui.ecran)
-
+        acceuil = pygame.image.load("img/acceuil/acceuil.jpg").convert()
         gui.ecran.blit(acceuil, (0, 0))
         pygame.display.flip()
         for event in pygame.event.get():
