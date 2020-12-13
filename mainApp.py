@@ -18,7 +18,7 @@ def menu():
     # gui.ecran.blit(acceuil, (0, 0))
     menu.add_selector('Difficulty :', [('easy', 1), ('moins easy', 2), ('pas easy', 3), ('shit', 4), ('shiit', 5)],
                       onchange=gui.set_difficulty)
-    menu.add_selector('personnage', [('guerie', 1), ('mage', 2)], onchange=set)
+    menu.add_selector('personnage', [('guerier', 1), ('mage', 2)], onchange=gui.set_hero)
     menu.add_button('Play', menu.disable)
     menu.add_button('Quit', pygame_menu.events.EXIT)
     menu.mainloop(gui.ecran)

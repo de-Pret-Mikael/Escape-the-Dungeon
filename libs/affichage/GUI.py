@@ -16,6 +16,7 @@ class Gui:
         self.pDun = None
         self.pKey = None
         self.ecran = None
+        self.isSoldier = True
         self.continue_acceuil = True
         self.continue_jeu = True
         self.difficulty = K_F1
@@ -118,6 +119,7 @@ class Gui:
         self.update_all_photo(tupSize)
         self.laby = Labyrinthe(height, width)
         self.hero = Hero()
+        self.hero.soldier = self.isSoldier
         self.hero.setPosi(**self.start)
         self.laby.add_item(item)
         self.interHero(size, self.pPng)
@@ -143,8 +145,12 @@ class Gui:
             print("je suis le shiit")
             self.difficulty = K_F5
 
-    def set_personnage(self):
-        pass
+    def set_hero(self, hero, value):
+        if hero[0] == "guerier":
+            self.isSoldier = True
+        else:
+            self.isSoldier = False
+        print(self.hero.soldier)
 
     def start_the_game(self):
         self.menu = False
