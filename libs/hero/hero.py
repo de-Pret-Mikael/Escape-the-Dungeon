@@ -3,14 +3,38 @@ from random import *
 from libs.labyrinthe import labyrinthe
 
 
-class Hero:
+class entite:
+    def __int__(self):
+        self.__x = 0
+        self.__y = 0
+        self.lastx = 0
+        self.lasty = 0
 
+    @property
+    def x(self):
+        return self.__x
+
+    @property
+    def y(self):
+        return self.__y
+
+    @x.setter
+    def x(self, i):
+        if not isinstance(i, int):
+            raise ValueError("not integer")
+        self.__x = i
+
+    @y.setter
+    def y(self, i):
+        if not isinstance(i, int):
+            raise ValueError("not integer")
+        self.__y = i
+
+
+class Hero(entite):
     def __init__(self):
-        self.__x = 0  # position x du héro
-        self.__y = 0  # position y du héro
+        super().__init__()
         self.__decal = 0  # déplacement du héro
-        self.lastx = 0  # avant dernière position x du héro
-        self.lasty = 0  # avant dernière position y du héro
         self.fin = False  # le jeu est t'il fini (True/False)
         self.soldier = True
         self.color = "blue"
