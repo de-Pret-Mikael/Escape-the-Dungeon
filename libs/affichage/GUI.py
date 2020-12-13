@@ -18,7 +18,9 @@ class Gui:
         self.ecran = None
         self.continue_acceuil = True
         self.continue_jeu = True
+        self.conti = True
         self.menu = True
+        self.difficulty = None
 
     @property
     def start(self):
@@ -130,7 +132,7 @@ class Gui:
 
     def set_difficulty(self, value, difficulty):
         if difficulty == ('easy', 1):
-            return value == K_F1
+            self.difficulty = K_F1
 
 
     def start_the_game(self):
