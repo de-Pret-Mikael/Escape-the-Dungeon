@@ -27,7 +27,7 @@ if __name__ == '__main__':
         gui.continue_jeu = True
         while gui.continue_acceuil:
             for event in pygame.event.get():
-                if event.type == QUIT or event.type == KEYDOWN and event.key == K_ESCAPE:
+                if event.type == QUIT:
                     height, width, size = 5, 5, 32
                     gui.screen_set_mode(height, width, size)
                     gui.continue_acceuil = False
