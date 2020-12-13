@@ -88,13 +88,13 @@ if __name__ == '__main__':
                     if event.key == K_ESCAPE:
                         gui.continue_jeu = False
                     if event.key == K_DOWN:
-                        gui.hero.bas(gui.laby)
+                        gui.hero.move_bas(gui.laby)
                     if event.key == K_UP:
-                        gui.hero.haut(gui.laby)
+                        gui.hero.move_haut(gui.laby)
                     if event.key == K_RIGHT:
-                        gui.hero.droite(gui.laby)
+                        gui.hero.move_droite(gui.laby)
                     if event.key == K_LEFT:
-                        gui.hero.gauche(gui.laby)
+                        gui.hero.move_gauche(gui.laby)
                     if event.key == K_e:
                         if gui.hero.end(**gui.laby.end):
                             gui.hero.end(**gui.laby.end)
