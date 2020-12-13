@@ -15,7 +15,7 @@ if __name__ == '__main__':
     size = 32
     conti = True
     gui.screen_set_mode(height, width, size)
-    pygame.display.set_caption('Escape teh Donjon')
+    pygame.display.set_caption('Escape the Donjon')
     while conti:
         acceuil = pygame.image.load("img/acceuil/acceuil.jpg").convert()
         gui.ecran.blit(acceuil, (0, 0))
@@ -54,7 +54,7 @@ if __name__ == '__main__':
                         gui.init_build(height, width, size, listOfItem)
 
                     elif event.key == K_F4:
-                        height, width, size = 30, 40, 15
+                        height, width, size = 30, 40, 16
                         gui.screen_set_mode(height, width, size)
                         listOfItem = [("clebronze", "pKey"), ("cleargent", "pKey"), ("clegold", "pKey")]
                         gui.init_build(height, width, size, listOfItem)
@@ -83,6 +83,7 @@ if __name__ == '__main__':
                 iy = i.y * size
                 gui.ecran.blit(item, (ix, iy, ix + size, iy + size))
             for event in pygame.event.get():
+                pygame.key.set_repeat(150, 30)
                 if event.type == KEYDOWN:
                     if event.key == K_ESCAPE:
                         gui.continue_jeu = False
