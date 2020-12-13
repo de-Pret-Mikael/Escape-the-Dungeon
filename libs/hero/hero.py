@@ -1,20 +1,14 @@
-from random import *
+import random
 
-from libs.labyrinthe import labyrinthe
+from libs.labyrinthe import Labyrinthe
 
 
-class Hero:
-
+class Entite:
     def __init__(self):
-        self.__x = 0  # position x du héro
-        self.__y = 0  # position y du héro
-        self.__decal = 0  # déplacement du héro
-        self.lastx = 0  # avant dernière position x du héro
-        self.lasty = 0  # avant dernière position y du héro
-        self.fin = False  # le jeu est t'il fini (True/False)
-        self.soldier = True
-        self.color = "blue"
-        self.inventair = []
+        self.__x = 0
+        self.__y = 0
+        self.lastx = 0
+        self.lasty = 0
 
     @property
     def x(self):
@@ -23,10 +17,6 @@ class Hero:
     @property
     def y(self):
         return self.__y
-
-    @property
-    def decal(self):
-        return self.__decal
 
     @x.setter
     def x(self, i):
@@ -40,48 +30,79 @@ class Hero:
             raise ValueError("not integer")
         self.__y = i
 
+    def setPosi(self, x, y):
+        """Position du héro au départ"""
+        self.x = x
+        self.y = y
+
+    def passe(self, lastx, lasty):
+        """avant dernière position du héro"""
+        self.lastx = lastx
+        self.lasty = lasty
+
+    def droite(self):
+        self.x += 1
+
+    def gauche(self):
+        self.x -= 1
+
+    def haut(self):
+        self.y -= 1
+
+    def bas(self):
+        self.y += 1
+
+
+class Hero(Entite):
+    def __init__(self):
+        super().__init__()
+        self.__decal = 0  # déplacement du héro
+        self.fin = False  # le jeu est t'il fini (True/False)
+        self.soldier = True
+        self.color = "blue"
+        self.inventair = []
+
+    @property
+    def decal(self):
+        return self.__decal
+
     @decal.setter
     def decal(self, i):
         if not isinstance(i, int):
             raise ValueError("not integer")
         self.__decal = i
 
-    def setPosi(self, x, y):
-        """Position du héro au départ"""
-        self.x = x
-        self.y = y
-
-    def droite(self, laby):
+    def move_droite(self, laby):
         """Fonction pour ce déplacer d' un pas saut s'il y a un mur"""
         self.passe(self.x, self.y)
         if laby.get_cell(self.x + 1, self.y).wall:
             print('Vous ne pouvez pas traverser les murs :(')
         else:
-            self.x += 1
+            self.droite()
 
-    def gauche(self, laby):
+    def move_gauche(self, laby):
         """Fonction pour ce déplacer d' un pas saut s'il y a un mur"""
         self.passe(self.x, self.y)
         if laby.get_cell(self.x - 1, self.y).wall:
             print('Vous ne pouvez pas traverser les murs :(')
         else:
-            self.x -= 1
+            self.gauche()
 
-    def haut(self, laby):
+    def move_haut(self, laby):
         """Fonction pour ce déplacer d' un pas saut s'il y a un mur"""
         self.passe(self.x, self.y)
         if laby.get_cell(self.x, self.y - 1).wall:
             print('Vous ne pouvez pas traverser les murs :(')
         else:
-            self.y -= 1
+            self.haut()
 
-    def bas(self, laby):
+    def move_bas(self, laby):
         """Fonction pour ce déplacer d' un pas saut s'il y a un mur"""
         self.passe(self.x, self.y)
         if laby.get_cell(self.x, self.y + 1).wall:
             print('Vous ne pouvez pas traverser les murs :(')
         else:
-            self.y += 1
+            self.bas()
 
     def choix_deplacement(self, laby):
         """Fonction demandant qu'elle déplacement veut faire le joueur"""
@@ -96,20 +117,15 @@ class Hero:
                 print('Mauvais caractère')
 
         if decal == '6':
-            self.droite(laby)
+            self.move_droite(laby)
         if decal == '8':
-            self.haut(laby)
+            self.move_haut(laby)
         if decal == '4':
-            self.gauche(laby)
+            self.move_gauche(laby)
         if decal == '2':
-            self.bas(laby)
+            self.move_bas(laby)
         if decal == '5':
             self.end(**laby.end)
-
-    def passe(self, lastx, lasty):
-        """avant dernière position du héro"""
-        self.lastx = lastx
-        self.lasty = lasty
 
     def end(self, x, y):
         """permet au joueur de quitter"""
@@ -120,24 +136,51 @@ class Hero:
 
     def move(self, char, laby):
         if char == "d":
-            self.droite(laby)
+            self.move_droite(laby)
         if char == "z":
-            self.haut(laby)
+            self.move_haut(laby)
         if char == "q":
-            self.gauche(laby)
+            self.move_gauche(laby)
         if char == "s":
-            self.bas(laby)
+            self.move_bas(laby)
 
     def add_inventaire(self, item):
         self.inventair.append(item)
 
 
+class Monstre(Entite):
+    def __init__(self):
+        super().__init__()
+        self.color = "blue"
+        self.typeMonstre = "ork1"  # ork1 ork2 slime1 slime2 slime3
+
+    def __str__(self):
+        return "x:{} y:{}".format(self.x, self.y)
+
+    def deplacement(self, laby):
+        top, right, down, left = "top", "right", "down", "left"
+        liste = laby.wall_around(self.x, self.y)
+        possible = []
+        for i in [top, right, down, left]:
+            if i not in liste:
+                possible.append(i)
+        rand = random.randrange(0,len(possible))
+        value = possible[rand]
+        if value == top:
+            self.haut()
+        if value == right:
+            self.droite()
+        if value == down:
+            self.bas()
+        if value == left:
+            self.gauche()
+
+
 if __name__ == "__main__":
     l = Labyrinthe(3, 6)
-    pnj = hero()
-    print(pnj)
-    pnj.x = randint(1, 8)
-    pnj.y = randint(1, 8)
-    print(pnj.x, pnj.y, pnj.lastx, pnj.lasty)
-    pnj.choix_deplacement(l)
-    print(pnj.x, pnj.y, pnj.lastx, pnj.lasty)
+    pnj = Hero()
+    monstre = Monstre()
+    monstre.setPosi(1,1)
+    monstre.deplacement(l)
+    print(monstre)
+

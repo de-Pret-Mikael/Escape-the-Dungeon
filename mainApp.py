@@ -2,6 +2,7 @@ from random import randrange
 
 import pygame
 from pygame.locals import *
+import pygame_menu
 from PIL import ImageTk, Image
 from libs.labyrinthe import Labyrinthe
 from libs.hero import Hero
@@ -10,14 +11,27 @@ from libs.affichage import *
 
 # import sys
 if __name__ == '__main__':
+    pygame.init()
     gui = Gui()
     height, width = 5, 5
     size = 32
     conti = True
     gui.screen_set_mode(height, width, size)
-    pygame.display.set_caption('Escape teh Donjon')
+    pygame.display.set_caption('Escape the Donjon')
     while conti:
-        acceuil = pygame.image.load("img/acceuil/acceuil.jpg").convert()
+        # acceuil = pygame.image.load("img/acceuil/acceuil.jpg").convert()
+        height, width, size = 10, 10, 32
+        gui.screen_set_mode(height, width, size)
+        menu = pygame_menu.Menu(300, 400, 'Escape the Donjon',
+                                theme=pygame_menu.themes.THEME_BLUE)
+        # gui.ecran.blit(acceuil, (0, 0))
+        menu.add_selector('Difficulty :', [('easy', 1), ('moins easy', K_F2), ('pas easy', K_F3), ('shit', K_F4),
+                                           ('Easy', K_F5)])  # , onchange=gui.set_difficulty())
+        menu.add_selector('personnage', [('guerie', 1), ('mage', 2)])
+        menu.add_button('Play', gui.start_the_game)
+        menu.add_button('Quit', pygame_menu.events.EXIT)
+        menu.mainloop(gui.ecran)
+
         gui.ecran.blit(acceuil, (0, 0))
         pygame.display.flip()
         for event in pygame.event.get():
@@ -27,7 +41,7 @@ if __name__ == '__main__':
         gui.continue_jeu = True
         while gui.continue_acceuil:
             for event in pygame.event.get():
-                if event.type == QUIT or event.type == KEYDOWN and event.key == K_ESCAPE:
+                if event.type == QUIT:
                     height, width, size = 5, 5, 32
                     gui.screen_set_mode(height, width, size)
                     gui.continue_acceuil = False
@@ -54,7 +68,7 @@ if __name__ == '__main__':
                         gui.init_build(height, width, size, listOfItem)
 
                     elif event.key == K_F4:
-                        height, width, size = 30, 40, 15
+                        height, width, size = 30, 40, 16
                         gui.screen_set_mode(height, width, size)
                         listOfItem = [("clebronze", "pKey"), ("cleargent", "pKey"), ("clegold", "pKey")]
                         gui.init_build(height, width, size, listOfItem)
@@ -83,17 +97,18 @@ if __name__ == '__main__':
                 iy = i.y * size
                 gui.ecran.blit(item, (ix, iy, ix + size, iy + size))
             for event in pygame.event.get():
+                pygame.key.set_repeat(150, 30)
                 if event.type == KEYDOWN:
                     if event.key == K_ESCAPE:
                         gui.continue_jeu = False
                     if event.key == K_DOWN:
-                        gui.hero.bas(gui.laby)
+                        gui.hero.move_bas(gui.laby)
                     if event.key == K_UP:
-                        gui.hero.haut(gui.laby)
+                        gui.hero.move_haut(gui.laby)
                     if event.key == K_RIGHT:
-                        gui.hero.droite(gui.laby)
+                        gui.hero.move_droite(gui.laby)
                     if event.key == K_LEFT:
-                        gui.hero.gauche(gui.laby)
+                        gui.hero.move_gauche(gui.laby)
                     if event.key == K_e:
                         if gui.hero.end(**gui.laby.end):
                             gui.hero.end(**gui.laby.end)
