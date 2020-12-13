@@ -18,6 +18,7 @@ class Gui:
         self.ecran = None
         self.continue_acceuil = True
         self.continue_jeu = True
+        self.difficulty = None
         self.menu = True
 
     @property
@@ -128,10 +129,22 @@ class Gui:
         self.continue_acceuil = False
         self.new_dungeon(height, width, size, listOfItem)
 
-    def set_difficulty(self, value, difficulty):
-        if difficulty == ('easy', 1):
-            return value == K_F1
+    def set_difficulty(self, difficulty, value):
+        print(difficulty, value)
+        if value == 1:
+            self.difficulty = K_F1
+        if value == 2:
+            self.difficulty = K_F2
+        if value == 3:
+            self.difficulty = K_F3
+        if value == 4:
+            self.difficulty = K_F4
+        if value == 5:
+            print("je suis le shiit")
+            self.difficulty = K_F5
 
+    def set_personnage(self):
+        pass
 
     def start_the_game(self):
         self.menu = False
