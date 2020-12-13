@@ -12,6 +12,9 @@ class Hero:
         self.lastx = 0  # avant dernière position x du héro
         self.lasty = 0  # avant dernière position y du héro
         self.fin = False  # le jeu est t'il fini (True/False)
+        self.soldier = True
+        self.color = "blue"
+        self.inventair = []
 
     @property
     def x(self):
@@ -124,6 +127,9 @@ class Hero:
             self.gauche(laby)
         if char == "s":
             self.bas(laby)
+
+    def add_inventaire(self, item):
+        self.inventair.append(item)
 
 
 if __name__ == "__main__":
