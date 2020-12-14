@@ -74,8 +74,8 @@ if __name__ == '__main__':
             elif gui.difficulty == K_F5:
                 height, width, size = 30, 60, 15
                 gui.screen_set_mode(height, width, size)
-                listOfItem = [("clebronze", "pKey"), ("cleargent", "pKey"), ("clegold", "pKey"),
-                              ("dieu", "pKey")]
+                listOfItem = [("clebronze", "pKey"), ("cleargent", "pKey"), ("clegold", "pKey")
+                              ]
                 gui.init_build(height, width, size, listOfItem)
             for event in pygame.event.get():
                 if event.type == QUIT:
