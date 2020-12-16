@@ -17,7 +17,7 @@ class Gui:
         self.pKey = None
         self.ecran = None
         self.isSoldier = True
-        self.continue_acceuil = True
+        #self.continue_acceuil = True
         self.continue_jeu = True
         self.difficulty = K_F1
         self.menu = True
@@ -128,7 +128,7 @@ class Gui:
             self.interItem(size, i.pType, i.itemName)
 
     def init_build(self, height, width, size, listOfItem):
-        self.continue_acceuil = False
+        self.menu = False
         self.new_dungeon(height, width, size, listOfItem)
 
     def set_difficulty(self, difficulty, value):
@@ -155,4 +155,3 @@ class Gui:
     def start_the_game(self):
         self.menu = False
         self.continue_jeu = True
-        print('couco')

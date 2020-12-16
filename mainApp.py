@@ -44,9 +44,9 @@ if __name__ == '__main__':
         for event in pygame.event.get():
             if event.type == pygame.QUIT:
                 conti = False
-        gui.continue_acceuil = True
+        gui.menu = True
         gui.continue_jeu = True
-        while gui.continue_acceuil:
+        while gui.menu:
             if gui.difficulty == K_F1:
                 height, width, size = 10, 10, 32
                 gui.screen_set_mode(height, width, size)
@@ -81,7 +81,7 @@ if __name__ == '__main__':
                 if event.type == QUIT:
                     height, width, size = 5, 5, 32
                     gui.screen_set_mode(height, width, size)
-                    gui.continue_acceuil = False
+                    gui.menu = False
                     gui.continue_jeu = False
                     conti = False
 
@@ -103,6 +103,7 @@ if __name__ == '__main__':
                 if event.type == KEYDOWN:
                     if event.key == K_ESCAPE:
                         gui.continue_jeu = False
+                        gui.menu = True
                     if event.key == K_DOWN:
                         gui.hero.move_bas(gui.laby)
                     if event.key == K_UP:
@@ -127,6 +128,6 @@ if __name__ == '__main__':
             pygame.display.set_icon(fond)
             pygame.display.flip()
             gui.ecran.blit(fond, (0, 0))
-        gui.ecran.blit(acceuil, (0, 0))
+        #gui.ecran.blit(acceuil, (0, 0))
         gui.ecran.blit(perso, position_perso)
         pygame.display.flip()
