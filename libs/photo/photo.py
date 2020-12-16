@@ -46,6 +46,6 @@ class Photo:
 
 if __name__ == "__main__":
     myapp = tkinter.Tk()
-    p = Photo("../../testimg/dungeon")
+    p = Photo("../../img/dungeon")
     print(p.__dict__)
     # print(p.wallH)
