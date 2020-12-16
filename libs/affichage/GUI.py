@@ -21,6 +21,7 @@ class Gui:
         self.continue_jeu = True
         self.difficulty = K_F1
         self.menu = True
+        self.name = "Player"
 
     @property
     def start(self):
@@ -155,3 +156,6 @@ class Gui:
     def start_the_game(self):
         self.menu = False
         self.continue_jeu = True
+
+    def set_name(self, name):
+        self.name = name

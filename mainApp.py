@@ -13,9 +13,11 @@ from libs.affichage import *
 def menu():
     height, width, size = 10, 10, 32
     gui.screen_set_mode(height, width, size)
-    menu = pygame_menu.Menu(300, 400, 'Escape the Donjon',
+    menu = pygame_menu.Menu(500, 500, 'Escape the Donjon',
                             theme=pygame_menu.themes.THEME_BLUE)
     # gui.ecran.blit(acceuil, (0, 0))
+    menu.add_text_input('Name : ', default='Player', onchange=gui.set_name, maxchar=15)
+    menu.add_button('ancien_joueur', ancien_joueur)
     menu.add_selector('Difficulty :', [('easy', 1), ('moins easy', 2), ('pas easy', 3), ('shit', 4), ('shiit', 5)],
                       onchange=gui.set_difficulty)
     menu.add_selector('personnage', [('guerier', 1), ('mage', 2)], onchange=gui.set_hero)
