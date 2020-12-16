@@ -17,7 +17,7 @@ def menu():
                             theme=pygame_menu.themes.THEME_BLUE)
     # gui.ecran.blit(acceuil, (0, 0))
     menu.add_text_input('Name : ', default='Player', onchange=gui.set_name, maxchar=15)
-    menu.add_button('ancien_joueur', ancien_joueur)
+    #menu.add_button('ancien_joueur', ancien_joueur)
     menu.add_selector('Difficulty :', [('easy', 1), ('moins easy', 2), ('pas easy', 3), ('shit', 4), ('shiit', 5)],
                       onchange=gui.set_difficulty)
     menu.add_selector('personnage', [('guerier', 1), ('mage', 2)], onchange=gui.set_hero)
