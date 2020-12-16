@@ -41,7 +41,7 @@ class Data:
 
 
 if __name__ == '__main__':
-    db = Data("../../DATA/escape-the-donjon.db")
+    db = Data("escape-the-donjon.db")
     db.connect()
     db.insert("Player", "nom", ["test123"])
     db.close()
