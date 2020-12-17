@@ -154,6 +154,14 @@ class Monstre(Entite):
         self.color = "blue"
         self.typeMonstre = "ork1"  # ork1 ork2 slime1 slime2 slime3
 
+    @property
+    def id(self):
+        return "{},{}".format(self.x, self.y)
+
+    @property
+    def pathImg(self):
+        return "img/mobs/{}".format(self.color)
+
     def __str__(self):
         return "x:{} y:{}".format(self.x, self.y)
 
@@ -164,7 +172,7 @@ class Monstre(Entite):
         for i in [top, right, down, left]:
             if i not in liste:
                 possible.append(i)
-        rand = random.randrange(0,len(possible))
+        rand = random.randrange(0, len(possible))
         value = possible[rand]
         if value == top:
             self.haut()
@@ -180,7 +188,6 @@ if __name__ == "__main__":
     l = Labyrinthe(3, 6)
     pnj = Hero()
     monstre = Monstre()
-    monstre.setPosi(1,1)
+    monstre.setPosi(1, 1)
     monstre.deplacement(l)
     print(monstre)
-

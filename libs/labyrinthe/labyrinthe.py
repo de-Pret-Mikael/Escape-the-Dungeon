@@ -1,6 +1,7 @@
 # ▲▶▼◀■□●
 import random  # import de la librairie random
 from libs.chest import *
+from libs.hero import Monstre
 
 
 class Cell:  # creation de la class Cell qui sera utiliser par la class Labyrinthe
@@ -66,6 +67,7 @@ class Labyrinthe:  # creation du Labyrinthe
         self.laby = []  # tableau qui sera compose de tout les cellule du Labyrinthe
         self.wall = []  # tableau qui sera compose de tout les murs du Labyrinthe
         self.item = []
+        self.mobs = []
         self.build_grid()  # creation de tout les cellule
         self.build_way()  # creation du chemin grace a l'algorithme
         self.start_and_end()  # positionnement du debut e de la fin
@@ -225,6 +227,33 @@ class Labyrinthe:  # creation du Labyrinthe
             item = self.item[index]
             del self.item[index]
             return item
+
+
+
+    def add_mobs(self, listOfMobs):
+        listOfCell = []
+        for y in self.laby:
+            for x in y:
+                if not x.wall and not x.end and not x.hero:
+                    listOfCell.append(x)
+        for i in listOfMobs:
+            rand = random.randrange(0, len(listOfCell))
+            cellRand = listOfCell[rand]
+            mobs = Monstre()
+            mobs.setPosi(cellRand.x, cellRand.y)
+            mobs.color = i[0]
+            mobs.typeMonstre = i[1]
+            del listOfCell[rand]
+
+    def del_mobs(self, x, y):
+        listMobs = list(map(lambda x: x.id, self.mobs))
+        id = "{},{}".format(x, y)
+        if id in listMobs:
+            index = listMobs.index(id)
+            mobs = self.mobs[index]
+            del self.mobs[index]
+            return mobs
+
 
     def exist_item(self, x, y):
         listItem = list(map(lambda x: x.id, self.item))
