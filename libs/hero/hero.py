@@ -2,6 +2,10 @@ import random
 
 
 class Entite:
+    """
+    PRE : -
+    POST : donne la valeur 0 à x, y, lastx et lasty
+    """
     def __init__(self):
         self.__x = 0
         self.__y = 0
@@ -30,34 +34,57 @@ class Entite:
 
     def setPosi(self, x, y):
         """Position du héro au départ"""
+        """
+        PRE : x et y doivent être de type int
+        POST : donne la position x et y au variable x et y
+        """
         self.x = x
         self.y = y
 
     def passe(self, lastx, lasty):
         """avant dernière position du héro"""
+        """
+        PRE : lastx et lasty doivent être de type int
+        POST : donne les dernière position x et y
+        """
         self.lastx = lastx
         self.lasty = lasty
 
     def droite(self):
+        """
+        POST : rajoute 1 à x
+        """
         self.x += 1
 
     def gauche(self):
+        """
+        POST : enlève 1 à x
+        """
         self.x -= 1
 
     def haut(self):
+        """
+        POST : enlève 1 à y
+        """
         self.y -= 1
 
     def bas(self):
+        """
+        POST : rajoute 1 à y
+        """
         self.y += 1
 
 
 class Hero(Entite):
     def __init__(self):
+        """
+        POST : donne la valeur 0 à décal, False à fin, True à soldier, gold à color et une liste vide à inventaire
+        """
         super().__init__()
         self.__decal = 0  # déplacement du héro
         self.fin = False  # le jeu est t'il fini (True/False)
         self.soldier = True
-        self.color = "red"
+        self.color = "gold"
         self.inventair = []
 
     @property
@@ -72,6 +99,10 @@ class Hero(Entite):
 
     def move_droite(self, laby):
         """Fonction pour ce déplacer d' un pas saut s'il y a un mur"""
+        """
+        PRE : Le déplacement ne doit pas être vers un mur
+        POST : Permet un déplacement vers la droite
+        """
         self.passe(self.x, self.y)
         if laby.get_cell(self.x + 1, self.y).wall:
             print('Vous ne pouvez pas traverser les murs :(')
@@ -80,6 +111,10 @@ class Hero(Entite):
 
     def move_gauche(self, laby):
         """Fonction pour ce déplacer d' un pas saut s'il y a un mur"""
+        """
+        PRE : Le déplacement ne doit pas être vers un mur
+        POST : Permet un déplacement vers la gauche
+        """
         self.passe(self.x, self.y)
         if laby.get_cell(self.x - 1, self.y).wall:
             print('Vous ne pouvez pas traverser les murs :(')
@@ -88,6 +123,10 @@ class Hero(Entite):
 
     def move_haut(self, laby):
         """Fonction pour ce déplacer d' un pas saut s'il y a un mur"""
+        """
+        PRE : Le déplacement ne doit pas être vers un mur
+        POST : Permet un déplacement vers la haut
+        """
         self.passe(self.x, self.y)
         if laby.get_cell(self.x, self.y - 1).wall:
             print('Vous ne pouvez pas traverser les murs :(')
@@ -96,6 +135,10 @@ class Hero(Entite):
 
     def move_bas(self, laby):
         """Fonction pour ce déplacer d' un pas saut s'il y a un mur"""
+        """
+        PRE : Le déplacement ne doit pas être vers un mur
+        POST : Permet un déplacement vers la bas
+        """
         self.passe(self.x, self.y)
         if laby.get_cell(self.x, self.y + 1).wall:
             print('Vous ne pouvez pas traverser les murs :(')
@@ -104,6 +147,10 @@ class Hero(Entite):
 
     def choix_deplacement(self, laby):
         """Fonction demandant qu'elle déplacement veut faire le joueur"""
+        """
+        PRE : condi doit valoir True
+        POST : donne 0 à decal et True à condi et appel les fonctions permetant de ce déplacer ou de quitter 
+        """
         decal = 0
         condi = True
         while condi:
@@ -127,12 +174,19 @@ class Hero(Entite):
 
     def end(self, x, y):
         """permet au joueur de quitter"""
+        """
+        PRE : La position du joueur doit être égal à celle de la fin
+        POST : passe fin à True pour quitter
+        """
         if x == self.x and y == self.y:
             fini = input('êtes vous sur y/n: ')
             if fini == 'y':
                 self.fin = True
 
     def move(self, char, laby):
+        """
+        POST :
+        """
         if char == "d":
             self.move_droite(laby)
         if char == "z":
@@ -143,11 +197,17 @@ class Hero(Entite):
             self.move_bas(laby)
 
     def add_inventaire(self, item):
+        """
+        POST : rajoute les item à la liste inventaire
+        """
         self.inventair.append(item)
 
 
 class Monstre(Entite):
     def __init__(self):
+        """
+        POST : Donne bleu à color, ork1 à typeMonstre et None à life
+        """
         super().__init__()
         self.color = "blue"
         self.typeMonstre = "ork1"  # ork1 ork2 slime1 slime2 slime3
@@ -162,9 +222,16 @@ class Monstre(Entite):
         return "img/mobs/{}".format(self.color)
 
     def __str__(self):
+        """
+        POST : renvoie sous forme de string la position du héro au départ
+        """
         return "x:{} y:{}".format(self.x, self.y)
 
     def deplacement(self, laby):
+        """
+        PRE : value doit être égal à top, right, down ou left
+        POST : donne la forme string de top, right, down et left
+        """
         top, right, down, left = "top", "right", "down", "left"
         liste = laby.wall_around(self.x, self.y)
         possible = []
