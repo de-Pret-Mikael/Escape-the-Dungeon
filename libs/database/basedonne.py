@@ -35,6 +35,7 @@ class Data:
 
     def use_script(self, path):
         self.cursor.executescript(self.__open_sql(path))
+        self.connection.commit()
 
     def execute(self, action):
         self.cursor.execute(action)
@@ -45,6 +46,10 @@ class Data:
         value = ", ".join(value)
         action = "INSERT INTO {}({}) VALUES ({})".format(table, nameRows, value)
         self.execute(action)
+
+    def select(self, path):
+        self.use_script(path)
+        return self.cursor.fetchall()
 
 
 def create_db(path):
