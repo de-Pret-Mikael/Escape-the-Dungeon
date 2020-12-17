@@ -1,1 +1,0 @@
-INSERT INTO Item (score, item) VALUES ( 200, "cleBronze"), (400, "cleArgent"), (600, "cleGold"), (100, "cleDieu")

@@ -27,7 +27,7 @@ class Data:
     def __open_sql(self, path):
         try:
             with open(path) as sql_file:
-                return sql_file
+                return sql_file.read()
         except FileNotFoundError:
             print('Fichier introuvable.')
         except IOError:
@@ -54,11 +54,13 @@ class Data:
 
 def create_db(path):
     sqlite3.connect(path).close()
+    newDb = Data(path)
+    newDb.connect()
+    newDb.use_script("../../DATA/createTable.sql")
+    newDb.use_script("../../DATA/insertData.sql")
+    newDb.close()
+
 
 
 if __name__ == '__main__':
-    db = Data("../../DATA/escape-the-donjon.db")
-    print(db.is_db_exist())
-    db.connect()
-    db.insert("Player", "nom", ["test123"])
-    db.close()
+    create_db("test.db")

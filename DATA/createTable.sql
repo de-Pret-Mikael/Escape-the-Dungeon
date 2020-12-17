@@ -1,22 +1,22 @@
-CREATE TABLE "Player"
+CREATE TABLE IF NOT EXISTS Player
 (
-    "id"    INTEGER UNIQUE,
-    "nom"   TEXT,
-    "score" INTEGER,
+    id    INTEGER UNIQUE,
+    nom   TEXT,
+    score INTEGER,
     PRIMARY KEY ("id")
 );
 
-CREATE TABLE "Item"
+CREATE TABLE IF NOT EXISTS Item
 (
-    "score" INTEGER,
-    "item"  INTEGER UNIQUE,
+    score INTEGER,
+    item  varchar(50) UNIQUE,
     PRIMARY KEY ("item")
 );
 
-CREATE TABLE "mobs"
+CREATE TABLE IF NOT EXISTS Mobs
 (
-    "nom"     char(10),
-    "couleur" char(10),
-    "vie"     INTEGER,
+    couleur varchar(10),
+    nom     varchar(10),
+    vie     INTEGER,
     PRIMARY KEY ("nom", "couleur")
 );
