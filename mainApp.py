@@ -53,8 +53,9 @@ if __name__ == '__main__':
                 height, width, size = 5, 5, 48
                 gui.screen_set_mode(height, width, size)
                 listOfItem = [("clebronze", "pKey")]
+                listOfMobs = [("green", "ork1")]
 
-                gui.init_build(height, width, size, listOfItem)
+                gui.init_build(height, width, size, listOfItem, listOfMobs)
 
             elif gui.difficulty == K_F2:
                 height, width, size = 15, 20, 30
@@ -118,7 +119,7 @@ if __name__ == '__main__':
                     gui.continue_jeu = False
                     conti = False
 
-            fond = pygame.image.load("img/floor/floor.jpeg")
+            fond = pygame.image.load("img/floor/floor.png")
             pygame.display.set_icon(fond)
             pygame.display.flip()
             gui.ecran.blit(fond, (0, 0))

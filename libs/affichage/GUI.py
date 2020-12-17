@@ -104,7 +104,7 @@ class Gui:
                         dungeon.paste(pDun.ground2, (xImg, yImg))
                     if self.laby.get_cell(x.x, x.y).end:
                         dungeon.paste(pDun.trap, (xImg, yImg))
-        dungeon.save("img/floor/floor.jpeg")
+        dungeon.save("img/floor/floor.png")
 
     def interHero(self, size, pPng):
         hero = Image.new("RGBA", (size, size))
@@ -127,7 +127,7 @@ class Gui:
         mobs.paste(pMobs.__dict__[mobs.typeMonstre], (0, 0))
         mobs.save("img/floor/{}/{}.png".format(mobs.color, mobs.typeMonstre))
 
-    def new_dungeon(self, height, width, size, item):
+    def new_dungeon(self, height, width, size, item, mobs):
         tupSize = (size, size)
         self.update_all_photo(tupSize)
         self.laby = Labyrinthe(height, width)
@@ -135,6 +135,7 @@ class Gui:
         self.hero.soldier = self.isSoldier
         self.hero.setPosi(**self.start)
         self.laby.add_item(item)
+        self.laby.add_mobs(mobs)
         self.interHero(size, self.pPng)
         self.interDungeon(size, width, height, self.pDun)
         for i in self.item:
@@ -142,9 +143,9 @@ class Gui:
         for j in self.mobs:
             self.interMobs(size, j)
 
-    def init_build(self, height, width, size, listOfItem):
+    def init_build(self, height, width, size, listOfItem, listOfMobs):
         self.menu = False
-        self.new_dungeon(height, width, size, listOfItem)
+        self.new_dungeon(height, width, size, listOfItem, listOfMobs)
 
     def set_difficulty(self, difficulty, value):
         print(difficulty, value)
