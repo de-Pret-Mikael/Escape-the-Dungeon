@@ -9,8 +9,15 @@ class Data:
     def path(self):
         return self.__path
 
+    def is_db_exist(self):
+        try:
+            sqlite3.connect("file:{}?mode=rw".format(self.path), uri=True).close()
+            return True
+        except sqlite3.Error:
+            return False
+
     def connect(self):
-        self.connection = sqlite3.connect(self.path)
+        self.connection = sqlite3.connect("file:{}?mode=rw".format(self.path), uri=True)
         self.cursor = self.connection.cursor()
 
     def close(self):
@@ -40,8 +47,13 @@ class Data:
         self.execute(action)
 
 
+def create_db(path):
+    sqlite3.connect(path).close()
+
+
 if __name__ == '__main__':
     db = Data("../../DATA/escape-the-donjon.db")
+    print(db.is_db_exist())
     db.connect()
     db.insert("Player", "nom", ["test123"])
     db.close()
