@@ -57,7 +57,7 @@ class Hero(Entite):
         self.__decal = 0  # déplacement du héro
         self.fin = False  # le jeu est t'il fini (True/False)
         self.soldier = True
-        self.color = "blue"
+        self.color = "red"
         self.inventair = []
 
     @property
@@ -151,6 +151,7 @@ class Monstre(Entite):
         super().__init__()
         self.color = "blue"
         self.typeMonstre = "ork1"  # ork1 ork2 slime1 slime2 slime3
+        self.life = None
 
     @property
     def id(self):
