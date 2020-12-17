@@ -1,7 +1,5 @@
 import random
 
-from libs.labyrinthe import Labyrinthe
-
 
 class Entite:
     def __init__(self):
@@ -185,9 +183,4 @@ class Monstre(Entite):
 
 
 if __name__ == "__main__":
-    l = Labyrinthe(3, 6)
-    pnj = Hero()
-    monstre = Monstre()
-    monstre.setPosi(1, 1)
-    monstre.deplacement(l)
-    print(monstre)
+    pass

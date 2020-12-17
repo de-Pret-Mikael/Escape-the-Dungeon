@@ -1,15 +1,9 @@
-from random import randrange
-
 import pygame
-from pygame.locals import *
 import pygame_menu
-from PIL import ImageTk, Image
+from pygame.locals import *
+from libs.affichage.GUI import Gui
 from libs.labyrinthe import Labyrinthe
-from libs.hero import Hero
-from libs.photo import Photo
-from libs.affichage import *
 
-ORANGE = (200, 200, 0)
 
 def menu():
     height, width, size = 10, 10, 32
@@ -27,17 +21,17 @@ def menu():
     menu.mainloop(gui.ecran)
 
 
-#def score():
- #   font = pygame.font.Font("freesansbold.ttf", 32)
-  #  score = font.render("score: " + str(laby.score), True, (ORANGE))
-   # gui.ecran.blit(score, (0, 0))
+# def score():
+#   font = pygame.font.Font("freesansbold.ttf", 32)
+#  score = font.render("score: " + str(laby.score), True, (ORANGE))
+# gui.ecran.blit(score, (0, 0))
 
 if __name__ == '__main__':
     pygame.init()
     gui = Gui()
     laby = Labyrinthe()
     menu()
-    #score()
+    # score()
     gui.start_the_game()
     height, width = 5, 5
     size = 32
@@ -59,6 +53,7 @@ if __name__ == '__main__':
                 height, width, size = 5, 5, 48
                 gui.screen_set_mode(height, width, size)
                 listOfItem = [("clebronze", "pKey")]
+
                 gui.init_build(height, width, size, listOfItem)
 
             elif gui.difficulty == K_F2:

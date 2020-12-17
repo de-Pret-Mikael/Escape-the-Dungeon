@@ -2,7 +2,7 @@ from random import randrange
 
 import pygame
 from pygame.locals import *
-from PIL import ImageTk, Image
+from PIL import Image
 from libs.labyrinthe import Labyrinthe
 from libs.hero import Hero
 from libs.photo import Photo
@@ -31,6 +31,10 @@ class Gui:
     @property
     def item(self):
         return self.laby.item
+
+    @property
+    def mobs(self):
+        return self.laby.mobs
 
     @property
     def hx(self):
