@@ -4,3 +4,9 @@ CREATE TABLE "Player" (
 	"score"	INTEGER,
 	PRIMARY KEY("id")
 );
+
+CREATE TABLE "Item" (
+	"score"	INTEGER,
+	"item"	INTEGER UNIQUE,
+	PRIMARY KEY("item")
+);

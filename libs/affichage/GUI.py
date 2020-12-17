@@ -22,6 +22,7 @@ class Gui:
         self.difficulty = K_F1
         self.menu = True
         self.name = "Player"
+        self.score = 0
 
     @property
     def start(self):
@@ -115,6 +116,13 @@ class Gui:
         items.paste(self.__dict__[pItem].__dict__[name], (0, 0))
         items.save("img/floor/{}.png".format(name))
 
+    def interMobs(self, size, mobs):
+        sizetup = (size, size)
+        pMobs = Photo(mobs.path, sizetup)
+        mobs = Image.new("RGBA", sizetup)
+        mobs.paste(pMobs.__dict__[mobs.typeMonstre], (0, 0))
+        mobs.save("img/floor/{}/{}.png".format(mobs.color, mobs.typeMonstre))
+
     def new_dungeon(self, height, width, size, item):
         tupSize = (size, size)
         self.update_all_photo(tupSize)
@@ -127,6 +135,8 @@ class Gui:
         self.interDungeon(size, width, height, self.pDun)
         for i in self.item:
             self.interItem(size, i.pType, i.itemName)
+        for j in self.mobs:
+            self.interMobs(size, j)
 
     def init_build(self, height, width, size, listOfItem):
         self.menu = False
@@ -159,3 +169,25 @@ class Gui:
 
     def set_name(self, name):
         self.name = name
+
+    def affiche_item(self, size):
+        for i in self.item:
+            self.interItem(size, i.pType, i.itemName)
+            item = pygame.image.load("img/floor/{}.png".format(i.itemName))
+            ix = i.x * size
+            iy = i.y * size
+            self.ecran.blit(item, (ix, iy, ix + size, iy + size))
+
+    def affiche_perso(self, size):
+        perso = pygame.image.load("img/floor/hero.png")
+        hx = self.hx * size
+        hy = self.hy * size
+        self.ecran.blit(perso, (hx, hy, hx + size, hy + size))
+
+    def affiche_mobs(self, size):
+        for i in self.mobs:
+            self.interMobs(size, i)
+            mobs = pygame.image.load("img/floor/{}/{}.png".format(i.color, i.typeMonstre))
+            ix = i.x * size
+            iy = i.y * size
+            self.ecran.blit(mobs, (ix, iy, ix + size, iy + size))

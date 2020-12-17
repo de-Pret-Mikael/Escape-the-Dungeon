@@ -9,6 +9,7 @@ from libs.hero import Hero
 from libs.photo import Photo
 from libs.affichage import *
 
+ORANGE = (200, 200, 0)
 
 def menu():
     height, width, size = 10, 10, 32
@@ -17,7 +18,7 @@ def menu():
                             theme=pygame_menu.themes.THEME_BLUE)
     # gui.ecran.blit(acceuil, (0, 0))
     menu.add_text_input('Name : ', default='Player', onchange=gui.set_name, maxchar=15)
-    #menu.add_button('ancien_joueur', ancien_joueur)
+    # menu.add_button('ancien_joueur', ancien_joueur)
     menu.add_selector('Difficulty :', [('easy', 1), ('moins easy', 2), ('pas easy', 3), ('shit', 4), ('shiit', 5)],
                       onchange=gui.set_difficulty)
     menu.add_selector('personnage', [('guerier', 1), ('mage', 2)], onchange=gui.set_hero)
@@ -25,13 +26,18 @@ def menu():
     menu.add_button('Quit', pygame_menu.events.EXIT)
     menu.mainloop(gui.ecran)
 
-    # import sys
 
+#def score():
+ #   font = pygame.font.Font("freesansbold.ttf", 32)
+  #  score = font.render("score: " + str(laby.score), True, (ORANGE))
+   # gui.ecran.blit(score, (0, 0))
 
 if __name__ == '__main__':
     pygame.init()
     gui = Gui()
+    laby = Labyrinthe()
     menu()
+    #score()
     gui.start_the_game()
     height, width = 5, 5
     size = 32
@@ -50,7 +56,7 @@ if __name__ == '__main__':
         gui.continue_jeu = True
         while gui.menu:
             if gui.difficulty == K_F1:
-                height, width, size = 10, 10, 32
+                height, width, size = 5, 5, 48
                 gui.screen_set_mode(height, width, size)
                 listOfItem = [("clebronze", "pKey")]
                 gui.init_build(height, width, size, listOfItem)
@@ -88,18 +94,9 @@ if __name__ == '__main__':
                     conti = False
 
         while gui.continue_jeu:
-            pos_peso = gui.start
-            perso = pygame.image.load("img/floor/hero.png")
-            position_perso = perso.get_rect()
-            hx = gui.hx * size
-            hy = gui.hy * size
-            gui.ecran.blit(perso, (hx, hy, hx + size, hy + size))
-            for i in gui.item:
-                gui.interItem(size, i.pType, i.itemName)
-                item = pygame.image.load("img/floor/{}.png".format(i.itemName))
-                ix = i.x * size
-                iy = i.y * size
-                gui.ecran.blit(item, (ix, iy, ix + size, iy + size))
+            gui.affiche_perso(size)
+            gui.affiche_item(size)
+            gui.affiche_mobs(size)
             for event in pygame.event.get():
                 pygame.key.set_repeat(150, 30)
                 if event.type == KEYDOWN:
@@ -130,6 +127,5 @@ if __name__ == '__main__':
             pygame.display.set_icon(fond)
             pygame.display.flip()
             gui.ecran.blit(fond, (0, 0))
-        #gui.ecran.blit(acceuil, (0, 0))
-        gui.ecran.blit(perso, position_perso)
+        # gui.ecran.blit(acceuil, (0, 0))
         pygame.display.flip()
