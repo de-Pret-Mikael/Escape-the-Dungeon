@@ -1,0 +1,1 @@
+SELECT nom, score FROM Player
