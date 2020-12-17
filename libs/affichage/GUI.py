@@ -122,10 +122,10 @@ class Gui:
 
     def interMobs(self, size, mobs):
         sizetup = (size, size)
-        pMobs = Photo(mobs.path, sizetup)
-        mobs = Image.new("RGBA", sizetup)
-        mobs.paste(pMobs.__dict__[mobs.typeMonstre], (0, 0))
-        mobs.save("img/floor/{}/{}.png".format(mobs.color, mobs.typeMonstre))
+        pMobs = Photo(mobs.pathImg, sizetup)
+        mobsImg = Image.new("RGBA", sizetup)
+        mobsImg.paste(pMobs.__dict__[mobs.typeMonstre], (0, 0))
+        mobsImg.save("img/floor/{}/{}.png".format(mobs.color, mobs.typeMonstre))
 
     def new_dungeon(self, height, width, size, item, mobs):
         tupSize = (size, size)
@@ -196,3 +196,6 @@ class Gui:
             ix = i.x * size
             iy = i.y * size
             self.ecran.blit(mobs, (ix, iy, ix + size, iy + size))
+
+    def depl_mobs(self):
+        [x.deplacement(self.laby) for x in self.mobs]

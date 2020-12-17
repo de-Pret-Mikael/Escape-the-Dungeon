@@ -243,6 +243,8 @@ class Labyrinthe:  # creation du Labyrinthe
             mobs.setPosi(cellRand.x, cellRand.y)
             mobs.color = i[0]
             mobs.typeMonstre = i[1]
+            mobs.life = i[2]
+            self.mobs.append(mobs)
             del listOfCell[rand]
 
     def del_mobs(self, x, y):
