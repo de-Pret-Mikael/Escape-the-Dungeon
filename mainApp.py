@@ -6,6 +6,9 @@ from libs.labyrinthe import Labyrinthe
 from libs.database import Data
 
 def menu():
+    """
+    POST : donne la valeur 10 à height et width et 32 à size, donne la taille, le nom et le thème au menu et lui donne les différentes fonctionnalités
+    """
     height, width, size = 10, 10, 32
     gui.screen_set_mode(height, width, size)
     menu = pygame_menu.Menu(500, 500, 'Escape the Donjon',
@@ -32,7 +35,6 @@ if __name__ == '__main__':
         db.use_script("DATA/createTable.sql")
         db.use_script("Data/insertData.sql")
         db.close()
-    print(dic_mobs)
 
 
 
@@ -80,7 +82,7 @@ if __name__ == '__main__':
                 height, width, size = 5, 5, 48
                 gui.screen_set_mode(height, width, size)
                 listOfItem = [("clebronze", "pKey")]
-                listOfMobs = ['greenork1', 'redork1', 'bluork1']
+                listOfMobs = ['greenork1', 'redork1', 'blueork1']
                 
                 gui.new_dungeon(height, width, size, listOfItem, listOfMobs, dic_mobs)
 
@@ -129,7 +131,6 @@ if __name__ == '__main__':
             gui.affiche_item(size)
             gui.affiche_mobs(size)
             for event in pygame.event.get():
-                #pygame.key.set_repeat(150, 30)
                 if event.type == KEYDOWN:
                     if event.key == K_ESCAPE:
                         gui.continue_jeu = False
@@ -147,9 +148,9 @@ if __name__ == '__main__':
                         gui.depl_mobs()
                         gui.hero.move_gauche(gui.laby)
                     if event.key == K_e:
-                        if gui.hero.end(**gui.laby.end):
-                            gui.hero.end(**gui.laby.end)
-                            gui.continue_jeu = False
+                        if gui.hx == gui.end["x"] and gui.hy == gui.end["y"]:
+                            gui.exit()
+
                         if gui.laby.exist_item(gui.hx, gui.hy):
                             items = gui.laby.del_item(gui.hx, gui.hy)
                             gui.hero.add_inventaire(items)
@@ -162,5 +163,4 @@ if __name__ == '__main__':
             pygame.display.set_icon(fond)
             pygame.display.flip()
             gui.ecran.blit(fond, (0, 0))
-        # gui.ecran.blit(acceuil, (0, 0))
         pygame.display.flip()

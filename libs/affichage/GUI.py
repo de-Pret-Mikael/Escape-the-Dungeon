@@ -31,6 +31,10 @@ class Gui:
         return self.laby.start
 
     @property
+    def end(self):
+        return self.laby.end
+
+    @property
     def item(self):
         return self.laby.item
 
@@ -159,7 +163,7 @@ class Gui:
 
     def new_dungeon(self, height, width, size, item, listeNameMobs, dictMobs):
         """
-        PRE : height, width, size doivent être de type integer et item doit être une liste de tuple composé de deux str et mobs une liste de tuple composé d'un integer et d'un str
+        PRE : menu esr à False, height, width, size doivent être de type integer et item doit être une liste de tuple composé de deux str et listNameMobs une liste de string, dict_mobs est un disctionnaire
         POST : donne la taille des images, la taille su labyrinthe, si c est un soldat ou un mage, la position de départ, place les items et les mobs
         """
         tupSize = (size, size)
@@ -257,3 +261,8 @@ class Gui:
         POST : Permet de déplacer les mobs dans le labyrinthe
         """
         [x.deplacement(self.laby) for x in self.mobs]
+
+    def exit(self):
+        if len(self.item) == 0:
+            self.continue_jeu = False
+            QUIT

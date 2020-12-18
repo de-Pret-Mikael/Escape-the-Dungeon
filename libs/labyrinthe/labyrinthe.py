@@ -1,6 +1,6 @@
 # ▲▶▼◀■□●
 import random  # import de la librairie random
-from libs.chest import *
+from libs.item import *
 from libs.hero import Monstre
 
 
@@ -287,7 +287,7 @@ class Labyrinthe:  # creation du Labyrinthe
         for i in listOfItem:
             rand = random.randrange(0, len(listOfCell))
             cellRand = listOfCell[rand]
-            self.item.append(Chest(cellRand.x, cellRand.y, i[0], i[1]))
+            self.item.append(Item(cellRand.x, cellRand.y, i[0], i[1]))
             del listOfCell[rand]
 
     def del_item(self, x, y):
@@ -403,6 +403,7 @@ class Labyrinthe:  # creation du Labyrinthe
             if self.get_cell(**dic[i]).wall:
                 list.append(i)
         return list
+
 
 
 if __name__ == "__main__":
