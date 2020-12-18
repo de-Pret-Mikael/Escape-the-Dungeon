@@ -47,8 +47,12 @@ class Data:
         action = "INSERT INTO {}({}) VALUES ({})".format(table, nameRows, value)
         self.execute(action)
 
-    def select(self, path):
+    def select_script(self, path):
         self.use_script(path)
+        return self.cursor.fetchall()
+
+    def selectAll(self, nomTable):
+        self.execute("SELECT * FROM {}".format(nomTable))
         return self.cursor.fetchall()
 
 
@@ -63,4 +67,14 @@ def create_db(path):
 
 
 if __name__ == '__main__':
-    create_db("test.db")
+    db = Data("test.db")
+    db.connect()
+    select  = db.selectAll("Mobs")
+    db.close()
+
+    print(select)
+    dic = {}
+    for i in select:
+        dic["{}{}".format(i[0],i[1])] = i
+    print(dic)
+
