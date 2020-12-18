@@ -23,18 +23,17 @@ def menu():
 
 if __name__ == '__main__':
     db = Data("DATA/escape-the-donjon.db")
-    if db.is_db_exist():
-        db.connect()
-        dic_mobs = {}
-        for i in db.selectAll("Mobs"):
-            dic_mobs["{}{}".format(i[0], i[1])] = i
-        db.close()
-    else:
+    if not db.is_db_exist():
         db.create_db()
         db.connect()
         db.use_script("DATA/createTable.sql")
         db.use_script("Data/insertData.sql")
         db.close()
+    db.connect()
+    dic_mobs = {}
+    for i in db.selectAll("Mobs"):
+        dic_mobs["{}{}".format(i[0], i[1])] = i
+    db.close()
 
 
 
