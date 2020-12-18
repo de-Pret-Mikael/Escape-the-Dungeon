@@ -9,6 +9,11 @@ class Cell:  # creation de la class Cell qui sera utiliser par la class Labyrint
     count = 0  # donnera le numéro de la cellule pour la creation du futur chemin du labyrinthe
 
     def __init__(self, x, y, wall=False):
+        """
+        PRE : x et y doivent être un Int, wall doit être un boolean
+
+        POST : initialise l'objet cellule
+        """
         self.__id = "{},{}".format(x, y)  # id de la cellule
         self.__x = x  # position x de la cellule
         self.__y = y  # position y de la cellule
@@ -38,9 +43,9 @@ class Cell:  # creation de la class Cell qui sera utiliser par la class Labyrint
         Fonction qui renvoie un dictionnaire composée des position des cellule adjacente a la position donnée en
         paramètre
 
-        :param xMax: valeur max de x
-        :param yMax: valeur max de y
-        :return envoie un dictionnaire de dictionnaire composé des cellule adjacente
+        PRE : xMax et yMax doivent être des INT
+
+        POST : renvoie un dictionnaire composé de tout les positions des cellules adjacentes
         """
         dic = {}
         xMax = 2 * xMax
@@ -60,6 +65,10 @@ class Labyrinthe:  # creation du Labyrinthe
     """class qui génère tout le labyrinthe de façon aléatoire"""
 
     def __init__(self, height=3, width=3):
+        """
+        PRE : height et width doivent être un INT
+
+        POST : Initialise l'objet Labyrinthe"""
         self.__height = round(height)  # hauteur du Labyrinthe
         self.__width = round(width)  # largeur du Labyrinthe
         self.start = {"x": None, "y": None}  # position du debut
@@ -81,11 +90,22 @@ class Labyrinthe:  # creation du Labyrinthe
         return self.__width
 
     def get_cell(self, x, y):
+        """
+        fonction qui permet d'obtenir la cellule via c'est coordonnée
+
+        PRE : x et y doivent être des int
+
+        POST : renvoie la cellule sélectionnée
+        """
         return self.laby[y][x]
 
     def build_grid(self):
         """
         fonction qui cree toute les cellule du Labyrinthe
+
+        PRE : -
+
+        POST : construit la grille du labyrinthe
         """
         self.laby = []
         line = self.height  # hauteur du Labyrinthe
@@ -96,7 +116,8 @@ class Labyrinthe:  # creation du Labyrinthe
                 if x % 2 == 0 or y % 2 == 0:  #
                     self.laby[y].append(Cell(x, y, True))
                     if (x != 0) and (y != 0) and (x != rows * 2) and (
-                            y != line * 2):  # vrai que si les cellule sont des mur intérieur (pas les mur qui sont le  contour du Labyrinthe)
+                            y != line * 2):  # vrai que si les cellule sont des mur intérieur (pas les mur qui sont
+                        # le  contour du Labyrinthe)
                         if not (x % 2 == 0 and y % 2 == 0):
                             self.wall.append(
                                 self.laby[y][-1].id)  # ajoute de id de cellule qui sont des mur dans la variable wall
@@ -104,7 +125,12 @@ class Labyrinthe:  # creation du Labyrinthe
                     self.laby[y].append(Cell(x, y))  # ajout de la cellule dans la variable laby
 
     def build_way(self):
-        """fonction qui, via l'algorithme de creation de chemin, vas cree le chemin aléatoirement"""
+        """fonction qui, via l'algorithme de creation de chemin, vas cree le chemin aléatoirement
+
+        PRE : -
+
+        POST : construit le chemin du labyrinthe
+        """
         while self.val_verif():
             if len(self.wall):
                 rand = random.randrange(0, len(self.wall))
@@ -138,8 +164,9 @@ class Labyrinthe:  # creation du Labyrinthe
         fonction utiliser par buildWay qui permet de changer la valeur de certaine cellule lors de l execution
          de la fonction
 
-        :param val: ancienne valeur de la cellule
-        :param nVal: nouvelle valeur de la cellule
+        PRE : val et nVal doivent être des int
+
+        POST : remplace tout les valeurs des cellule sélectionnées par la nouvelle valeur
         """
         for y in self.laby:
             for x in y:
@@ -147,7 +174,12 @@ class Labyrinthe:  # creation du Labyrinthe
                     x.numb = nVal
 
     def val_verif(self):
-        """fonction qui verifies si la valeur de 2 cellule sont les meme"""
+        """fonction qui verifies si la valeur de 2 cellule sont les meme
+
+        PRE : -
+
+        POST : renvoie True si une valeur dans le labyrinthe est différente de 0 ou -1, sinon renvoie False
+        """
         for y in self.laby:
             for x in y:
                 if x.numb != 0 or x.numb != -1:
@@ -158,20 +190,29 @@ class Labyrinthe:  # creation du Labyrinthe
         """
         fonction qui vas permettre de changer la position du hero en changeant la valeur hero dans les cellules
 
-        :param lastx: ancienne position x du hero
-        :param lasty: ancienne position y du hero
-        :param newx: nouvelle position x du hero
-        :param newy: nouvelle position y du hero
+        PRE : lastx, lasty, newx, newy doivent être des int
+
+        POST : modifie les cellules sélectionnées en remplacent la valeur hero des cellules
         """
         self.get_cell(lastx, lasty).hero = False
         self.get_cell(newx, newy).hero = True
 
     def pop_hero(self):
-        """fonction qui ajoute le hero dans le labyrinthe a la position voulu"""
+        """fonction qui ajoute le hero dans le labyrinthe a la position voulu
+
+        PRE : -
+
+        POST : ajoute le hero dans la cellule sélectionnée en modifiant la variable hero
+        """
         self.get_cell(**self.start).hero = True
 
     def start_and_end(self):
-        """fonction qui vas générer le debut et la fin du labyrinthe aléatoirement"""
+        """fonction qui vas générer le debut et la fin du labyrinthe aléatoirement
+
+        PRE : -
+
+        POST : attribue les coordonnées du debut et de la fin
+        """
         listOfCell = []
         for y in self.laby:
             for x in y:
@@ -193,8 +234,9 @@ class Labyrinthe:  # creation du Labyrinthe
         """
         cree le dictionnaire qui sera introduit dans la variable start
 
-        :param x: position x du début du labyrinthe
-        :param y: position y du début du labyrinthe
+        PRE : x et y doivent être un int
+
+        POST : crée de dictionnaire de coordonnée du start
         """
         self.start = {"x": x, "y": y}
 
@@ -202,12 +244,20 @@ class Labyrinthe:  # creation du Labyrinthe
         """
         cree le dictionnaire qui sera introduit dans la variable end
 
-        :param x: position x de la fin du labyrinthe
-        :param y: position y de la fin du labyrinthe
+        PRE : x et y doivent être un int
+
+        POST : crée de dictionnaire de coordonnée du end
         """
         self.end = {"x": x, "y": y}
 
     def add_item(self, listOfItem):
+        """fonction dui ajoute un ou des items dans le labyrinthe
+
+        PRE : liste des item a rajouter sous forme ("nomDeObjet", "NomVariablePhoto")
+
+        POST : ajoute a la list des item les different objet et leur attribut une position (deux objet n ont pas la
+        meme position)
+        """
         listOfCell = []
         for y in self.laby:
             for x in y:
@@ -220,6 +270,13 @@ class Labyrinthe:  # creation du Labyrinthe
             del listOfCell[rand]
 
     def del_item(self, x, y):
+        """
+        fonction qui supprime un objet du labyrinthe
+
+        PRE : x et y doivent être un int
+
+        POST : supprime un objet en fonction de sa position et renvoie l'item supprimé
+        """
         listItem = list(map(lambda x: x.id, self.item))
         id = "{},{}".format(x, y)
         if id in listItem:
@@ -231,6 +288,13 @@ class Labyrinthe:  # creation du Labyrinthe
 
 
     def add_mobs(self, listOfMobs):
+        """
+        fonction qui ajoute les monstres dans le labyrinthe
+
+        PRE : liste des mobs a rajouter sous forme ("couleur", "type", vie)
+
+        POST : ajoute a la list des mobs les different monstre et leur attribut une position
+        """
         listOfCell = []
         for y in self.laby:
             for x in y:
@@ -248,6 +312,13 @@ class Labyrinthe:  # creation du Labyrinthe
             del listOfCell[rand]
 
     def del_mobs(self, x, y):
+        """
+        fonction qui supprime un objet du labyrinthe
+
+        PRE : x et y doivent être un int
+
+        POST : supprime un monstre en fonction de sa position et renvoie le monstre supprimé
+        """
         listMobs = list(map(lambda x: x.id, self.mobs))
         id = "{},{}".format(x, y)
         if id in listMobs:
@@ -258,12 +329,23 @@ class Labyrinthe:  # creation du Labyrinthe
 
 
     def exist_item(self, x, y):
+        """
+        verifie si l'item existe
+
+        PRE :x et y doivent être un int
+
+        POST : renvoie True si l'objet exist, sinon renvoie False
+        """
         listItem = list(map(lambda x: x.id, self.item))
         id = "{},{}".format(x, y)
         return id in listItem
 
     def show(self):
-        """permet de montrer le labyrinthe en console"""
+        """permet de montrer le labyrinthe en
+
+        PRE : -
+
+        POST : permet d'afficher le labyrinthe en console"""
         for j in self.laby:
             t = []
             for i in j:
@@ -281,9 +363,9 @@ class Labyrinthe:  # creation du Labyrinthe
         """
         fonction qui return les positions des différentes mur qu'il y a autour de la cellules
 
-        :param x: position x de la cellule
-        :param y: position y de la cellule
-        :return: retourne une liste de l emplacement d'un mur par apport a une cellule
+        PRE : x et y doivent être des int:
+
+        POST : renvoi un list de tout les murs autour d'une cellule sélectionnée:
         """
         list = []
         dic = self.get_cell(x, y).cell_adj(self.width, self.height)
@@ -291,18 +373,6 @@ class Labyrinthe:  # creation du Labyrinthe
             if self.get_cell(**dic[i]).wall:
                 list.append(i)
         return list
-
-    def heroMove(self, lastx, lasty, newx, newy):
-        """
-        fonction qui vas changer le hero de cellule
-
-        :param lastx: ancienne position x du hero
-        :param lasty: ancienne position y du hero
-        :param newx: nouvelle position x du hero
-        :param newy: nouvelle position y du hero
-        """
-        self.get_cell(lastx, lasty).hero = False
-        self.get_cell(newx, newy).hero = True
 
 
 if __name__ == "__main__":
