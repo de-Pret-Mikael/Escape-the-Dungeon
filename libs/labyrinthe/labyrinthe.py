@@ -13,6 +13,13 @@ class Cell:  # creation de la class Cell qui sera utiliser par la class Labyrint
         PRE : x et y doivent être un Int, wall doit être un boolean
 
         POST : initialise l'objet cellule
+            id prend comme valeur "x,y"
+            x prend comme valeur le paramètre x
+            y prend comme valeur le paramètre y
+            wall prend comme valeur le paramètre wall
+            hero prend comme valeur False
+            end prend comme valeur False
+            numb prend comme valeur le count si c'est pas un un mur, sinon prend comme valeur -1
         """
         self.__id = "{},{}".format(x, y)  # id de la cellule
         self.__x = x  # position x de la cellule
@@ -68,7 +75,16 @@ class Labyrinthe:  # creation du Labyrinthe
         """
         PRE : height et width doivent être un INT
 
-        POST : Initialise l'objet Labyrinthe"""
+        POST : Initialise l'objet Labyrinthe
+            height prend comme valeur le paramètre height
+            width prend comme valeur le paramètre width
+            start prend comme valeur {"x":None,"y":None}
+            end prend comme valeur {"x":None,"y":None}
+            laby prend comme valeur []
+            wall prend comme valeur []
+            item prend comme valeur []
+            mobs prend comme valeur []
+        """
         self.__height = round(height)  # hauteur du Labyrinthe
         self.__width = round(width)  # largeur du Labyrinthe
         self.start = {"x": None, "y": None}  # position du debut
@@ -106,6 +122,7 @@ class Labyrinthe:  # creation du Labyrinthe
         PRE : -
 
         POST : construit la grille du labyrinthe
+            ajout de la variable laby un objet Cell
         """
         self.laby = []
         line = self.height  # hauteur du Labyrinthe
@@ -130,6 +147,7 @@ class Labyrinthe:  # creation du Labyrinthe
         PRE : -
 
         POST : construit le chemin du labyrinthe
+            modifie tout les cellules dans le labyrinthe
         """
         while self.val_verif():
             if len(self.wall):
@@ -167,6 +185,7 @@ class Labyrinthe:  # creation du Labyrinthe
         PRE : val et nVal doivent être des int
 
         POST : remplace tout les valeurs des cellule sélectionnées par la nouvelle valeur
+            modifie la valeur numb de la cellule sélectionnée par nVal
         """
         for y in self.laby:
             for x in y:
@@ -237,12 +256,14 @@ class Labyrinthe:  # creation du Labyrinthe
         PRE : x et y doivent être un int
 
         POST : crée de dictionnaire de coordonnée du start
+            attribut le dictionnaire crée a la variable start
         """
         self.start = {"x": x, "y": y}
 
     def set_end(self, x, y):
         """
         cree le dictionnaire qui sera introduit dans la variable end
+            attribut le dictionnaire crée a la variable end
 
         PRE : x et y doivent être un int
 
@@ -285,8 +306,6 @@ class Labyrinthe:  # creation du Labyrinthe
             del self.item[index]
             return item
 
-
-
     def add_mobs(self, listOfMobs):
         """
         fonction qui ajoute les monstres dans le labyrinthe
@@ -326,7 +345,6 @@ class Labyrinthe:  # creation du Labyrinthe
             mobs = self.mobs[index]
             del self.mobs[index]
             return mobs
-
 
     def exist_item(self, x, y):
         """
