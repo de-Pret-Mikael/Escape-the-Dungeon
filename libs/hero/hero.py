@@ -35,7 +35,7 @@ class Entite:
     def setPosi(self, x, y):
         """Position du héro au départ"""
         """
-        PRE : x et y doivent être de type int
+        PRE : x et y doivent être de type integer
         POST : donne la position x et y au variable x et y
         """
         self.x = x
@@ -44,7 +44,7 @@ class Entite:
     def passe(self, lastx, lasty):
         """avant dernière position du héro"""
         """
-        PRE : lastx et lasty doivent être de type int
+        PRE : lastx et lasty doivent être de type integer
         POST : donne les dernière position x et y
         """
         self.lastx = lastx
@@ -100,7 +100,7 @@ class Hero(Entite):
     def move_droite(self, laby):
         """Fonction pour ce déplacer d' un pas saut s'il y a un mur"""
         """
-        PRE : Le déplacement ne doit pas être vers un mur
+        PRE : Le déplacement ne doit pas être vers un mur et laby est l'objet labyrinthe
         POST : Permet un déplacement vers la droite
         """
         self.passe(self.x, self.y)
@@ -112,7 +112,7 @@ class Hero(Entite):
     def move_gauche(self, laby):
         """Fonction pour ce déplacer d' un pas saut s'il y a un mur"""
         """
-        PRE : Le déplacement ne doit pas être vers un mur
+        PRE : Le déplacement ne doit pas être vers un mur et laby est l'objet labyrinthe
         POST : Permet un déplacement vers la gauche
         """
         self.passe(self.x, self.y)
@@ -124,7 +124,7 @@ class Hero(Entite):
     def move_haut(self, laby):
         """Fonction pour ce déplacer d' un pas saut s'il y a un mur"""
         """
-        PRE : Le déplacement ne doit pas être vers un mur
+        PRE : Le déplacement ne doit pas être vers un mur et laby est l'objet labyrinthe
         POST : Permet un déplacement vers la haut
         """
         self.passe(self.x, self.y)
@@ -136,7 +136,7 @@ class Hero(Entite):
     def move_bas(self, laby):
         """Fonction pour ce déplacer d' un pas saut s'il y a un mur"""
         """
-        PRE : Le déplacement ne doit pas être vers un mur
+        PRE : Le déplacement ne doit pas être vers un mur et laby est l'objet labyrinthe
         POST : Permet un déplacement vers la bas
         """
         self.passe(self.x, self.y)
@@ -148,7 +148,7 @@ class Hero(Entite):
     def choix_deplacement(self, laby):
         """Fonction demandant qu'elle déplacement veut faire le joueur"""
         """
-        PRE : condi doit valoir True
+        PRE : condi doit valoir True et laby est l'objet labyrinthe
         POST : donne 0 à decal et True à condi et appel les fonctions permetant de ce déplacer ou de quitter 
         """
         decal = 0
@@ -175,7 +175,7 @@ class Hero(Entite):
     def end(self, x, y):
         """permet au joueur de quitter"""
         """
-        PRE : La position du joueur doit être égal à celle de la fin
+        PRE : La position du joueur doit être égal à celle de la fin et x et y doivent être des integer
         POST : passe fin à True pour quitter
         """
         if x == self.x and y == self.y:
@@ -183,21 +183,10 @@ class Hero(Entite):
             if fini == 'y':
                 self.fin = True
 
-    def move(self, char, laby):
-        """
-        POST :
-        """
-        if char == "d":
-            self.move_droite(laby)
-        if char == "z":
-            self.move_haut(laby)
-        if char == "q":
-            self.move_gauche(laby)
-        if char == "s":
-            self.move_bas(laby)
 
     def add_inventaire(self, item):
         """
+        PRE : item doit être un objet photo
         POST : rajoute les item à la liste inventaire
         """
         self.inventair.append(item)
@@ -206,7 +195,7 @@ class Hero(Entite):
 class Monstre(Entite):
     def __init__(self):
         """
-        POST : Donne bleu à color, ork1 à typeMonstre et None à life
+        POST : Donne bleu à color, ork1 à typeMonstre, None à life et super permet d' hérité du init de la class entité
         """
         super().__init__()
         self.color = "blue"
@@ -229,7 +218,7 @@ class Monstre(Entite):
 
     def deplacement(self, laby):
         """
-        PRE : value doit être égal à top, right, down ou left
+        PRE : value doit être égal à top, right, down ou left et laby est l'objet labyrinthe
         POST : donne la forme string de top, right, down et left
         """
         top, right, down, left = "top", "right", "down", "left"

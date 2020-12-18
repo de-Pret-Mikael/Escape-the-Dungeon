@@ -10,21 +10,13 @@ def menu():
     gui.screen_set_mode(height, width, size)
     menu = pygame_menu.Menu(500, 500, 'Escape the Donjon',
                             theme=pygame_menu.themes.THEME_BLUE)
-    # gui.ecran.blit(acceuil, (0, 0))
     menu.add_text_input('Name : ', default='Player', onchange=gui.set_name, maxchar=15)
-    # menu.add_button('ancien_joueur', ancien_joueur)
     menu.add_selector('Difficulty :', [('easy', 1), ('moins easy', 2), ('pas easy', 3), ('shit', 4), ('shiit', 5)],
                       onchange=gui.set_difficulty)
-    menu.add_selector('personnage', [('guerier', 1), ('mage', 2)], onchange=gui.set_hero)
+    menu.add_selector('character', [('soldier', 1), ('mage', 2)], onchange=gui.set_hero)
     menu.add_button('Play', menu.disable)
     menu.add_button('Quit', pygame_menu.events.EXIT)
     menu.mainloop(gui.ecran)
-
-
-# def score():
-#   font = pygame.font.Font("freesansbold.ttf", 32)
-#  score = font.render("score: " + str(laby.score), True, (ORANGE))
-# gui.ecran.blit(score, (0, 0))
 
 if __name__ == '__main__':
     pygame.init()
@@ -69,7 +61,7 @@ if __name__ == '__main__':
                 height, width, size = 5, 5, 48
                 gui.screen_set_mode(height, width, size)
                 listOfItem = [("clebronze", "pKey")]
-                listOfMobs = [green_ork_1, blue_ork_1, red_ork_1]
+                listOfMobs = [green_ork_1, blue_ork_1, red_ork_1, blue_ork_1, red_ork_1, blue_ork_1, red_ork_1, blue_ork_1, red_ork_1, blue_ork_1, red_ork_1, blue_ork_1, red_ork_1, blue_ork_1, red_ork_1, blue_ork_1, red_ork_1, blue_ork_1, red_ork_1, blue_ork_1, red_ork_1, blue_ork_1, red_ork_1, blue_ork_1, red_ork_1, blue_ork_1, red_ork_1, blue_ork_1, red_ork_1, blue_ork_1, red_ork_1, blue_ork_1, red_ork_1, blue_ork_1, red_ork_1, blue_ork_1, red_ork_1, blue_ork_1, red_ork_1]
                 gui.init_build(height, width, size, listOfItem, listOfMobs)
 
             elif gui.difficulty == K_F2:
@@ -97,8 +89,11 @@ if __name__ == '__main__':
             elif gui.difficulty == K_F5:
                 height, width, size = 30, 60, 15
                 gui.screen_set_mode(height, width, size)
-                listOfItem = [("clebronze", "pKey"), ("cleargent", "pKey"), ("clegold", "pKey")]
-                listOfMobs = [red_ork_2, blue_ork_2, green_ork_2]
+                listOfItem = [("clebronze", "pKey"), ("cleargent", "pKey"), ("clegold", "pKey"), ("cleargent", "pKey"), ("clegold", "pKey"), ("cleargent", "pKey"), ("clegold", "pKey"), ("cleargent", "pKey"), ("clegold", "pKey"), ("cleargent", "pKey"), ("clegold", "pKey")]
+                listOfMobs = []
+                for i in range(0, 3000):
+                    listOfMobs.append(green_slime_2)
+                print(len(listOfMobs))
                 gui.init_build(height, width, size, listOfItem, listOfMobs)
             for event in pygame.event.get():
                 if event.type == QUIT:
