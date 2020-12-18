@@ -52,6 +52,8 @@ class Photo:
 
     def take_name(self):
         """
+        fonction qui vas chercher tout les nom de différente image dans le dossier selectionné
+
 
         PRE : -
 
