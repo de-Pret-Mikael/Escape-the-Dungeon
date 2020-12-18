@@ -157,12 +157,14 @@ class Gui:
         mobsImg.paste(pMobs.__dict__[mobs.typeMonstre], (0, 0))
         mobsImg.save("img/floor/{}/{}.png".format(mobs.color, mobs.typeMonstre))
 
-    def new_dungeon(self, height, width, size, item, mobs):
+    def new_dungeon(self, height, width, size, item, listeNameMobs, dictMobs):
         """
         PRE : height, width, size doivent être de type integer et item doit être une liste de tuple composé de deux str et mobs une liste de tuple composé d'un integer et d'un str
         POST : donne la taille des images, la taille su labyrinthe, si c est un soldat ou un mage, la position de départ, place les items et les mobs
         """
         tupSize = (size, size)
+        mobs = [dictMobs[i] for i in listeNameMobs]
+        self.menu = False
         self.update_all_photo(tupSize)
         self.laby = Labyrinthe(height, width)
         self.hero = Hero()
@@ -177,13 +179,6 @@ class Gui:
         for j in self.mobs:
             self.interMobs(size, j)
 
-    def init_build(self, height, width, size, listOfItem, listOfMobs):
-        """
-        PRE : height, width, size doivent être de type integer et listOfItem et listOfMobs sont deux listes
-        POST : Place menu à False et donne les méthode height, width, size, listOfItem, listOfMobs à new_dungeon
-        """
-        self.menu = False
-        self.new_dungeon(height, width, size, listOfItem, listOfMobs)
 
     def set_difficulty(self, difficulty, value):
         """

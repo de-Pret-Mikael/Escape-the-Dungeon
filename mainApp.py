@@ -3,7 +3,7 @@ import pygame_menu
 from pygame.locals import *
 from libs.affichage.GUI import Gui
 from libs.labyrinthe import Labyrinthe
-
+from libs.database import Data
 
 def menu():
     height, width, size = 10, 10, 32
@@ -19,6 +19,24 @@ def menu():
     menu.mainloop(gui.ecran)
 
 if __name__ == '__main__':
+    db = Data("DATA/escape-the-donjon.db")
+    if db.is_db_exist():
+        db.connect()
+        dic_mobs = {}
+        for i in db.selectAll("Mobs"):
+            dic_mobs["{}{}".format(i[0], i[1])] = i
+        db.close()
+    else:
+        db.create_db()
+        db.connect()
+        db.use_script("DATA/createTable.sql")
+        db.use_script("Data/insertData.sql")
+        db.close()
+    print(dic_mobs)
+
+
+
+
     pygame.init()
     gui = Gui()
     laby = Labyrinthe()
@@ -41,7 +59,7 @@ if __name__ == '__main__':
         gui.menu = True
         gui.continue_jeu = True
         while gui.menu:
-            green_ork_1 = ("green", "ork1", 2)
+            """green_ork_1 = ("green", "ork1", 2)
             blue_ork_1 = ("blue", "ork1", 2)
             red_ork_1 = ("red", "ork1", 2)
             green_ork_2 = ("green", "ork2", 4)
@@ -55,35 +73,37 @@ if __name__ == '__main__':
             red_slime_2 = ("red", "slime2", 2)
             green_slime_3 = ("green", "slime3", 3)
             blue_slime_3 = ("blue", "slime3", 3)
-            red_slime_3 = ("red", "slime3", 3)
+            red_slime_3 = ("red", "slime3", 3)"""
+
 
             if gui.difficulty == K_F1:
                 height, width, size = 5, 5, 48
                 gui.screen_set_mode(height, width, size)
                 listOfItem = [("clebronze", "pKey")]
-                listOfMobs = [green_ork_1, blue_ork_1, red_ork_1, blue_ork_1, red_ork_1, blue_ork_1, red_ork_1, blue_ork_1, red_ork_1, blue_ork_1, red_ork_1, blue_ork_1, red_ork_1, blue_ork_1, red_ork_1, blue_ork_1, red_ork_1, blue_ork_1, red_ork_1, blue_ork_1, red_ork_1, blue_ork_1, red_ork_1, blue_ork_1, red_ork_1, blue_ork_1, red_ork_1, blue_ork_1, red_ork_1, blue_ork_1, red_ork_1, blue_ork_1, red_ork_1, blue_ork_1, red_ork_1, blue_ork_1, red_ork_1, blue_ork_1, red_ork_1]
-                gui.init_build(height, width, size, listOfItem, listOfMobs)
+                listOfMobs = ['greenork1', 'redork1', 'bluork1']
+                
+                gui.new_dungeon(height, width, size, listOfItem, listOfMobs, dic_mobs)
 
             elif gui.difficulty == K_F2:
                 height, width, size = 15, 20, 30
                 gui.screen_set_mode(height, width, size)
                 listOfItem = [("clebronze", "pKey"), ("cleargent", "pKey")]
-                listOfMobs = [blue_ork_1, green_slime_2, red_slime_1]
-                gui.init_build(height, width, size, listOfItem, listOfMobs)
+                listOfMobs = ['blueork1', 'greenslime2', 'redslime1']
+                gui.new_dungeon(height, width, size, listOfItem, listOfMobs, dic_mobs)
 
             elif gui.difficulty == K_F3:
                 height, width, size = 20, 30, 23
                 gui.screen_set_mode(height, width, size)
                 listOfItem = [("cleargent", "pKey"), ("clegold", "pKey")]
-                listOfMobs = [blue_slime_3, green_slime_2, red_ork_2]
-                gui.init_build(height, width, size, listOfItem, listOfMobs)
+                listOfMobs = ['blueslime3', 'greenslime2', 'redork2']
+                gui.new_dungeon(height, width, size, listOfItem, listOfMobs, dic_mobs)
 
             elif gui.difficulty == K_F4:
                 height, width, size = 30, 40, 16
                 gui.screen_set_mode(height, width, size)
                 listOfItem = [("clebronze", "pKey"), ("cleargent", "pKey"), ("clegold", "pKey")]
-                listOfMobs = [blue_slime_3, red_ork_2, green_slime_3]
-                gui.init_build(height, width, size, listOfItem, listOfMobs)
+                listOfMobs = ['blueslime3', 'redork2', 'greenslime3']
+                gui.new_dungeon(height, width, size, listOfItem, listOfMobs, dic_mobs)
 
 
             elif gui.difficulty == K_F5:
@@ -91,10 +111,11 @@ if __name__ == '__main__':
                 gui.screen_set_mode(height, width, size)
                 listOfItem = [("clebronze", "pKey"), ("cleargent", "pKey"), ("clegold", "pKey"), ("cleargent", "pKey"), ("clegold", "pKey"), ("cleargent", "pKey"), ("clegold", "pKey"), ("cleargent", "pKey"), ("clegold", "pKey"), ("cleargent", "pKey"), ("clegold", "pKey")]
                 listOfMobs = []
-                for i in range(0, 3000):
-                    listOfMobs.append(green_slime_2)
+                for i in range(0, 100):
+                    listOfMobs.append("greenslime2")
                 print(len(listOfMobs))
-                gui.init_build(height, width, size, listOfItem, listOfMobs)
+                gui.new_dungeon(height, width, size, listOfItem, listOfMobs, dic_mobs)
+
             for event in pygame.event.get():
                 if event.type == QUIT:
                     height, width, size = 5, 5, 32

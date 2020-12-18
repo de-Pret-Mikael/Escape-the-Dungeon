@@ -9,6 +9,9 @@ class Data:
     def path(self):
         return self.__path
 
+    def create_db(self):
+        sqlite3.connect(self.path).close()
+
     def is_db_exist(self):
         try:
             sqlite3.connect("file:{}?mode=rw".format(self.path), uri=True).close()
@@ -56,25 +59,13 @@ class Data:
         return self.cursor.fetchall()
 
 
-def create_db(path):
-    sqlite3.connect(path).close()
-    newDb = Data(path)
-    newDb.connect()
-    newDb.use_script("../../DATA/createTable.sql")
-    newDb.use_script("../../DATA/insertData.sql")
-    newDb.close()
-
-
 
 if __name__ == '__main__':
     db = Data("test.db")
     db.connect()
-    select  = db.selectAll("Mobs")
+    select = db.selectAll("Mobs")
     db.close()
-
-    print(select)
     dic = {}
     for i in select:
         dic["{}{}".format(i[0],i[1])] = i
-    print(dic)
 
