@@ -50,6 +50,14 @@ class Gui:
     def hy(self):
         return self.hero.y
 
+    @property
+    def hlx(self):
+        return self.hero.lastx
+
+    @property
+    def hly(self):
+        return self.hero.lasty
+
     def screen_set_mode(self, height, width, size):
         """
         PRE : height, width et size doivent être de type integer
@@ -183,7 +191,6 @@ class Gui:
         for j in self.mobs:
             self.interMobs(size, j)
 
-
     def set_difficulty(self, difficulty, value):
         """
         PRE : value et difficulty doit être de type integer
@@ -261,6 +268,10 @@ class Gui:
         POST : Permet de déplacer les mobs dans le labyrinthe
         """
         [x.deplacement(self.laby) for x in self.mobs]
+
+    def action_move(self):
+        self.laby.hero_move(self.hlx, self.hly, self.hx, self.hy)
+        self.depl_mobs()
 
     def exit(self):
         if len(self.item) == 0:

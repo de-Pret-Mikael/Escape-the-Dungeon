@@ -226,7 +226,7 @@ class Monstre(Entite):
         liste = laby.wall_around(self.x, self.y)
         possible = []
         for i in [top, right, down, left]:
-            if i not in liste and not laby.exist_mobs(**dicAdj[i]):
+            if i not in liste and not laby.exist_mobs(**dicAdj[i]) and not laby.get_cell(**dicAdj[i]).hero:
                 possible.append(i)
         if len(possible) != 0:
             rand = random.randrange(0, len(possible))

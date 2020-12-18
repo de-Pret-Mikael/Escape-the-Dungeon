@@ -135,16 +135,16 @@ if __name__ == '__main__':
                         gui.continue_jeu = False
                         gui.menu = True
                     if event.key == K_DOWN:
-                        gui.depl_mobs()
+                        gui.action_move()
                         gui.hero.move_bas(gui.laby)
                     if event.key == K_UP:
-                        gui.depl_mobs()
+                        gui.action_move()
                         gui.hero.move_haut(gui.laby)
                     if event.key == K_RIGHT:
-                        gui.depl_mobs()
+                        gui.action_move()
                         gui.hero.move_droite(gui.laby)
                     if event.key == K_LEFT:
-                        gui.depl_mobs()
+                        gui.action_move()
                         gui.hero.move_gauche(gui.laby)
                     if event.key == K_e:
                         if gui.hx == gui.end["x"] and gui.hy == gui.end["y"]:
