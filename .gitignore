@@ -127,6 +127,8 @@ dmypy.json
 
 # Pyre type checker
 .pyre/
-*.db
 .idea/
-img/floor
+img/floor/*.png
+img/floor/blue/*.png
+img/floor/green/*.png
+img/floor/red/*.png
