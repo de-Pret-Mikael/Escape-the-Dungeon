@@ -222,21 +222,23 @@ class Monstre(Entite):
         POST : donne la forme string de top, right, down et left
         """
         top, right, down, left = "top", "right", "down", "left"
+        dicAdj = laby.get_cell(self.x, self.y).cell_adj(laby.width, laby.height)
         liste = laby.wall_around(self.x, self.y)
         possible = []
         for i in [top, right, down, left]:
-            if i not in liste:
+            if i not in liste and not laby.exist_mobs(**dicAdj[i]):
                 possible.append(i)
-        rand = random.randrange(0, len(possible))
-        value = possible[rand]
-        if value == top:
-            self.haut()
-        if value == right:
-            self.droite()
-        if value == down:
-            self.bas()
-        if value == left:
-            self.gauche()
+        if len(possible) != 0:
+            rand = random.randrange(0, len(possible))
+            value = possible[rand]
+            if value == top:
+                self.haut()
+            if value == right:
+                self.droite()
+            if value == down:
+                self.bas()
+            if value == left:
+                self.gauche()
 
 
 if __name__ == "__main__":

@@ -358,6 +358,18 @@ class Labyrinthe:  # creation du Labyrinthe
         id = "{},{}".format(x, y)
         return id in listItem
 
+    def exist_mobs(self, x, y):
+        """
+        verifie si le monstre existe
+
+        PRE :x et y doivent être un int
+
+        POST : renvoie True si le monstre exist, sinon renvoie False
+        """
+        listmobs = list(map(lambda x: x.id, self.mobs))
+        id = "{},{}".format(x, y)
+        return id in listmobs
+
     def show(self):
         """permet de montrer le labyrinthe en
 
