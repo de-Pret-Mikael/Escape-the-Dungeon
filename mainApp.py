@@ -5,7 +5,9 @@ from libs.affichage.GUI import Gui
 from libs.labyrinthe import Labyrinthe
 from libs.database import Data
 import os
+import sys
 
+WHITE = (255,255,255)
 
 def menu():
     """
@@ -46,12 +48,13 @@ if __name__ == '__main__':
         os.mkdir(cwd + "\\img\\floor\\green")
     if not os.path.exists(cwd + "\\img\\floor\\red"):
         os.mkdir(cwd + "\\img\\floor\\red")
+    if not os.path.exists(cwd + "\\img\\floor\\red"):
+        os.mkdir(cwd + "\\img\\floor\\sang")
 
     pygame.init()
     gui = Gui()
     laby = Labyrinthe()
     menu()
-    # score()
     gui.start_the_game()
     height, width = 5, 5
     size = 32
@@ -59,11 +62,6 @@ if __name__ == '__main__':
     gui.screen_set_mode(height, width, size)
     pygame.display.set_caption('Escape the Donjon')
     while conti:
-        # acceuil = pygame.image.load("img/acceuil/acceuil.jpg").convert()
-
-        # gui.ecran.blit(acceuil, (0, 0))
-
-
         pygame.display.flip()
 
         for event in pygame.event.get():
@@ -71,13 +69,13 @@ if __name__ == '__main__':
                 conti = False
         gui.menu = True
         gui.continue_jeu = True
-        while gui.menu:
+        while gui.menu and not gui.game_over:
 
             if gui.difficulty == K_F1:
                 height, width, size = 5, 5, 48
                 gui.screen_set_mode(height, width, size)
                 listOfItem = [("clebronze", "pKey")]
-                listOfMobs = ['greenork1', 'redork1', 'blueork1']
+                listOfMobs = ['greenork2', 'redork2', 'blueork2', 'redork2', 'blueork2', 'redork2', 'blueork2', 'redork2', 'blueork2', 'redork2', 'blueork2','greenork2', 'redork2', 'blueork2', 'redork2', 'blueork2', 'redork2', 'blueork2', 'redork2', 'blueork2', 'redork2', 'blueork2','greenork2', 'redork2', 'blueork2', 'redork2', 'blueork2', 'redork2', 'blueork2', 'redork2', 'blueork2', 'redork2', 'blueork2']
 
                 gui.new_dungeon(height, width, size, listOfItem, listOfMobs, dic_mobs)
 
@@ -123,11 +121,15 @@ if __name__ == '__main__':
                     gui.continue_jeu = False
                     conti = False
 
-        while gui.continue_jeu:
+        while gui.continue_jeu and not gui.game_over:
+            if gui.hero.vie == 0:
+                gui.continue_jeu = False
+                gui.game_over = True
             gui.affiche_perso(size)
             gui.affiche_item(size)
             gui.affiche_mobs(size)
             gui.affiche_vie(size, gui.laby.width)
+            gui.affiche_score()
             for event in pygame.event.get():
                 if event.type == KEYDOWN:
                     if event.key == K_ESCAPE:
@@ -161,4 +163,22 @@ if __name__ == '__main__':
             pygame.display.set_icon(fond)
             pygame.display.flip()
             gui.ecran.blit(fond, (0, 0))
+
+
+        while gui.game_over:
+
+            gui.ecran.blit(fond, (0, 0))
+            police = pygame.font.Font('freesansbold.ttf', 64)
+            recap = police.render("Score: " + str(gui.hero.score), True, WHITE)
+
+            gui.ecran.blit(recap, (10, 10))
+            for event in pygame.event.get():
+                if event.type == KEYDOWN:
+                    if event.key == K_RETURN:
+                        sys.exit("T'es mauvais")
+
+            pygame.display.flip()
+
+
+        gui.set_score()
         pygame.display.flip()

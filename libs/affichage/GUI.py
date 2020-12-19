@@ -7,6 +7,10 @@ from libs.labyrinthe import Labyrinthe
 from libs.hero import Hero
 from libs.photo import Photo
 
+GREEN = (0, 190, 0)
+ORANGE = (255,165,0)
+ROUGE = (255,69,0)
+MAUVE = (186, 99, 201)
 
 class Gui:
     def __init__(self):
@@ -21,10 +25,12 @@ class Gui:
         self.ecran = None
         self.isSoldier = True
         self.continue_jeu = True
+        self.game_over = False
         self.difficulty = K_F1
         self.menu = True
         self.name = "Player"
         self.pVie = None
+        self.score = 0
 
     @property
     def start(self):
@@ -143,12 +149,24 @@ class Gui:
         POST : permet d' enregistré l'image du soldat ou du mage dans le dossié img/floor
         """
         hero = Image.new("RGBA", (size, size))
+
         if self.hero.soldier:
             hero.paste(self.pPng.soldier, (0, 0))
         else:
             hero.paste(self.pPng.mage, (0, 0))
 
         hero.save("img/floor/hero.png", "PNG")
+
+    def inter_sang(self, size):
+        pPng = Photo("img/player/sang", (size, size))
+        hero = Image.new("RGBA", (size, size))
+
+        if self.hero.soldier:
+            hero.paste(pPng.soldier, (0, 0))
+        else:
+            hero.paste(pPng.mage, (0, 0))
+
+        hero.save("img/floor/Sang.png", "PNG")
 
     def inter_item(self, size, pItem, name):
         """
@@ -178,6 +196,7 @@ class Gui:
             vieImg.save("img/floor/{}.png".format(i), "PNG")
 
 
+
     def new_dungeon(self, height, width, size, item, listeNameMobs, dictMobs):
         """
         PRE : menu esr à False, height, width, size doivent être de type integer et item doit être une liste de tuple composé de deux str et listNameMobs une liste de string, dict_mobs est un disctionnaire
@@ -189,11 +208,13 @@ class Gui:
         self.update_all_photo(tupSize)
         self.laby = Labyrinthe(height, width)
         self.hero = Hero()
+        self.hero.set_score(self.score)
         self.hero.soldier = self.isSoldier
         self.hero.setPosi(**self.start)
         self.laby.add_item(item)
         self.laby.add_mobs(mobs)
         self.inter_hero(size)
+        self.inter_sang(size)
         self.inter_dungeon(size, width, height)
         self.inter_vie(size)
         for i in self.item:
@@ -258,7 +279,11 @@ class Gui:
         PRE : size doit être de type integer
         POST : Affiche le personnage dans le labyrinthe
         """
-        perso = pygame.image.load("img/floor/hero.png")
+        if self.hero.is_touche():
+            path = "img/floor/Sang.png"
+        else:
+            path = "img/floor/hero.png"
+        perso = pygame.image.load(path)
         hx = self.hx * size
         hy = self.hy * size
         self.ecran.blit(perso, (hx, hy, hx + size, hy + size))
@@ -285,9 +310,23 @@ class Gui:
             if i < vieRouge:
                 vie = pygame.image.load("img/floor/hearts1.png")
                 self.ecran.blit(vie, ((x, y, x + size, y + size)))
+
             else:
                 vie = pygame.image.load("img/floor/hearts2.png")
                 self.ecran.blit(vie, ((x, y, x + size, y + size)))
+
+    def affiche_score(self):
+        police = pygame.font.Font('freesansbold.ttf', 32)
+        if self.hero.score < 1000:
+            score = police.render("Score: " + str(self.hero.score), True, GREEN)
+        elif self.hero.score < 2000:
+            score = police.render("Score: " + str(self.hero.score), True, ORANGE)
+        elif self.hero.score < 3000:
+            score = police.render("Score: " + str(self.hero.score), True, ROUGE)
+        elif self.hero.score < 10000:
+            score = police.render("Score: " + str(self.hero.score), True, MAUVE)
+        self.ecran.blit(score, (10, 10))
+
 
 
     def depl_mobs(self):
@@ -300,4 +339,7 @@ class Gui:
     def exit(self):
         if len(self.item) == 0:
             self.continue_jeu = False
-            QUIT
+
+    def set_score(self):
+        self.score = self.hero.score
+

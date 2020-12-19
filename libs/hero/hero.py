@@ -11,7 +11,6 @@ class Entite:
         self.__y = 0
         self.lastx = 0
         self.lasty = 0
-        self.score = 0
 
     @property
     def x(self):
@@ -89,6 +88,9 @@ class Hero(Entite):
         self.inventair = []
         self.vie = 3
         self.maxVie = 3
+        self.score = None
+        self.touche = False
+        self.nbrTouche = 40
 
     @property
     def decal(self):
@@ -222,14 +224,23 @@ class Hero(Entite):
             self.vie -= 1
             laby.get_cell(mobsx, mobsy).mobs = False
             laby.del_mobs(mobsx, mobsy)
+            self.touche = True
         else:
             self.score += 100 * mobs.puissance
             laby.get_cell(mobsx, mobsy).mobs = False
             laby.del_mobs(mobsx, mobsy)
-        print(self.score)
 
 
-
+    def is_touche(self):
+        if self.touche:
+            self.nbrTouche -= 1
+            if self.nbrTouche == 0:
+                self.touche = False
+                return False
+            else:
+                return True
+        self.nbrTouche = 40
+        return False
 
 
     def is_mobs_around(self, laby):
@@ -239,6 +250,8 @@ class Hero(Entite):
                 return True
         return False
 
+    def set_score(self, score):
+        self.score = score
 
 
 class Monstre(Entite):
