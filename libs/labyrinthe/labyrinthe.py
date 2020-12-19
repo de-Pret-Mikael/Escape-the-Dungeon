@@ -25,7 +25,8 @@ class Cell:  # creation de la class Cell qui sera utiliser par la class Labyrint
         self.__x = x  # position x de la cellule
         self.__y = y  # position y de la cellule
         self.wall = wall  # si la cellule est un mur (True  ou False)
-        self.hero = False  # la cellule possède t elle le hero (True ou False)
+        self.hero = False
+        self.mobs = False  # la cellule possède t elle le hero (True ou False)
         self.end = False  # la cellule est la fin du Labyrinthe (True ou False)
         if not self.wall:  # sera utiliser pour l'algorithme de generation de Labyrinthe
             self.numb = self.__class__.count
@@ -216,6 +217,17 @@ class Labyrinthe:  # creation du Labyrinthe
         self.get_cell(lastx, lasty).hero = False
         self.get_cell(newx, newy).hero = True
 
+    def mobs_move(self, lastx, lasty, newx, newy):
+        """
+        fonction qui vas permettre de changer la position du hero en changeant la valeur mobs dans les cellules
+
+        PRE : lastx, lasty, newx, newy doivent être des int
+
+        POST : modifie les cellules sélectionnées en remplacent la valeur mobs des cellules
+        """
+        self.get_cell(lastx, lasty).mobs = False
+        self.get_cell(newx, newy).mobs = True
+
     def pop_hero(self):
         """fonction qui ajoute le hero dans le labyrinthe a la position voulu
 
@@ -224,6 +236,15 @@ class Labyrinthe:  # creation du Labyrinthe
         POST : ajoute le hero dans la cellule sélectionnée en modifiant la variable hero
         """
         self.get_cell(**self.start).hero = True
+
+    def pop_mobs(self, x, y):
+        """fonction qui ajoute le hero dans le labyrinthe a la position voulu
+
+        PRE : -
+
+        POST : ajoute le hero dans la cellule sélectionnée en modifiant la variable hero
+        """
+        self.get_cell(x, y).mobs = True
 
     def start_and_end(self):
         """fonction qui vas générer le debut et la fin du labyrinthe aléatoirement
@@ -327,6 +348,7 @@ class Labyrinthe:  # creation du Labyrinthe
             mobs.color = i[0]
             mobs.typeMonstre = i[1]
             mobs.life = i[2]
+            self.pop_mobs(mobs.x, mobs.y)
             self.mobs.append(mobs)
             del listOfCell[rand]
 
@@ -403,7 +425,6 @@ class Labyrinthe:  # creation du Labyrinthe
             if self.get_cell(**dic[i]).wall:
                 list.append(i)
         return list
-
 
 
 if __name__ == "__main__":
