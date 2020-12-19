@@ -11,6 +11,7 @@ class Entite:
         self.__y = 0
         self.lastx = 0
         self.lasty = 0
+        self.score = 0
 
     @property
     def x(self):
@@ -110,6 +111,7 @@ class Hero(Entite):
         if cellule.wall:
             print('Vous ne pouvez pas traverser les murs :(')
         elif cellule.mobs:
+            self.combat(laby, self.x + 1, self.y)
             print('Engage le combat :), et creve connard')
         elif not self.is_mobs_around(laby):
             self.droite()
@@ -125,6 +127,7 @@ class Hero(Entite):
         if cellule.wall:
             print('Vous ne pouvez pas traverser les murs :(')
         elif cellule.mobs:
+            self.combat(laby, self.x - 1, self.y)
             print('Engage le combat :), et creve connard')
         elif not self.is_mobs_around(laby):
             self.gauche()
@@ -140,6 +143,7 @@ class Hero(Entite):
         if cellule.wall:
             print('Vous ne pouvez pas traverser les murs :(')
         elif cellule.mobs:
+            self.combat(laby, self.x, self.y - 1)
             print('Engage le combat :), et creve connard')
         elif not self.is_mobs_around(laby):
             self.haut()
@@ -155,6 +159,7 @@ class Hero(Entite):
         if cellule.wall:
             print('Vous ne pouvez pas traverser les murs :(')
         elif cellule.mobs:
+            self.combat(laby, self.x, self.y + 1)
             print('Engage le combat :), et creve connard')
         elif not self.is_mobs_around(laby):
             self.bas()
@@ -207,6 +212,7 @@ class Hero(Entite):
 
     def combat(self, laby, mobsx, mobsy):
         number = random.randint(1, 6)
+        print(number)
         id = "{},{}".format(mobsx, mobsy)
         mobs = None
         for i in laby.mobs:
@@ -214,6 +220,13 @@ class Hero(Entite):
                 mobs = i
         if mobs.puissance > number:
             self.vie -= 1
+            laby.get_cell(mobsx, mobsy).mobs = False
+            laby.del_mobs(mobsx, mobsy)
+        else:
+            self.score += 100 * mobs.puissance
+            laby.get_cell(mobsx, mobsy).mobs = False
+            laby.del_mobs(mobsx, mobsy)
+        print(self.score)
 
 
 

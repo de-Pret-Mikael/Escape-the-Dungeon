@@ -24,7 +24,6 @@ class Gui:
         self.difficulty = K_F1
         self.menu = True
         self.name = "Player"
-        self.score = 0
         self.pVie = None
 
     @property
