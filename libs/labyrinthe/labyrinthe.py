@@ -347,7 +347,7 @@ class Labyrinthe:  # creation du Labyrinthe
             mobs.setPosi(cellRand.x, cellRand.y)
             mobs.color = i[0]
             mobs.typeMonstre = i[1]
-            mobs.life = i[2]
+            mobs.puissance = i[2]
             self.pop_mobs(mobs.x, mobs.y)
             self.mobs.append(mobs)
             del listOfCell[rand]

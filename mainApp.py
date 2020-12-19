@@ -62,7 +62,10 @@ if __name__ == '__main__':
         # acceuil = pygame.image.load("img/acceuil/acceuil.jpg").convert()
 
         # gui.ecran.blit(acceuil, (0, 0))
+
+
         pygame.display.flip()
+
         for event in pygame.event.get():
             if event.type == pygame.QUIT:
                 conti = False
@@ -107,7 +110,7 @@ if __name__ == '__main__':
                               ("clegold", "pKey"), ("cleargent", "pKey"), ("clegold", "pKey"), ("cleargent", "pKey"),
                               ("clegold", "pKey"), ("cleargent", "pKey"), ("clegold", "pKey")]
                 listOfMobs = []
-                for i in range(0, 100):
+                for i in range(0, 30):
                     listOfMobs.append("greenslime2")
                 print(len(listOfMobs))
                 gui.new_dungeon(height, width, size, listOfItem, listOfMobs, dic_mobs)
@@ -124,22 +127,23 @@ if __name__ == '__main__':
             gui.affiche_perso(size)
             gui.affiche_item(size)
             gui.affiche_mobs(size)
+            gui.affiche_vie(size, gui.laby.width)
             for event in pygame.event.get():
                 if event.type == KEYDOWN:
                     if event.key == K_ESCAPE:
                         gui.continue_jeu = False
                         gui.menu = True
                     if event.key == K_DOWN:
-                        gui.action_move()
+                        gui.depl_mobs()
                         gui.hero.move_bas(gui.laby)
                     if event.key == K_UP:
-                        gui.action_move()
+                        gui.depl_mobs()
                         gui.hero.move_haut(gui.laby)
                     if event.key == K_RIGHT:
-                        gui.action_move()
+                        gui.depl_mobs()
                         gui.hero.move_droite(gui.laby)
                     if event.key == K_LEFT:
-                        gui.action_move()
+                        gui.depl_mobs()
                         gui.hero.move_gauche(gui.laby)
                     if event.key == K_e:
                         if gui.hx == gui.end["x"] and gui.hy == gui.end["y"]:
@@ -153,7 +157,7 @@ if __name__ == '__main__':
                     gui.continue_jeu = False
                     conti = False
 
-            fond = pygame.image.load("img/floor/floor.png")
+            fond = pygame.image.load("./img/floor/floor.png")
             pygame.display.set_icon(fond)
             pygame.display.flip()
             gui.ecran.blit(fond, (0, 0))

@@ -86,6 +86,8 @@ class Hero(Entite):
         self.soldier = True
         self.color = "gold"
         self.inventair = []
+        self.vie = 3
+        self.maxVie = 3
 
     @property
     def decal(self):
@@ -104,9 +106,12 @@ class Hero(Entite):
         POST : Permet un déplacement vers la droite
         """
         self.passe(self.x, self.y)
-        if laby.get_cell(self.x + 1, self.y).wall:
+        cellule = laby.get_cell(self.x + 1, self.y)
+        if cellule.wall:
             print('Vous ne pouvez pas traverser les murs :(')
-        else:
+        elif cellule.mobs:
+            print('Engage le combat :), et creve connard')
+        elif not self.is_mobs_around(laby):
             self.droite()
 
     def move_gauche(self, laby):
@@ -116,9 +121,12 @@ class Hero(Entite):
         POST : Permet un déplacement vers la gauche
         """
         self.passe(self.x, self.y)
-        if laby.get_cell(self.x - 1, self.y).wall:
+        cellule = laby.get_cell(self.x - 1, self.y)
+        if cellule.wall:
             print('Vous ne pouvez pas traverser les murs :(')
-        else:
+        elif cellule.mobs:
+            print('Engage le combat :), et creve connard')
+        elif not self.is_mobs_around(laby):
             self.gauche()
 
     def move_haut(self, laby):
@@ -128,9 +136,12 @@ class Hero(Entite):
         POST : Permet un déplacement vers la haut
         """
         self.passe(self.x, self.y)
-        if laby.get_cell(self.x, self.y - 1).wall:
+        cellule = laby.get_cell(self.x, self.y - 1)
+        if cellule.wall:
             print('Vous ne pouvez pas traverser les murs :(')
-        else:
+        elif cellule.mobs:
+            print('Engage le combat :), et creve connard')
+        elif not self.is_mobs_around(laby):
             self.haut()
 
     def move_bas(self, laby):
@@ -140,9 +151,12 @@ class Hero(Entite):
         POST : Permet un déplacement vers la bas
         """
         self.passe(self.x, self.y)
-        if laby.get_cell(self.x, self.y + 1).wall:
+        cellule = laby.get_cell(self.x, self.y + 1)
+        if cellule.wall:
             print('Vous ne pouvez pas traverser les murs :(')
-        else:
+        elif cellule.mobs:
+            print('Engage le combat :), et creve connard')
+        elif not self.is_mobs_around(laby):
             self.bas()
 
     def choix_deplacement(self, laby):
@@ -191,16 +205,38 @@ class Hero(Entite):
         """
         self.inventair.append(item)
 
+    def combat(self, laby, mobsx, mobsy):
+        number = random.randint(1, 6)
+        id = "{},{}".format(mobsx, mobsy)
+        mobs = None
+        for i in laby.mobs:
+            if id == i.id:
+                mobs = i
+        if mobs.puissance > number:
+            self.vie -= 1
+
+
+
+
+
+    def is_mobs_around(self, laby):
+        dictAdj = laby.get_cell(self.x, self.y).cell_adj(laby.width, laby.height)
+        for i in dictAdj:
+            if laby.get_cell(**dictAdj[i]).mobs:
+                return True
+        return False
+
+
 
 class Monstre(Entite):
     def __init__(self):
         """
-        POST : Donne bleu à color, ork1 à typeMonstre, None à life et super permet d' hérité du init de la class entité
+        POST : Donne bleu à color, ork1 à typeMonstre, None à puissance et super permet d' hérité du init de la class entité
         """
         super().__init__()
         self.color = "blue"
         self.typeMonstre = "ork1"  # ork1 ork2 slime1 slime2 slime3
-        self.life = None
+        self.puissance = None
 
     @property
     def id(self):
@@ -225,20 +261,30 @@ class Monstre(Entite):
         dicAdj = laby.get_cell(self.x, self.y).cell_adj(laby.width, laby.height)
         liste = laby.wall_around(self.x, self.y)
         possible = []
+        is_hero = False
         for i in [top, right, down, left]:
-            if i not in liste and not laby.exist_mobs(**dicAdj[i]) and not laby.get_cell(**dicAdj[i]).hero:
+            hero = laby.get_cell(**dicAdj[i]).hero
+            if hero:
+                is_hero = True
+            if i not in liste and not laby.exist_mobs(**dicAdj[i]) and not hero:
                 possible.append(i)
-        if len(possible) != 0:
-            rand = random.randrange(0, len(possible))
-            value = possible[rand]
-            if value == top:
-                self.haut()
-            if value == right:
-                self.droite()
-            if value == down:
-                self.bas()
-            if value == left:
-                self.gauche()
+        if is_hero:
+            pass
+        else:
+            if len(possible) != 0:
+                rand = random.randrange(0, len(possible))
+                value = possible[rand]
+                self.passe(self.x, self.y)
+                if value == top:
+                    self.haut()
+                if value == right:
+                    self.droite()
+                if value == down:
+                    self.bas()
+                if value == left:
+                    self.gauche()
+
+            laby.mobs_move(self.lastx, self.lasty, self.x, self.y)
 
 
 if __name__ == "__main__":
