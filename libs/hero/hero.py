@@ -263,6 +263,10 @@ class Hero(Entite):
         return False
 
     def set_score(self, score):
+        """
+        PRE : score doit être un entié
+        POST : Permet d'avoir le score
+        """
         self.score = score
 
 
