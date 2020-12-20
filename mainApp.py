@@ -52,6 +52,7 @@ if __name__ == '__main__':
     if not os.path.exists(cwd + "\\img\\floor\\red"):
         os.mkdir(cwd + "\\img\\floor\\sang")
 
+    listScore = None
     pygame.init()
     gui = Gui()
     laby = Labyrinthe()
@@ -171,16 +172,45 @@ if __name__ == '__main__':
             gui.ecran.blit(fond, (0, 0))
 
         while gui.game_over:
+
             if not saved:
                 db.connect()
-                db.execute("INSERT INTO Player (nom, score) VALUES ('{}',{})".format(gui.name, gui.hero.score))  # "Player", ["nom", "score"], [gui.name, gui.hero.score]
+                db.execute("INSERT INTO Player (nom, score) VALUES ('{}',{})".format(gui.name, gui.hero.score))
+                listScore = db.selectAll("Player")
+                listeTrie = sorted(listScore, key=lambda trie: trie[2], reverse=True)
+                print(listeTrie)
                 db.close()
                 saved = True
+
             gui.ecran.blit(fond, (0, 0))
+
             police = pygame.font.Font('freesansbold.ttf', 64)
             recap = police.render("Score: " + str(gui.hero.score), True, WHITE)
 
+            """for i in listeTrie:
+                if j < 5:
+                    police1 = pygame.font.Font('freesansbold.ttf', 20)
+                    recapitulatif = police1.render("liste Score: " + str(listeTrie[j]), True, WHITE)
+                    j+=1
+                break"""
+            y = 200
+            t = 35
+            police1 = pygame.font.Font('freesansbold.ttf', t)
+            recapitulatif = police1.render("liste Score", True, WHITE)
+            gui.ecran.blit(recapitulatif, (200, y))
             gui.ecran.blit(recap, (10, 10))
+
+            j = 0
+
+            for i in listeTrie:
+                if j < 5:
+                    player = listeTrie[j]
+                    texte = police1.render("{}) {}: {}".format(j+1, player[1], player[2]), True, WHITE)
+                    gui.ecran.blit(texte, (200, y + t + t * j))
+                    j+=1
+
+
+
             for event in pygame.event.get():
                 if event.type == KEYDOWN:
                     if event.key == K_RETURN:

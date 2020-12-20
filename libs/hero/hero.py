@@ -211,6 +211,7 @@ class Hero(Entite):
         POST : rajoute les item à la liste inventaire
         """
         self.inventair.append(item)
+        self.score += 200
 
     def combat(self, laby, mobsx, mobsy):
         number = random.randint(1, 6)

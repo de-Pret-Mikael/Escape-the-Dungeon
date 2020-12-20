@@ -8,9 +8,10 @@ from libs.hero import Hero
 from libs.photo import Photo
 
 GREEN = (0, 190, 0)
-ORANGE = (255,165,0)
-ROUGE = (255,69,0)
+ORANGE = (255, 165, 0)
+ROUGE = (255, 69, 0)
 MAUVE = (186, 99, 201)
+
 
 class Gui:
     def __init__(self):
@@ -195,8 +196,6 @@ class Gui:
             vieImg.paste(self.pVie.__dict__[i], (0, 0))
             vieImg.save("img/floor/{}.png".format(i), "PNG")
 
-
-
     def new_dungeon(self, height, width, size, item, listeNameMobs, dictMobs):
         """
         PRE : menu esr à False, height, width, size doivent être de type integer et item doit être une liste de tuple composé de deux str et listNameMobs une liste de string, dict_mobs est un disctionnaire
@@ -221,7 +220,6 @@ class Gui:
             self.inter_item(size, i.pType, i.itemName)
         for j in self.mobs:
             self.inter_mobs(size, j)
-
 
     def set_difficulty(self, difficulty, value):
         """
@@ -327,8 +325,6 @@ class Gui:
             score = police.render("Score: " + str(self.hero.score), True, MAUVE)
         self.ecran.blit(score, (10, 10))
 
-
-
     def depl_mobs(self):
         """
         POST : Permet de déplacer les mobs dans le labyrinthe
@@ -342,4 +338,3 @@ class Gui:
 
     def set_score(self):
         self.score = self.hero.score
-
