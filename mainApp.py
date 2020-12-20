@@ -6,6 +6,7 @@ from libs.labyrinthe import Labyrinthe
 from libs.database import Data
 import os
 import sys
+import random
 
 WHITE = (255, 255, 255)
 
@@ -73,16 +74,17 @@ if __name__ == '__main__':
         gui.menu = True
         gui.continue_jeu = True
         while gui.menu and not gui.game_over:
-
             if gui.difficulty == K_F1:
+
                 height, width, size = 5, 5, 48
                 gui.screen_set_mode(height, width, size)
                 listOfItem = [("clebronze", "pKey")]
-                listOfMobs = ['greenork2', 'redork2', 'blueork2', 'redork2', 'blueork2', 'redork2', 'blueork2',
-                              'redork2', 'blueork2', 'redork2', 'blueork2', 'greenork2', 'redork2', 'blueork2',
-                              'redork2', 'blueork2', 'redork2', 'blueork2', 'redork2', 'blueork2', 'redork2',
-                              'blueork2', 'greenork2', 'redork2', 'blueork2', 'redork2', 'blueork2', 'redork2',
-                              'blueork2', 'redork2', 'blueork2', 'redork2', 'blueork2']
+                nbrMobs = random.randint(1, 5)
+                listOfMobs = []
+                for i in range(0, nbrMobs):
+                    cle = list(dic_mobs.keys())
+                    cleRand = random.randint(0, len(cle) - 1)
+                    listOfMobs.append(cle[cleRand])
 
                 gui.new_dungeon(height, width, size, listOfItem, listOfMobs, dic_mobs)
 
@@ -90,21 +92,37 @@ if __name__ == '__main__':
                 height, width, size = 15, 20, 30
                 gui.screen_set_mode(height, width, size)
                 listOfItem = [("clebronze", "pKey"), ("cleargent", "pKey")]
-                listOfMobs = ['blueork1', 'greenslime2', 'redslime1']
+                nbrMobs = random.randint(5, 10)
+                listOfMobs = []
+                for i in range(0, nbrMobs):
+                    cle = list(dic_mobs.keys())
+                    cleRand = random.randint(0, len(cle) - 1)
+                    listOfMobs.append(cle[cleRand])
+
                 gui.new_dungeon(height, width, size, listOfItem, listOfMobs, dic_mobs)
 
             elif gui.difficulty == K_F3:
                 height, width, size = 20, 30, 23
                 gui.screen_set_mode(height, width, size)
                 listOfItem = [("cleargent", "pKey"), ("clegold", "pKey")]
-                listOfMobs = ['blueslime3', 'greenslime2', 'redork2']
+                nbrMobs = random.randint(10, 15)
+                listOfMobs = []
+                for i in range(0, nbrMobs):
+                    cle = list(dic_mobs.keys())
+                    cleRand = random.randint(0, len(cle) - 1)
+                    listOfMobs.append(cle[cleRand])
                 gui.new_dungeon(height, width, size, listOfItem, listOfMobs, dic_mobs)
 
             elif gui.difficulty == K_F4:
                 height, width, size = 30, 40, 16
                 gui.screen_set_mode(height, width, size)
                 listOfItem = [("clebronze", "pKey"), ("cleargent", "pKey"), ("clegold", "pKey")]
-                listOfMobs = ['blueslime3', 'redork2', 'greenslime3']
+                nbrMobs = random.randint(25, 40)
+                listOfMobs = []
+                for i in range(0, nbrMobs):
+                    cle = list(dic_mobs.keys())
+                    cleRand = random.randint(0, len(cle) - 1)
+                    listOfMobs.append(cle[cleRand])
                 gui.new_dungeon(height, width, size, listOfItem, listOfMobs, dic_mobs)
 
 
@@ -114,10 +132,12 @@ if __name__ == '__main__':
                 listOfItem = [("clebronze", "pKey"), ("cleargent", "pKey"), ("clegold", "pKey"), ("cleargent", "pKey"),
                               ("clegold", "pKey"), ("cleargent", "pKey"), ("clegold", "pKey"), ("cleargent", "pKey"),
                               ("clegold", "pKey"), ("cleargent", "pKey"), ("clegold", "pKey")]
+                nbrMobs = random.randint(40, 100)
                 listOfMobs = []
-                for i in range(0, 30):
-                    listOfMobs.append("greenslime2")
-                print(len(listOfMobs))
+                for i in range(0, nbrMobs):
+                    cle = list(dic_mobs.keys())
+                    cleRand = random.randint(0, len(cle) - 1)
+                    listOfMobs.append(cle[cleRand])
                 gui.new_dungeon(height, width, size, listOfItem, listOfMobs, dic_mobs)
 
             for event in pygame.event.get():
@@ -201,7 +221,6 @@ if __name__ == '__main__':
             gui.ecran.blit(recap, (10, 10))
 
             j = 0
-
             for i in listeTrie:
                 if j < 5:
                     player = listeTrie[j]
