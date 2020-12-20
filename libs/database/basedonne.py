@@ -76,17 +76,6 @@ class Data:
         self.cursor.execute(action)
         self.connection.commit()
 
-    def insert(self, table, nameRows, value):
-        """
-        PRE : table doit être le nom de la table sql, namerows doit être le nom d'une ou des colones et value doit
-        être une liste de valeur POST : execute sur base des paramètre un commande sql et enregistre dans la base de
-        donnée
-        """
-        value = ["'" + i + "'" for i in value]
-        value = ", ".join(value)
-        action = "INSERT INTO {}({}) VALUES ({})".format(table, nameRows, value)
-        self.execute(action)
-
     def select_script(self, path):
         """
         PRE : path doit être un chemin existant

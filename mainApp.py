@@ -7,7 +7,8 @@ from libs.database import Data
 import os
 import sys
 
-WHITE = (255,255,255)
+WHITE = (255, 255, 255)
+
 
 def menu():
     """
@@ -59,6 +60,7 @@ if __name__ == '__main__':
     height, width = 5, 5
     size = 32
     conti = True
+    saved = False
     gui.screen_set_mode(height, width, size)
     pygame.display.set_caption('Escape the Donjon')
     while conti:
@@ -75,7 +77,11 @@ if __name__ == '__main__':
                 height, width, size = 5, 5, 48
                 gui.screen_set_mode(height, width, size)
                 listOfItem = [("clebronze", "pKey")]
-                listOfMobs = ['greenork2', 'redork2', 'blueork2', 'redork2', 'blueork2', 'redork2', 'blueork2', 'redork2', 'blueork2', 'redork2', 'blueork2','greenork2', 'redork2', 'blueork2', 'redork2', 'blueork2', 'redork2', 'blueork2', 'redork2', 'blueork2', 'redork2', 'blueork2','greenork2', 'redork2', 'blueork2', 'redork2', 'blueork2', 'redork2', 'blueork2', 'redork2', 'blueork2', 'redork2', 'blueork2']
+                listOfMobs = ['greenork2', 'redork2', 'blueork2', 'redork2', 'blueork2', 'redork2', 'blueork2',
+                              'redork2', 'blueork2', 'redork2', 'blueork2', 'greenork2', 'redork2', 'blueork2',
+                              'redork2', 'blueork2', 'redork2', 'blueork2', 'redork2', 'blueork2', 'redork2',
+                              'blueork2', 'greenork2', 'redork2', 'blueork2', 'redork2', 'blueork2', 'redork2',
+                              'blueork2', 'redork2', 'blueork2', 'redork2', 'blueork2']
 
                 gui.new_dungeon(height, width, size, listOfItem, listOfMobs, dic_mobs)
 
@@ -164,9 +170,12 @@ if __name__ == '__main__':
             pygame.display.flip()
             gui.ecran.blit(fond, (0, 0))
 
-
         while gui.game_over:
-
+            if not saved:
+                db.connect()
+                db.execute("INSERT INTO Player (nom, score) VALUES ('{}',{})".format(gui.name, gui.hero.score))  # "Player", ["nom", "score"], [gui.name, gui.hero.score]
+                db.close()
+                saved = True
             gui.ecran.blit(fond, (0, 0))
             police = pygame.font.Font('freesansbold.ttf', 64)
             recap = police.render("Score: " + str(gui.hero.score), True, WHITE)
@@ -178,7 +187,6 @@ if __name__ == '__main__':
                         sys.exit("T'es mauvais")
 
             pygame.display.flip()
-
 
         gui.set_score()
         pygame.display.flip()
