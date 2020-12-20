@@ -41,7 +41,7 @@ class Data:
 
     def close(self):
         """
-        PRE : -
+        PRE : connection et cursor doivent avoir été crée
         POST : ferme la liaison avec la base de donnée
         """
         self.cursor.close()
