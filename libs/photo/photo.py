@@ -9,8 +9,8 @@ class Photo:
         """
         initialise l objet photo
 
-        PRE: path doit etre le chemin vers le dossier ou se trouve tout les images que l'on souhait, sizetup doit
-        etre un tup de int resemblant a (10,10)
+        PRE: path doit être le chemin vers le dossier ou se trouve tout les images que l'on souhait, sizetup doit
+        être un tup de int ressemblant a (10,10)
 
         POST: initialise l objet photo
             path prend comme valeur le paramètre path
@@ -27,7 +27,7 @@ class Photo:
 
         Pre: nom doit être un string il doit aussi être un nom existant terminant par .png
 
-        POST: renvoie un objet image compose de l image selectionnée
+        POST: renvoie un objet image compose de l image sélectionnée
 
         """
         path = "{}/{}".format(self.path, name)
@@ -52,7 +52,7 @@ class Photo:
 
     def take_name(self):
         """
-        fonction qui vas chercher tout les nom de différente image dans le dossier selectionné
+        fonction qui vas chercher tout les nom de différente image dans le dossier sélectionné
 
 
         PRE : -

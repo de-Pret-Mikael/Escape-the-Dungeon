@@ -32,7 +32,7 @@ class Entite:
             raise ValueError("not integer")
         self.__y = i
 
-    def setPosi(self, x, y):
+    def set_posi(self, x, y):
         """Position du héro au départ"""
         """
         PRE : x et y doivent être de type integer
@@ -78,7 +78,7 @@ class Entite:
 class Hero(Entite):
     def __init__(self):
         """
-        POST : donne la valeur 0 à décal, False à fin et touche, True à soldier, gold à color, une liste vide à inventaire, None à score, 3 à vie et maxVie et 40 à nbrTouche
+        POST : donne la valeur 0 à decal, False à fin et touche, True à soldier, gold à color, une liste vide à inventaire, None à score, 3 à vie et maxVie et 40 à nbrTouche
         """
         super().__init__()
         self.__decal = 0
@@ -170,7 +170,7 @@ class Hero(Entite):
         """Fonction demandant qu'elle déplacement veut faire le joueur"""
         """
         PRE : condi doit valoir True et laby est l'objet labyrinthe
-        POST : donne 0 à decal et True à condi et appel les fonctions permetant de ce déplacer ou de quitter 
+        POST : donne 0 à decal et True à condi et appel les fonctions permettant de ce déplacer ou de quitter 
         """
         decal = 0
         condi = True
@@ -215,8 +215,8 @@ class Hero(Entite):
 
     def combat(self, laby, mobsx, mobsy):
         """
-        PRE : laby est l'object labirynthe, mobsx et mobsy doivent des integer
-        POST : Permet de combrattre un monstre, le faire mourir(disparaitre) et augmenter le score
+        PRE : laby est l'objet labyrinthe, mobsx et mobsy doivent des integer
+        POST : Permet de combattre un monstre, le faire mourir(disparaitre) et augmenter le score
         """
         number = random.randint(1, 6)
         print(number)
@@ -264,7 +264,7 @@ class Hero(Entite):
 
     def set_score(self, score):
         """
-        PRE : score doit être un entié
+        PRE : score doit être un entier
         POST : Permet d'avoir le score
         """
         self.score = score
@@ -273,7 +273,7 @@ class Hero(Entite):
 class Monstre(Entite):
     def __init__(self):
         """
-        POST : Donne bleu à color, ork1 à typeMonstre, None à puissance et super permet d' hérité du init de la class entité
+        POST : Donne bleu à color, ork1 à typeMonstre, None à puissance et super permet d' hérité du init de la class Entite
         """
         super().__init__()
         self.color = "blue"
@@ -285,7 +285,7 @@ class Monstre(Entite):
         return "{},{}".format(self.x, self.y)
 
     @property
-    def pathImg(self):
+    def path_img(self):
         return "img/mobs/{}".format(self.color)
 
     def __str__(self):

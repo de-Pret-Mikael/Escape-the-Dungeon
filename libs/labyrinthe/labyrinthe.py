@@ -94,9 +94,9 @@ class Labyrinthe:  # creation du Labyrinthe
         self.wall = []  # tableau qui sera compose de tout les murs du Labyrinthe
         self.item = []
         self.mobs = []
-        self.build_grid()  # creation de tout les cellule
-        self.build_way()  # creation du chemin grace a l'algorithme
-        self.start_and_end()  # positionnement du debut e de la fin
+        self.__build_grid()  # creation de tout les cellule
+        self.__build_way()  # creation du chemin grace a l'algorithme
+        self.__start_and_end()  # positionnement du debut e de la fin
 
     @property
     def height(self):
@@ -116,7 +116,7 @@ class Labyrinthe:  # creation du Labyrinthe
         """
         return self.laby[y][x]
 
-    def build_grid(self):
+    def __build_grid(self):
         """
         fonction qui cree toute les cellule du Labyrinthe
 
@@ -142,7 +142,7 @@ class Labyrinthe:  # creation du Labyrinthe
                 else:
                     self.laby[y].append(Cell(x, y))  # ajout de la cellule dans la variable laby
 
-    def build_way(self):
+    def __build_way(self):
         """fonction qui, via l'algorithme de creation de chemin, vas cree le chemin aléatoirement
 
         PRE : -
@@ -150,7 +150,7 @@ class Labyrinthe:  # creation du Labyrinthe
         POST : construit le chemin du labyrinthe
             modifie tout les cellules dans le labyrinthe
         """
-        while self.val_verif():
+        while self.__val_verif():
             if len(self.wall):
                 rand = random.randrange(0, len(self.wall))
             else:
@@ -165,20 +165,20 @@ class Labyrinthe:  # creation du Labyrinthe
                 if not (vRight == vLeft):
                     cell.wall = False
                     if (vRight > vLeft):
-                        self.new_val(vRight, vLeft)
+                        self.__new_val(vRight, vLeft)
                     else:
-                        self.new_val(vLeft, vRight)
+                        self.__new_val(vLeft, vRight)
             if not coord[1] % 2:
                 vDown = self.get_cell(**dic["down"]).numb
                 vTop = self.get_cell(**dic["top"]).numb
                 if not (vDown == vTop):
                     cell.wall = False
                     if (vDown > vTop):
-                        self.new_val(vDown, vTop)
+                        self.__new_val(vDown, vTop)
                     else:
-                        self.new_val(vTop, vDown)
+                        self.__new_val(vTop, vDown)
 
-    def new_val(self, val, nVal):
+    def __new_val(self, val, nVal):
         """
         fonction utiliser par buildWay qui permet de changer la valeur de certaine cellule lors de l execution
          de la fonction
@@ -193,7 +193,7 @@ class Labyrinthe:  # creation du Labyrinthe
                 if x.numb == val:
                     x.numb = nVal
 
-    def val_verif(self):
+    def __val_verif(self):
         """fonction qui verifies si la valeur de 2 cellule sont les meme
 
         PRE : -
@@ -246,7 +246,7 @@ class Labyrinthe:  # creation du Labyrinthe
         """
         self.get_cell(x, y).mobs = True
 
-    def start_and_end(self):
+    def __start_and_end(self):
         """fonction qui vas générer le debut et la fin du labyrinthe aléatoirement
 
         PRE : -
@@ -261,16 +261,16 @@ class Labyrinthe:  # creation du Labyrinthe
         # génère un nombre aléatoire entre 0 et la longueur max du tableau listOfCell
         rand = random.randrange(0, len(listOfCell))
         celluleRandom = listOfCell[rand]  # sélectionne l objet dans le tableau
-        self.set_start(celluleRandom.x, celluleRandom.y)  # attribut les valeur x et y a start
+        self.__set_start(celluleRandom.x, celluleRandom.y)  # attribut les valeur x et y a start
         del celluleRandom  # retire la cellule du tableau pour ne pas la réutiliser
         # génère un nombre aléatoire entre 0 et la longueur max du tableau listOfCell
         rand = random.randrange(0, len(listOfCell))
         celluleRandom = listOfCell[rand]  # sélectionne l objet dans le tableau
         celluleRandom.end = True
-        self.set_end(celluleRandom.x, celluleRandom.y)  # attribut les valeur x et y a end
+        self.__set_end(celluleRandom.x, celluleRandom.y)  # attribut les valeur x et y a end
         self.pop_hero()  # appel la fonction pop_hero()
 
-    def set_start(self, x, y):
+    def __set_start(self, x, y):
         """
         cree le dictionnaire qui sera introduit dans la variable start
 
@@ -281,7 +281,7 @@ class Labyrinthe:  # creation du Labyrinthe
         """
         self.start = {"x": x, "y": y}
 
-    def set_end(self, x, y):
+    def __set_end(self, x, y):
         """
         cree le dictionnaire qui sera introduit dans la variable end
             attribut le dictionnaire crée a la variable end
@@ -344,7 +344,7 @@ class Labyrinthe:  # creation du Labyrinthe
             rand = random.randrange(0, len(listOfCell))
             cellRand = listOfCell[rand]
             mobs = Monstre()
-            mobs.setPosi(cellRand.x, cellRand.y)
+            mobs.set_posi(cellRand.x, cellRand.y)
             mobs.color = i[0]
             mobs.typeMonstre = i[1]
             mobs.puissance = i[2]

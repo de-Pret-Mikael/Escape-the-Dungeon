@@ -38,7 +38,7 @@ if __name__ == '__main__':
         db.close()
     db.connect()
     dic_mobs = {}
-    for i in db.selectAll("Mobs"):
+    for i in db.select_all("Mobs"):
         dic_mobs["{}{}".format(i[0], i[1])] = i
     db.close()
     cwd = os.getcwd()
@@ -196,7 +196,7 @@ if __name__ == '__main__':
             if not saved:
                 db.connect()
                 db.execute("INSERT INTO Player (nom, score) VALUES ('{}',{})".format(gui.name, gui.hero.score))
-                listScore = db.selectAll("Player")
+                listScore = db.select_all("Player")
                 listeTrie = sorted(listScore, key=lambda trie: trie[2], reverse=True)
                 print(listeTrie)
                 db.close()

@@ -84,7 +84,7 @@ class Data:
         self.use_script(path)
         return self.cursor.fetchall()
 
-    def selectAll(self, nomTable):
+    def select_all(self, nomTable):
         """
         PRE : nomTable doit être un nom de table de la base de donnée
         POST : execute une commande pour avoir tout les informations dans la table demandée et le renvoie résultat
@@ -97,7 +97,7 @@ class Data:
 if __name__ == '__main__':
     db = Data("test.db")
     db.connect()
-    select = db.selectAll("Mobs")
+    select = db.select_all("Mobs")
     db.close()
     dic = {}
     for i in select:

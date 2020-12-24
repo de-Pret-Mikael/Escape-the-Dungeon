@@ -16,7 +16,8 @@ MAUVE = (186, 99, 201)
 class Gui:
     def __init__(self):
         """
-        POST : donne la valeur None à laby, pPng, pDun, pKey, ecran, donne la valeur True à isSoldier, continue_jeu, menu, donne la class Hero à hero, met difficulty à K_F1, name à Player et score à 0
+        POST : donne la valeur None à laby, pPng, pDun, pKey, écran, donne la valeur True à isSoldier, continue_jeu,
+        menu, donne la class Hero à hero, met difficulty à K_F1, name à Player et score à 0
         """
         self.laby = None
         self.hero = Hero()
@@ -68,7 +69,7 @@ class Gui:
     def screen_set_mode(self, height, width, size):
         """
         PRE : height, width et size doivent être de type integer
-        POST : Donne la taille de la fenetre
+        POST : Donne la taille de la fenêtre
         """
         self.ecran = pygame.display.set_mode(((width * 2 + 1) * size, (height * 2 + 1) * size))
 
@@ -147,7 +148,7 @@ class Gui:
     def inter_hero(self, size):
         """
         PRE : size doit être de type integer
-        POST : permet d' enregistré l'image du soldat ou du mage dans le dossié img/floor
+        POST : permet d' enregistré l'image du soldat ou du mage dans le dossier img/floor
         """
         hero = Image.new("RGBA", (size, size))
 
@@ -159,6 +160,10 @@ class Gui:
         hero.save("img/floor/hero.png", "PNG")
 
     def inter_sang(self, size):
+        """
+        PRE : size doit être de type integer
+        POST : permet d' enregistré l'image du soldat ou du mage dans le dossier img/floor
+        """
         pPng = Photo("img/player/sang", (size, size))
         hero = Image.new("RGBA", (size, size))
 
@@ -172,7 +177,7 @@ class Gui:
     def inter_item(self, size, pItem, name):
         """
         PRE : size doit être de type integer, pItem un object photo et name de type str
-        POST : permet d' enregistré l'image de ou des item(s) dans le dossié img/floor
+        POST : permet d' enregistré l'image de ou des item(s) dans le dossier img/floor
         """
         items = Image.new("RGBA", (size, size))
         items.paste(self.__dict__[pItem].__dict__[name], (0, 0))
@@ -181,15 +186,19 @@ class Gui:
     def inter_mobs(self, size, mobs):
         """
         PRE : size doit être de type integer et mobs un object photo
-        POST : permet d' enregistré l'image de ou des mobs dans le dossié img/floor
+        POST : permet d' enregistré l'image de ou des mobs dans le dossier img/floor
         """
         sizetup = (size, size)
-        pMobs = Photo(mobs.pathImg, sizetup)
+        pMobs = Photo(mobs.path_img, sizetup)
         mobsImg = Image.new("RGBA", sizetup)
         mobsImg.paste(pMobs.__dict__[mobs.typeMonstre], (0, 0))
         mobsImg.save("img/floor/{}/{}.png".format(mobs.color, mobs.typeMonstre), "PNG")
 
     def inter_vie(self, size):
+        """
+        PRE : size doit être de type integer
+        POST : permet d' enregistré l'image de coeur dans le dossier img/floor
+        """
         sizetup = (size, size)
         for i in self.pVie.__dict__:
             vieImg = Image.new("RGBA", sizetup)
@@ -198,8 +207,10 @@ class Gui:
 
     def new_dungeon(self, height, width, size, item, listeNameMobs, dictMobs):
         """
-        PRE : menu esr à False, height, width, size doivent être de type integer et item doit être une liste de tuple composé de deux str et listNameMobs une liste de string, dict_mobs est un disctionnaire
-        POST : donne la taille des images, la taille su labyrinthe, si c est un soldat ou un mage, la position de départ, place les items et les mobs
+        PRE : menu esr à False, height, width, size doivent être de type integer et item doit être une liste de tuple
+        composé de deux str et listNameMobs une liste de string, dict_mobs est un dictionnaire POST : donne la taille
+        des images, la taille su labyrinthe, si c est un soldat ou un mage, la position de départ, place les items et
+        les mobs
         """
         tupSize = (size, size)
         mobs = [dictMobs[i] for i in listeNameMobs]
@@ -209,7 +220,7 @@ class Gui:
         self.hero = Hero()
         self.hero.set_score(self.score)
         self.hero.soldier = self.isSoldier
-        self.hero.setPosi(**self.start)
+        self.hero.set_posi(**self.start)
         self.laby.add_item(item)
         self.laby.add_mobs(mobs)
         self.inter_hero(size)
@@ -240,7 +251,7 @@ class Gui:
     def set_hero(self, hero, value):
         """
         PRE : hero doit être une liste et value est un integer
-        POST : Permet de selectionner le soldier ou le mage
+        POST : Permet de sélectionner le soldier ou le mage
         """
         if hero[0] == "soldier":
             self.isSoldier = True
@@ -298,8 +309,11 @@ class Gui:
             self.ecran.blit(mobs, (ix, iy, ix + size, iy + size))
 
     def affiche_vie(self, size, width):
+        """
+        PRE : size doit être de type integer width doit être un integer
+        POST : Affiche la vie en haut a droite dans le labyrinthe
+        """
         vieRouge = self.hero.vie
-        vieNoir = self.hero.maxVie - vieRouge
         width = width * 2
         for i in range(0, self.hero.maxVie):
             x = (width - i) * size
@@ -314,6 +328,10 @@ class Gui:
                 self.ecran.blit(vie, ((x, y, x + size, y + size)))
 
     def affiche_score(self):
+        """
+        PRE : size doit être de type integer
+        POST : Affiche le score en haut a gauche dans le labyrinthe
+        """
         police = pygame.font.Font('freesansbold.ttf', 32)
         if self.hero.score < 1000:
             score = police.render("Score: " + str(self.hero.score), True, GREEN)
@@ -333,8 +351,14 @@ class Gui:
         [x.deplacement(self.laby) for x in self.mobs]
 
     def exit(self):
+        """
+        POST : Permet de fermer l application
+        """
         if len(self.item) == 0:
             self.continue_jeu = False
 
     def set_score(self):
+        """
+        POST : Permet d'enregistrer le score du personnage entre 2 étage
+        """
         self.score = self.hero.score

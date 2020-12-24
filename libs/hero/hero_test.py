@@ -22,13 +22,13 @@ class TestEntite(unittest.TestCase):
 
     def test_setPosi(self):
         posi = Entite()
-        posi.setPosi(1, 1)
+        posi.set_posi(1, 1)
         self.assertEqual(posi.x, 1)
         self.assertEqual(posi.y, 1)
-        posi.setPosi(-1, -1)
+        posi.set_posi(-1, -1)
         self.assertEqual(posi.x, -1)
         self.assertEqual(posi.y, -1)
-        posi.setPosi(0, 0)
+        posi.set_posi(0, 0)
         self.assertEqual(posi.x, 0)
         self.assertEqual(posi.y, 0)
 

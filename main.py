@@ -5,7 +5,7 @@ import os
 if __name__ == "__main__":
     l = Labyrinthe(2, 2)
     png = Hero()
-    png.setPosi(**l.start)
+    png.set_posi(**l.start)
     l.show()
     while not png.fin:
         png.choix_deplacement(l)
