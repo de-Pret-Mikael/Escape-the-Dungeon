@@ -225,7 +225,7 @@ if __name__ == '__main__':
             for event in pygame.event.get():
                 if event.type == KEYDOWN:
                     if event.key == K_RETURN:
-                        sys.exit("T'es mauvais")
+                        sys.exit("Fini")
 
             pygame.display.flip()
 
