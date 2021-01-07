@@ -1,10 +1,11 @@
-from basedonne import *
+from libs.database import *
 import unittest
+
 
 class TestBasedonne(unittest.TestCase):
     def test_init(self):
         db = Data("str")
-        self.assertIsInstance(db.path,str)
+        self.assertIsInstance(db.path, str)
         self.assertEqual(db.path, "str")
 
     def test_is_db_exist(self):
@@ -17,6 +18,7 @@ class TestBasedonne(unittest.TestCase):
         db = Data("str")
         with self.assertRaises(sqlite3.Error):
             db.connect()
+
 
 if __name__ == '__main__':
     TestBasedonne()

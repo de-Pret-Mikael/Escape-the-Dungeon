@@ -3,15 +3,15 @@ from libs.hero import *
 import os
 
 if __name__ == "__main__":
-    l = Labyrinthe(2, 2)
+    lab = Labyrinthe(2, 2)
     png = Hero()
-    png.set_posi(**l.start)
-    l.show()
+    png.set_posi(**lab.start)
+    lab.show()
     while not png.fin:
-        png.choix_deplacement(l)
+        png.choix_deplacement(lab)
         os.system("cls")
         if png.fin:
             print('Vous avez réussi à sortir, bien jouer')
         heroPos = {"lastx": png.lastx, "lasty": png.lasty, "newx": png.x, "newy": png.y}
-        l.hero_move(**heroPos)
-        l.show()
+        lab.hero_move(**heroPos)
+        lab.show()

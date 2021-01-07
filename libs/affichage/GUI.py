@@ -73,23 +73,23 @@ class Gui:
         """
         self.ecran = pygame.display.set_mode(((width * 2 + 1) * size, (height * 2 + 1) * size))
 
-    def update_photo(self, name, path, sizeTup):
+    def update_photo(self, name, path, sizetup):
         """
         PRE : name, path doivent être de type str et sizeTup un tuple de type integer
         POST : donne le chemin et la taille de l'image
         """
         if name in self.__dict__:
-            self.__dict__[name] = Photo(path, sizeTup)
+            self.__dict__[name] = Photo(path, sizetup)
 
-    def update_all_photo(self, tupSize):
+    def update_all_photo(self, tupsize):
         """
         PRE : tupSize doit être un tuple de type integer
         POST : donne le chemin et la taille de l'image
         """
-        self.update_photo("pDun", "img/dungeon", tupSize)
-        self.update_photo("pPng", "img/player/{}".format(self.hero.color), tupSize)
-        self.update_photo("pKey", "img/key", tupSize)
-        self.update_photo("pVie", "img/hearts", tupSize)
+        self.update_photo("pDun", "img/dungeon", tupsize)
+        self.update_photo("pPng", "img/player/{}".format(self.hero.color), tupsize)
+        self.update_photo("pKey", "img/key", tupsize)
+        self.update_photo("pVie", "img/hearts", tupsize)
 
     def inter_dungeon(self, size, width, height):
         """
@@ -101,48 +101,48 @@ class Gui:
         dungeon = Image.new("RGB", (img_w, img_h))
         for y in self.laby.laby:
             for x in y:
-                xImg = x.x * size
-                yImg = x.y * size
+                x_img = x.x * size
+                y_img = x.y * size
                 if x.wall:
-                    list = self.laby.wall_around(x.x, x.y)
-                    top = "top" in list
-                    down = "down" in list
-                    left = "left" in list
-                    right = "right" in list
+                    liste = self.laby.wall_around(x.x, x.y)
+                    top = "top" in liste
+                    down = "down" in liste
+                    left = "left" in liste
+                    right = "right" in liste
                     if down and left and right:
-                        dungeon.paste(self.pDun.wallT, (xImg, yImg))
+                        dungeon.paste(self.pDun.wallT, (x_img, y_img))
                     elif down and left and top:
-                        dungeon.paste(self.pDun.wallHR, (xImg, yImg))
+                        dungeon.paste(self.pDun.wallHR, (x_img, y_img))
                     elif down and right and top:
-                        dungeon.paste(self.pDun.wallHL, (xImg, yImg))
+                        dungeon.paste(self.pDun.wallHL, (x_img, y_img))
                     elif right and left:
-                        dungeon.paste(self.pDun.wallH, (xImg, yImg))
+                        dungeon.paste(self.pDun.wallH, (x_img, y_img))
                     elif top and left:
-                        dungeon.paste(self.pDun.wallDR, (xImg, yImg))
+                        dungeon.paste(self.pDun.wallDR, (x_img, y_img))
                     elif top and right:
-                        dungeon.paste(self.pDun.wallDL, (xImg, yImg))
+                        dungeon.paste(self.pDun.wallDL, (x_img, y_img))
                     elif top and down:
-                        dungeon.paste(self.pDun.wallV, (xImg, yImg))
+                        dungeon.paste(self.pDun.wallV, (x_img, y_img))
                     elif down and left:
-                        dungeon.paste(self.pDun.wallHR, (xImg, yImg))
+                        dungeon.paste(self.pDun.wallHR, (x_img, y_img))
                     elif down and right:
-                        dungeon.paste(self.pDun.wallHL, (xImg, yImg))
+                        dungeon.paste(self.pDun.wallHL, (x_img, y_img))
                     elif top:
-                        dungeon.paste(self.pDun.wallE, (xImg, yImg))
+                        dungeon.paste(self.pDun.wallE, (x_img, y_img))
                     elif down:
-                        dungeon.paste(self.pDun.wallV, (xImg, yImg))
+                        dungeon.paste(self.pDun.wallV, (x_img, y_img))
                     elif left:
-                        dungeon.paste(self.pDun.wallH, (xImg, yImg))
+                        dungeon.paste(self.pDun.wallH, (x_img, y_img))
                     elif right:
-                        dungeon.paste(self.pDun.wallH, (xImg, yImg))
+                        dungeon.paste(self.pDun.wallH, (x_img, y_img))
                 else:
                     rand = randrange(0, 2)
                     if rand:
-                        dungeon.paste(self.pDun.ground1, (xImg, yImg))
+                        dungeon.paste(self.pDun.ground1, (x_img, y_img))
                     else:
-                        dungeon.paste(self.pDun.ground2, (xImg, yImg))
+                        dungeon.paste(self.pDun.ground2, (x_img, y_img))
                     if self.laby.get_cell(x.x, x.y).end:
-                        dungeon.paste(self.pDun.trap, (xImg, yImg))
+                        dungeon.paste(self.pDun.trap, (x_img, y_img))
         dungeon.save("img/floor/floor.png", "PNG")
 
     def inter_hero(self, size):
@@ -164,23 +164,23 @@ class Gui:
         PRE : size doit être de type integer
         POST : permet d' enregistré l'image du soldat ou du mage dans le dossier img/floor
         """
-        pPng = Photo("img/player/sang", (size, size))
+        p_png = Photo("img/player/sang", (size, size))
         hero = Image.new("RGBA", (size, size))
 
         if self.hero.soldier:
-            hero.paste(pPng.soldier, (0, 0))
+            hero.paste(p_png.soldier, (0, 0))
         else:
-            hero.paste(pPng.mage, (0, 0))
+            hero.paste(p_png.mage, (0, 0))
 
         hero.save("img/floor/Sang.png", "PNG")
 
-    def inter_item(self, size, pItem, name):
+    def inter_item(self, size, p_item, name):
         """
         PRE : size doit être de type integer, pItem un object photo et name de type str
         POST : permet d' enregistré l'image de ou des item(s) dans le dossier img/floor
         """
         items = Image.new("RGBA", (size, size))
-        items.paste(self.__dict__[pItem].__dict__[name], (0, 0))
+        items.paste(self.__dict__[p_item].__dict__[name], (0, 0))
         items.save("img/floor/{}.png".format(name), "PNG")
 
     def inter_mobs(self, size, mobs):
@@ -189,10 +189,10 @@ class Gui:
         POST : permet d' enregistré l'image de ou des mobs dans le dossier img/floor
         """
         sizetup = (size, size)
-        pMobs = Photo(mobs.path_img, sizetup)
-        mobsImg = Image.new("RGBA", sizetup)
-        mobsImg.paste(pMobs.__dict__[mobs.typeMonstre], (0, 0))
-        mobsImg.save("img/floor/{}/{}.png".format(mobs.color, mobs.typeMonstre), "PNG")
+        p_mobs = Photo(mobs.path_img, sizetup)
+        mobs_img = Image.new("RGBA", sizetup)
+        mobs_img.paste(p_mobs.__dict__[mobs.typeMonstre], (0, 0))
+        mobs_img.save("img/floor/{}/{}.png".format(mobs.color, mobs.typeMonstre), "PNG")
 
     def inter_vie(self, size):
         """
@@ -201,21 +201,21 @@ class Gui:
         """
         sizetup = (size, size)
         for i in self.pVie.__dict__:
-            vieImg = Image.new("RGBA", sizetup)
-            vieImg.paste(self.pVie.__dict__[i], (0, 0))
-            vieImg.save("img/floor/{}.png".format(i), "PNG")
+            vie_img = Image.new("RGBA", sizetup)
+            vie_img.paste(self.pVie.__dict__[i], (0, 0))
+            vie_img.save("img/floor/{}.png".format(i), "PNG")
 
-    def new_dungeon(self, height, width, size, item, listeNameMobs, dictMobs):
+    def new_dungeon(self, height, width, size, item, liste_name_mobs, dict_mobs):
         """
         PRE : menu esr à False, height, width, size doivent être de type integer et item doit être une liste de tuple
         composé de deux str et listNameMobs une liste de string, dict_mobs est un dictionnaire POST : donne la taille
         des images, la taille su labyrinthe, si c est un soldat ou un mage, la position de départ, place les items et
         les mobs
         """
-        tupSize = (size, size)
-        mobs = [dictMobs[i] for i in listeNameMobs]
+        tup_size = (size, size)
+        mobs = [dict_mobs[i] for i in liste_name_mobs]
         self.menu = False
-        self.update_all_photo(tupSize)
+        self.update_all_photo(tup_size)
         self.laby = Labyrinthe(height, width)
         self.hero = Hero()
         self.hero.set_score(self.score)
@@ -313,13 +313,13 @@ class Gui:
         PRE : size doit être de type integer width doit être un integer
         POST : Affiche la vie en haut a droite dans le labyrinthe
         """
-        vieRouge = self.hero.vie
+        vie_rouge = self.hero.vie
         width = width * 2
         for i in range(0, self.hero.maxVie):
             x = (width - i) * size
             y = 0
 
-            if i < vieRouge:
+            if i < vie_rouge:
                 vie = pygame.image.load("img/floor/hearts1.png")
                 self.ecran.blit(vie, ((x, y, x + size, y + size)))
 

@@ -13,19 +13,20 @@ WHITE = (255, 255, 255)
 
 def menu():
     """
-    POST : donne la valeur 10 à height et width et 32 à size, donne la taille, le nom et le thème au menu et lui donne les différentes fonctionnalités
+    POST : donne la valeur 10 à height et width et 32 à size,
+            donne la taille, le nom et le thème au menu et lui donne les différentes fonctionnalités
     """
-    height, width, size = 10, 10, 32
-    gui.screen_set_mode(height, width, size)
-    menu = pygame_menu.Menu(500, 500, 'Escape the Donjon',
-                            theme=pygame_menu.themes.THEME_BLUE)
-    menu.add_text_input('Name : ', default='Player', onchange=gui.set_name, maxchar=15)
-    menu.add_selector('Difficulty :', [('easy', 1), ('moins easy', 2), ('pas easy', 3), ('shit', 4), ('shiit', 5)],
-                      onchange=gui.set_difficulty)
-    menu.add_selector('character', [('soldier', 1), ('mage', 2)], onchange=gui.set_hero)
-    menu.add_button('Play', menu.disable)
-    menu.add_button('Quit', pygame_menu.events.EXIT)
-    menu.mainloop(gui.ecran)
+    heights, widths, sizes = 10, 10, 32
+    gui.screen_set_mode(heights, widths, sizes)
+    menus = pygame_menu.Menu(500, 500, 'Escape the Donjon',
+                             theme=pygame_menu.themes.THEME_BLUE)
+    menus.add_text_input('Name : ', default='Player', onchange=gui.set_name, maxchar=15)
+    menus.add_selector('Difficulty :', [('easy', 1), ('moins easy', 2), ('pas easy', 3), ('shit', 4), ('shiit', 5)],
+                       onchange=gui.set_difficulty)
+    menus.add_selector('character', [('soldier', 1), ('mage', 2)], onchange=gui.set_hero)
+    menus.add_button('Play', menus.disable)
+    menus.add_button('Quit', pygame_menu.events.EXIT)
+    menus.mainloop(gui.ecran)
 
 
 if __name__ == '__main__':
@@ -125,7 +126,6 @@ if __name__ == '__main__':
                     listOfMobs.append(cle[cleRand])
                 gui.new_dungeon(height, width, size, listOfItem, listOfMobs, dic_mobs)
 
-
             elif gui.difficulty == K_F5:
                 height, width, size = 30, 60, 15
                 gui.screen_set_mode(height, width, size)
@@ -207,12 +207,6 @@ if __name__ == '__main__':
             police = pygame.font.Font('freesansbold.ttf', 64)
             recap = police.render("Score: " + str(gui.hero.score), True, WHITE)
 
-            """for i in listeTrie:
-                if j < 5:
-                    police1 = pygame.font.Font('freesansbold.ttf', 20)
-                    recapitulatif = police1.render("liste Score: " + str(listeTrie[j]), True, WHITE)
-                    j+=1
-                break"""
             y = 200
             t = 35
             police1 = pygame.font.Font('freesansbold.ttf', t)
@@ -226,9 +220,7 @@ if __name__ == '__main__':
                     player = listeTrie[j]
                     texte = police1.render("{}) {}: {}".format(j+1, player[1], player[2]), True, WHITE)
                     gui.ecran.blit(texte, (200, y + t + t * j))
-                    j+=1
-
-
+                    j += 1
 
             for event in pygame.event.get():
                 if event.type == KEYDOWN:

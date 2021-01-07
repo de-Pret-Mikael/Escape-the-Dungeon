@@ -78,7 +78,9 @@ class Entite:
 class Hero(Entite):
     def __init__(self):
         """
-        POST : donne la valeur 0 à decal, False à fin et touche, True à soldier, gold à color, une liste vide à inventaire, None à score, 3 à vie et maxVie et 40 à nbrTouche
+        POST : donne la valeur 0 à decal, False à fin et touche,
+                True à soldier, gold à color, une liste vide à inventaire,
+                None à score, 3 à vie et maxVie et 40 à nbrTouche
         """
         super().__init__()
         self.__decal = 0
@@ -204,7 +206,6 @@ class Hero(Entite):
             if fini == 'y':
                 self.fin = True
 
-
     def add_inventaire(self, item):
         """
         PRE : item doit être un objet photo
@@ -220,10 +221,10 @@ class Hero(Entite):
         """
         number = random.randint(1, 6)
         print(number)
-        id = "{},{}".format(mobsx, mobsy)
+        ids = "{},{}".format(mobsx, mobsy)
         mobs = None
         for i in laby.mobs:
-            if id == i.id:
+            if ids == i.id:
                 mobs = i
         if mobs.puissance > number:
             self.vie -= 1
@@ -234,7 +235,6 @@ class Hero(Entite):
             self.score += 100 * mobs.puissance
             laby.get_cell(mobsx, mobsy).mobs = False
             laby.del_mobs(mobsx, mobsy)
-
 
     def is_touche(self):
         """
@@ -250,15 +250,14 @@ class Hero(Entite):
         self.nbrTouche = 40
         return False
 
-
     def is_mobs_around(self, laby):
         """
         PRE : laby est l'objet labyrinthe
         POST : Vérifie si un mobs ce trouve à côté du héro
         """
-        dictAdj = laby.get_cell(self.x, self.y).cell_adj(laby.width, laby.height)
-        for i in dictAdj:
-            if laby.get_cell(**dictAdj[i]).mobs:
+        dict_adj = laby.get_cell(self.x, self.y).cell_adj(laby.width, laby.height)
+        for i in dict_adj:
+            if laby.get_cell(**dict_adj[i]).mobs:
                 return True
         return False
 
@@ -273,7 +272,8 @@ class Hero(Entite):
 class Monstre(Entite):
     def __init__(self):
         """
-        POST : Donne bleu à color, ork1 à typeMonstre, None à puissance et super permet d' hérité du init de la class Entite
+        POST : Donne bleu à color, ork1 à typeMonstre,
+                None à puissance et super permet d' hérité du init de la class Entite
         """
         super().__init__()
         self.color = "blue"
@@ -300,15 +300,15 @@ class Monstre(Entite):
         POST : donne la forme string de top, right, down et left
         """
         top, right, down, left = "top", "right", "down", "left"
-        dicAdj = laby.get_cell(self.x, self.y).cell_adj(laby.width, laby.height)
+        dicadj = laby.get_cell(self.x, self.y).cell_adj(laby.width, laby.height)
         liste = laby.wall_around(self.x, self.y)
         possible = []
         is_hero = False
         for i in [top, right, down, left]:
-            hero = laby.get_cell(**dicAdj[i]).hero
+            hero = laby.get_cell(**dicadj[i]).hero
             if hero:
                 is_hero = True
-            if i not in liste and not laby.exist_mobs(**dicAdj[i]) and not hero:
+            if i not in liste and not laby.exist_mobs(**dicadj[i]) and not hero:
                 possible.append(i)
         if is_hero:
             pass

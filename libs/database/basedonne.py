@@ -84,14 +84,13 @@ class Data:
         self.use_script(path)
         return self.cursor.fetchall()
 
-    def select_all(self, nomTable):
+    def select_all(self, nomtable):
         """
         PRE : nomTable doit être un nom de table de la base de donnée
         POST : execute une commande pour avoir tout les informations dans la table demandée et le renvoie résultat
         """
-        self.execute("SELECT * FROM {}".format(nomTable))
+        self.execute("SELECT * FROM {}".format(nomtable))
         return self.cursor.fetchall()
-
 
 
 if __name__ == '__main__':
@@ -101,5 +100,4 @@ if __name__ == '__main__':
     db.close()
     dic = {}
     for i in select:
-        dic["{}{}".format(i[0],i[1])] = i
-
+        dic["{}{}".format(i[0], i[1])] = i

@@ -5,17 +5,18 @@ import unittest
 class TestItem(unittest.TestCase):
 
     def test_init(self):
-        item = Item(1, 1, "name", "photo")
-        self.assertIsInstance(item.x, int)
-        self.assertIsInstance(item.y, int)
-        self.assertIsInstance(item.itemName, str)
-        self.assertIsInstance(item.pType, str)
-        item = Item(-1, -1, "name", "photo")
-        self.assertIsInstance(item.x, int)
-        self.assertIsInstance(item.y, int)
-        item = Item(0, 0, "name", "photo")
-        self.assertIsInstance(item.x, int)
-        self.assertIsInstance(item.y, int)
+        items = Item(1, 1, "name", "photo")
+        self.assertIsInstance(items.x, int)
+        self.assertIsInstance(items.y, int)
+        self.assertIsInstance(items.itemName, str)
+        self.assertIsInstance(items.pType, str)
+        items = Item(-1, -1, "name", "photo")
+        self.assertIsInstance(items.x, int)
+        self.assertIsInstance(items.y, int)
+        items = Item(0, 0, "name", "photo")
+        self.assertIsInstance(items.x, int)
+        self.assertIsInstance(items.y, int)
+
 
 if __name__ == '__main__':
     TestItem()

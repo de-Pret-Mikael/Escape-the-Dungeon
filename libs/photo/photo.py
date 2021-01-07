@@ -20,7 +20,6 @@ class Photo:
         self.sizetup = sizetup
         self.build_dict()
 
-
     def build_photo(self, name):
         """
         construit l'objet image a partir de son chemin et de son nom
@@ -61,9 +60,9 @@ class Photo:
         """
 
         chemin = "\\".join(self.path.split("/"))
-        dir = subprocess.run(["dir", chemin], shell=True, stdout=subprocess.PIPE, stderr=subprocess.PIPE,
-                             universal_newlines=True)
-        find = subprocess.run('find "png"', shell=True, input=dir.stdout, stdout=subprocess.PIPE,
+        dires = subprocess.run(["dir", chemin], shell=True, stdout=subprocess.PIPE, stderr=subprocess.PIPE,
+                               universal_newlines=True)
+        find = subprocess.run('find "png"', shell=True, input=dires.stdout, stdout=subprocess.PIPE,
                               stderr=subprocess.PIPE,
                               universal_newlines=True)
         name = []
