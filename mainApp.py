@@ -80,7 +80,7 @@ if __name__ == '__main__':
                 height, width, size = 5, 5, 48
                 gui.screen_set_mode(height, width, size)
                 listOfItem = [("clebronze", "pKey")]
-                nbrMobs = random.randint(1, 5)
+                nbrMobs = random.randint(10, 15)
                 listOfMobs = []
                 for i in range(0, nbrMobs):
                     cle = list(dic_mobs.keys())
@@ -90,10 +90,10 @@ if __name__ == '__main__':
                 gui.new_dungeon(height, width, size, listOfItem, listOfMobs, dic_mobs)
 
             elif gui.difficulty == K_F2:
-                height, width, size = 15, 20, 30
+                height, width, size = 10, 10, 30
                 gui.screen_set_mode(height, width, size)
                 listOfItem = [("clebronze", "pKey"), ("cleargent", "pKey")]
-                nbrMobs = random.randint(5, 10)
+                nbrMobs = random.randint(10, 20)
                 listOfMobs = []
                 for i in range(0, nbrMobs):
                     cle = list(dic_mobs.keys())
