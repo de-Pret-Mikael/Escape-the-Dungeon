@@ -9,8 +9,8 @@ class Photo:
         """
         initialise l objet photo
 
-        PRE: path doit etre le chemin vers le dossier ou se trouve tout les images que l'on souhait, sizetup doit
-        etre un tup de int resemblant a (10,10)
+        PRE: path doit être le chemin vers le dossier ou se trouve tout les images que l'on souhait, sizetup doit
+        être un tup de int ressemblant a (10,10)
 
         POST: initialise l objet photo
             path prend comme valeur le paramètre path
@@ -20,14 +20,13 @@ class Photo:
         self.sizetup = sizetup
         self.build_dict()
 
-
     def build_photo(self, name):
         """
         construit l'objet image a partir de son chemin et de son nom
 
         Pre: nom doit être un string il doit aussi être un nom existant terminant par .png
 
-        POST: renvoie un objet image compose de l image selectionnée
+        POST: renvoie un objet image compose de l image sélectionnée
 
         """
         path = "{}/{}".format(self.path, name)
@@ -52,6 +51,8 @@ class Photo:
 
     def take_name(self):
         """
+        fonction qui vas chercher tout les nom de différente image dans le dossier sélectionné
+
 
         PRE : -
 
@@ -59,9 +60,9 @@ class Photo:
         """
 
         chemin = "\\".join(self.path.split("/"))
-        dir = subprocess.run(["dir", chemin], shell=True, stdout=subprocess.PIPE, stderr=subprocess.PIPE,
-                             universal_newlines=True)
-        find = subprocess.run('find "png"', shell=True, input=dir.stdout, stdout=subprocess.PIPE,
+        dires = subprocess.run(["dir", chemin], shell=True, stdout=subprocess.PIPE, stderr=subprocess.PIPE,
+                               universal_newlines=True)
+        find = subprocess.run('find "png"', shell=True, input=dires.stdout, stdout=subprocess.PIPE,
                               stderr=subprocess.PIPE,
                               universal_newlines=True)
         name = []

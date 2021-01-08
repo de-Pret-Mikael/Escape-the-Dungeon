@@ -17,6 +17,6 @@ CREATE TABLE IF NOT EXISTS Mobs
 (
     couleur varchar(10),
     nom     varchar(10),
-    vie     INTEGER,
+    puissance     INTEGER,
     PRIMARY KEY ("nom", "couleur")
 );

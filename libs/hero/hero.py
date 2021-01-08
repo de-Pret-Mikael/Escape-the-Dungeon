@@ -32,7 +32,7 @@ class Entite:
             raise ValueError("not integer")
         self.__y = i
 
-    def setPosi(self, x, y):
+    def set_posi(self, x, y):
         """Position du héro au départ"""
         """
         PRE : x et y doivent être de type integer
@@ -78,14 +78,21 @@ class Entite:
 class Hero(Entite):
     def __init__(self):
         """
-        POST : donne la valeur 0 à décal, False à fin, True à soldier, gold à color et une liste vide à inventaire
+        POST : donne la valeur 0 à decal, False à fin et touche,
+                True à soldier, gold à color, une liste vide à inventaire,
+                None à score, 3 à vie et maxVie et 40 à nbrTouche
         """
         super().__init__()
-        self.__decal = 0  # déplacement du héro
-        self.fin = False  # le jeu est t'il fini (True/False)
+        self.__decal = 0
+        self.fin = False
         self.soldier = True
         self.color = "gold"
         self.inventair = []
+        self.vie = 3
+        self.maxVie = 3
+        self.score = None
+        self.touche = False
+        self.nbrTouche = 40
 
     @property
     def decal(self):
@@ -101,55 +108,71 @@ class Hero(Entite):
         """Fonction pour ce déplacer d' un pas saut s'il y a un mur"""
         """
         PRE : Le déplacement ne doit pas être vers un mur et laby est l'objet labyrinthe
-        POST : Permet un déplacement vers la droite
+        POST : Permet un déplacement vers la droite et d'entré en combat avec un mobs
         """
         self.passe(self.x, self.y)
-        if laby.get_cell(self.x + 1, self.y).wall:
+        cellule = laby.get_cell(self.x + 1, self.y)
+        if cellule.wall:
             print('Vous ne pouvez pas traverser les murs :(')
-        else:
+        elif cellule.mobs:
+            self.combat(laby, self.x + 1, self.y)
+            print('Engage le combat :)')
+        elif not self.is_mobs_around(laby):
             self.droite()
 
     def move_gauche(self, laby):
         """Fonction pour ce déplacer d' un pas saut s'il y a un mur"""
         """
         PRE : Le déplacement ne doit pas être vers un mur et laby est l'objet labyrinthe
-        POST : Permet un déplacement vers la gauche
+        POST : Permet un déplacement vers la gauche et d'entré en combat avec un mobs
         """
         self.passe(self.x, self.y)
-        if laby.get_cell(self.x - 1, self.y).wall:
+        cellule = laby.get_cell(self.x - 1, self.y)
+        if cellule.wall:
             print('Vous ne pouvez pas traverser les murs :(')
-        else:
+        elif cellule.mobs:
+            self.combat(laby, self.x - 1, self.y)
+            print('Engage le combat :)')
+        elif not self.is_mobs_around(laby):
             self.gauche()
 
     def move_haut(self, laby):
         """Fonction pour ce déplacer d' un pas saut s'il y a un mur"""
         """
         PRE : Le déplacement ne doit pas être vers un mur et laby est l'objet labyrinthe
-        POST : Permet un déplacement vers la haut
+        POST : Permet un déplacement vers la haut et d'entré en combat avec un mobs
         """
         self.passe(self.x, self.y)
-        if laby.get_cell(self.x, self.y - 1).wall:
+        cellule = laby.get_cell(self.x, self.y - 1)
+        if cellule.wall:
             print('Vous ne pouvez pas traverser les murs :(')
-        else:
+        elif cellule.mobs:
+            self.combat(laby, self.x, self.y - 1)
+            print('Engage le combat :)')
+        elif not self.is_mobs_around(laby):
             self.haut()
 
     def move_bas(self, laby):
         """Fonction pour ce déplacer d' un pas saut s'il y a un mur"""
         """
         PRE : Le déplacement ne doit pas être vers un mur et laby est l'objet labyrinthe
-        POST : Permet un déplacement vers la bas
+        POST : Permet un déplacement vers la bas et d'entré en combat avec un mobs
         """
         self.passe(self.x, self.y)
-        if laby.get_cell(self.x, self.y + 1).wall:
+        cellule = laby.get_cell(self.x, self.y + 1)
+        if cellule.wall:
             print('Vous ne pouvez pas traverser les murs :(')
-        else:
+        elif cellule.mobs:
+            self.combat(laby, self.x, self.y + 1)
+            print('Engage le combat :)')
+        elif not self.is_mobs_around(laby):
             self.bas()
 
     def choix_deplacement(self, laby):
         """Fonction demandant qu'elle déplacement veut faire le joueur"""
         """
         PRE : condi doit valoir True et laby est l'objet labyrinthe
-        POST : donne 0 à decal et True à condi et appel les fonctions permetant de ce déplacer ou de quitter 
+        POST : donne 0 à decal et True à condi et appel les fonctions permettant de ce déplacer ou de quitter 
         """
         decal = 0
         condi = True
@@ -183,31 +206,86 @@ class Hero(Entite):
             if fini == 'y':
                 self.fin = True
 
-
     def add_inventaire(self, item):
         """
         PRE : item doit être un objet photo
-        POST : rajoute les item à la liste inventaire
+        POST : rajoute les item à la liste inventaire et permet d'augmenter le score
         """
         self.inventair.append(item)
+        self.score += 200
+
+    def combat(self, laby, mobsx, mobsy):
+        """
+        PRE : laby est l'objet labyrinthe, mobsx et mobsy doivent des integer
+        POST : Permet de combattre un monstre, le faire mourir(disparaitre) et augmenter le score
+        """
+        number = random.randint(1, 6)
+        print(number)
+        ids = "{},{}".format(mobsx, mobsy)
+        mobs = None
+        for i in laby.mobs:
+            if ids == i.id:
+                mobs = i
+        if mobs.puissance > number:
+            self.vie -= 1
+            laby.get_cell(mobsx, mobsy).mobs = False
+            laby.del_mobs(mobsx, mobsy)
+            self.touche = True
+        else:
+            self.score += 100 * mobs.puissance
+            laby.get_cell(mobsx, mobsy).mobs = False
+            laby.del_mobs(mobsx, mobsy)
+
+    def is_touche(self):
+        """
+        POST : Vérifie si le monstre à toucher le héro
+        """
+        if self.touche:
+            self.nbrTouche -= 1
+            if self.nbrTouche == 0:
+                self.touche = False
+                return False
+            else:
+                return True
+        self.nbrTouche = 40
+        return False
+
+    def is_mobs_around(self, laby):
+        """
+        PRE : laby est l'objet labyrinthe
+        POST : Vérifie si un mobs ce trouve à côté du héro
+        """
+        dict_adj = laby.get_cell(self.x, self.y).cell_adj(laby.width, laby.height)
+        for i in dict_adj:
+            if laby.get_cell(**dict_adj[i]).mobs:
+                return True
+        return False
+
+    def set_score(self, score):
+        """
+        PRE : score doit être un entier
+        POST : Permet d'avoir le score
+        """
+        self.score = score
 
 
 class Monstre(Entite):
     def __init__(self):
         """
-        POST : Donne bleu à color, ork1 à typeMonstre, None à life et super permet d' hérité du init de la class entité
+        POST : Donne bleu à color, ork1 à typeMonstre,
+                None à puissance et super permet d' hérité du init de la class Entite
         """
         super().__init__()
         self.color = "blue"
-        self.typeMonstre = "ork1"  # ork1 ork2 slime1 slime2 slime3
-        self.life = None
+        self.typeMonstre = "ork1"
+        self.puissance = None
 
     @property
     def id(self):
         return "{},{}".format(self.x, self.y)
 
     @property
-    def pathImg(self):
+    def path_img(self):
         return "img/mobs/{}".format(self.color)
 
     def __str__(self):
@@ -222,23 +300,33 @@ class Monstre(Entite):
         POST : donne la forme string de top, right, down et left
         """
         top, right, down, left = "top", "right", "down", "left"
-        dicAdj = laby.get_cell(self.x, self.y).cell_adj(laby.width, laby.height)
+        dicadj = laby.get_cell(self.x, self.y).cell_adj(laby.width, laby.height)
         liste = laby.wall_around(self.x, self.y)
         possible = []
+        is_hero = False
         for i in [top, right, down, left]:
-            if i not in liste and not laby.exist_mobs(**dicAdj[i]):
+            hero = laby.get_cell(**dicadj[i]).hero
+            if hero:
+                is_hero = True
+            if i not in liste and not laby.exist_mobs(**dicadj[i]) and not hero:
                 possible.append(i)
-        if len(possible) != 0:
-            rand = random.randrange(0, len(possible))
-            value = possible[rand]
-            if value == top:
-                self.haut()
-            if value == right:
-                self.droite()
-            if value == down:
-                self.bas()
-            if value == left:
-                self.gauche()
+        if is_hero:
+            pass
+        else:
+            if len(possible) != 0:
+                rand = random.randrange(0, len(possible))
+                value = possible[rand]
+                self.passe(self.x, self.y)
+                if value == top:
+                    self.haut()
+                if value == right:
+                    self.droite()
+                if value == down:
+                    self.bas()
+                if value == left:
+                    self.gauche()
+
+            laby.mobs_move(self.lastx, self.lasty, self.x, self.y)
 
 
 if __name__ == "__main__":

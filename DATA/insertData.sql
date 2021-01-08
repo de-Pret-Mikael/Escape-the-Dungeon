@@ -6,7 +6,7 @@ VALUES (200, 'cleBronze'),
        (100, 'cleDieu');
 
 -- insert in mobs table
-INSERT INTO Mobs (couleur, nom, vie)
+INSERT INTO Mobs (couleur, nom, puissance)
 VALUES ('green', 'ork1', 2),
         ('blue', 'ork1', 2),
         ('red', 'ork1', 2),

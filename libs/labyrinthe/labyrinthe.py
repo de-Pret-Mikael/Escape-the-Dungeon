@@ -1,6 +1,6 @@
 # ▲▶▼◀■□●
 import random  # import de la librairie random
-from libs.chest import *
+from libs.item import *
 from libs.hero import Monstre
 
 
@@ -25,7 +25,8 @@ class Cell:  # creation de la class Cell qui sera utiliser par la class Labyrint
         self.__x = x  # position x de la cellule
         self.__y = y  # position y de la cellule
         self.wall = wall  # si la cellule est un mur (True  ou False)
-        self.hero = False  # la cellule possède t elle le hero (True ou False)
+        self.hero = False
+        self.mobs = False  # la cellule possède t elle le hero (True ou False)
         self.end = False  # la cellule est la fin du Labyrinthe (True ou False)
         if not self.wall:  # sera utiliser pour l'algorithme de generation de Labyrinthe
             self.numb = self.__class__.count
@@ -45,7 +46,7 @@ class Cell:  # creation de la class Cell qui sera utiliser par la class Labyrint
     def id(self):
         return self.__id
 
-    def cell_adj(self, xMax, yMax):
+    def cell_adj(self, x_max, y_max):
         """
         Fonction qui renvoie un dictionnaire composée des position des cellule adjacente a la position donnée en
         paramètre
@@ -55,13 +56,13 @@ class Cell:  # creation de la class Cell qui sera utiliser par la class Labyrint
         POST : renvoie un dictionnaire composé de tout les positions des cellules adjacentes
         """
         dic = {}
-        xMax = 2 * xMax
-        yMax = 2 * yMax
+        x_max = 2 * x_max
+        y_max = 2 * y_max
         if self.y - 1 >= 0:
             dic["top"] = {"x": self.x, "y": self.y - 1}
-        if self.x + 1 <= xMax:
+        if self.x + 1 <= x_max:
             dic["right"] = {"x": self.x + 1, "y": self.y}
-        if self.y + 1 <= yMax:
+        if self.y + 1 <= y_max:
             dic["down"] = {"x": self.x, "y": self.y + 1}
         if self.x - 1 >= 0:
             dic["left"] = {"x": self.x - 1, "y": self.y}
@@ -93,9 +94,9 @@ class Labyrinthe:  # creation du Labyrinthe
         self.wall = []  # tableau qui sera compose de tout les murs du Labyrinthe
         self.item = []
         self.mobs = []
-        self.build_grid()  # creation de tout les cellule
-        self.build_way()  # creation du chemin grace a l'algorithme
-        self.start_and_end()  # positionnement du debut e de la fin
+        self.__build_grid()  # creation de tout les cellule
+        self.__build_way()  # creation du chemin grace a l'algorithme
+        self.__start_and_end()  # positionnement du debut e de la fin
 
     @property
     def height(self):
@@ -115,7 +116,7 @@ class Labyrinthe:  # creation du Labyrinthe
         """
         return self.laby[y][x]
 
-    def build_grid(self):
+    def __build_grid(self):
         """
         fonction qui cree toute les cellule du Labyrinthe
 
@@ -141,7 +142,7 @@ class Labyrinthe:  # creation du Labyrinthe
                 else:
                     self.laby[y].append(Cell(x, y))  # ajout de la cellule dans la variable laby
 
-    def build_way(self):
+    def __build_way(self):
         """fonction qui, via l'algorithme de creation de chemin, vas cree le chemin aléatoirement
 
         PRE : -
@@ -149,7 +150,7 @@ class Labyrinthe:  # creation du Labyrinthe
         POST : construit le chemin du labyrinthe
             modifie tout les cellules dans le labyrinthe
         """
-        while self.val_verif():
+        while self.__val_verif():
             if len(self.wall):
                 rand = random.randrange(0, len(self.wall))
             else:
@@ -159,25 +160,25 @@ class Labyrinthe:  # creation du Labyrinthe
             cell = self.get_cell(coord[0], coord[1])
             dic = cell.cell_adj(self.width, self.height)
             if not coord[0] % 2:
-                vRight = self.get_cell(**dic["right"]).numb
-                vLeft = self.get_cell(**dic["left"]).numb
-                if not (vRight == vLeft):
+                v_right = self.get_cell(**dic["right"]).numb
+                v_left = self.get_cell(**dic["left"]).numb
+                if not (v_right == v_left):
                     cell.wall = False
-                    if (vRight > vLeft):
-                        self.new_val(vRight, vLeft)
+                    if v_right > v_left:
+                        self.__new_val(v_right, v_left)
                     else:
-                        self.new_val(vLeft, vRight)
+                        self.__new_val(v_left, v_right)
             if not coord[1] % 2:
-                vDown = self.get_cell(**dic["down"]).numb
-                vTop = self.get_cell(**dic["top"]).numb
-                if not (vDown == vTop):
+                v_down = self.get_cell(**dic["down"]).numb
+                v_top = self.get_cell(**dic["top"]).numb
+                if not (v_down == v_top):
                     cell.wall = False
-                    if (vDown > vTop):
-                        self.new_val(vDown, vTop)
+                    if v_down > v_top:
+                        self.__new_val(v_down, v_top)
                     else:
-                        self.new_val(vTop, vDown)
+                        self.__new_val(v_top, v_down)
 
-    def new_val(self, val, nVal):
+    def __new_val(self, val, n_val):
         """
         fonction utiliser par buildWay qui permet de changer la valeur de certaine cellule lors de l execution
          de la fonction
@@ -190,9 +191,9 @@ class Labyrinthe:  # creation du Labyrinthe
         for y in self.laby:
             for x in y:
                 if x.numb == val:
-                    x.numb = nVal
+                    x.numb = n_val
 
-    def val_verif(self):
+    def __val_verif(self):
         """fonction qui verifies si la valeur de 2 cellule sont les meme
 
         PRE : -
@@ -216,6 +217,17 @@ class Labyrinthe:  # creation du Labyrinthe
         self.get_cell(lastx, lasty).hero = False
         self.get_cell(newx, newy).hero = True
 
+    def mobs_move(self, lastx, lasty, newx, newy):
+        """
+        fonction qui vas permettre de changer la position du hero en changeant la valeur mobs dans les cellules
+
+        PRE : lastx, lasty, newx, newy doivent être des int
+
+        POST : modifie les cellules sélectionnées en remplacent la valeur mobs des cellules
+        """
+        self.get_cell(lastx, lasty).mobs = False
+        self.get_cell(newx, newy).mobs = True
+
     def pop_hero(self):
         """fonction qui ajoute le hero dans le labyrinthe a la position voulu
 
@@ -225,31 +237,40 @@ class Labyrinthe:  # creation du Labyrinthe
         """
         self.get_cell(**self.start).hero = True
 
-    def start_and_end(self):
+    def pop_mobs(self, x, y):
+        """fonction qui ajoute le hero dans le labyrinthe a la position voulu
+
+        PRE : -
+
+        POST : ajoute le hero dans la cellule sélectionnée en modifiant la variable hero
+        """
+        self.get_cell(x, y).mobs = True
+
+    def __start_and_end(self):
         """fonction qui vas générer le debut et la fin du labyrinthe aléatoirement
 
         PRE : -
 
         POST : attribue les coordonnées du debut et de la fin
         """
-        listOfCell = []
+        liste_of_cell = []
         for y in self.laby:
             for x in y:
                 if not x.wall:
-                    listOfCell.append(x)
+                    liste_of_cell.append(x)
         # génère un nombre aléatoire entre 0 et la longueur max du tableau listOfCell
-        rand = random.randrange(0, len(listOfCell))
-        celluleRandom = listOfCell[rand]  # sélectionne l objet dans le tableau
-        self.set_start(celluleRandom.x, celluleRandom.y)  # attribut les valeur x et y a start
-        del celluleRandom  # retire la cellule du tableau pour ne pas la réutiliser
+        rand = random.randrange(0, len(liste_of_cell))
+        cellule_random = liste_of_cell[rand]  # sélectionne l objet dans le tableau
+        self.__set_start(cellule_random.x, cellule_random.y)  # attribut les valeur x et y a start
+        del cellule_random  # retire la cellule du tableau pour ne pas la réutiliser
         # génère un nombre aléatoire entre 0 et la longueur max du tableau listOfCell
-        rand = random.randrange(0, len(listOfCell))
-        celluleRandom = listOfCell[rand]  # sélectionne l objet dans le tableau
-        celluleRandom.end = True
-        self.set_end(celluleRandom.x, celluleRandom.y)  # attribut les valeur x et y a end
+        rand = random.randrange(0, len(liste_of_cell))
+        cellule_random = liste_of_cell[rand]  # sélectionne l objet dans le tableau
+        cellule_random.end = True
+        self.__set_end(cellule_random.x, cellule_random.y)  # attribut les valeur x et y a end
         self.pop_hero()  # appel la fonction pop_hero()
 
-    def set_start(self, x, y):
+    def __set_start(self, x, y):
         """
         cree le dictionnaire qui sera introduit dans la variable start
 
@@ -260,7 +281,7 @@ class Labyrinthe:  # creation du Labyrinthe
         """
         self.start = {"x": x, "y": y}
 
-    def set_end(self, x, y):
+    def __set_end(self, x, y):
         """
         cree le dictionnaire qui sera introduit dans la variable end
             attribut le dictionnaire crée a la variable end
@@ -271,7 +292,7 @@ class Labyrinthe:  # creation du Labyrinthe
         """
         self.end = {"x": x, "y": y}
 
-    def add_item(self, listOfItem):
+    def add_item(self, list_of_item):
         """fonction dui ajoute un ou des items dans le labyrinthe
 
         PRE : liste des item a rajouter sous forme ("nomDeObjet", "NomVariablePhoto")
@@ -279,16 +300,16 @@ class Labyrinthe:  # creation du Labyrinthe
         POST : ajoute a la list des item les different objet et leur attribut une position (deux objet n ont pas la
         meme position)
         """
-        listOfCell = []
+        list_of_cell = []
         for y in self.laby:
             for x in y:
                 if not x.wall and not x.end and not x.hero:
-                    listOfCell.append(x)
-        for i in listOfItem:
-            rand = random.randrange(0, len(listOfCell))
-            cellRand = listOfCell[rand]
-            self.item.append(Chest(cellRand.x, cellRand.y, i[0], i[1]))
-            del listOfCell[rand]
+                    list_of_cell.append(x)
+        for i in list_of_item:
+            rand = random.randrange(0, len(list_of_cell))
+            cell_rand = list_of_cell[rand]
+            self.item.append(Item(cell_rand.x, cell_rand.y, i[0], i[1]))
+            del list_of_cell[rand]
 
     def del_item(self, x, y):
         """
@@ -298,15 +319,15 @@ class Labyrinthe:  # creation du Labyrinthe
 
         POST : supprime un objet en fonction de sa position et renvoie l'item supprimé
         """
-        listItem = list(map(lambda x: x.id, self.item))
-        id = "{},{}".format(x, y)
-        if id in listItem:
-            index = listItem.index(id)
-            item = self.item[index]
+        list_item = list(map(lambda x: x.id, self.item))
+        ids = "{},{}".format(x, y)
+        if ids in list_item:
+            index = list_item.index(ids)
+            itemes = self.item[index]
             del self.item[index]
-            return item
+            return itemes
 
-    def add_mobs(self, listOfMobs):
+    def add_mobs(self, list_of_mobs):
         """
         fonction qui ajoute les monstres dans le labyrinthe
 
@@ -314,21 +335,22 @@ class Labyrinthe:  # creation du Labyrinthe
 
         POST : ajoute a la list des mobs les different monstre et leur attribut une position
         """
-        listOfCell = []
+        list_of_cell = []
         for y in self.laby:
             for x in y:
                 if not x.wall and not x.end and not x.hero:
-                    listOfCell.append(x)
-        for i in listOfMobs:
-            rand = random.randrange(0, len(listOfCell))
-            cellRand = listOfCell[rand]
+                    list_of_cell.append(x)
+        for i in list_of_mobs:
+            rand = random.randrange(0, len(list_of_cell))
+            cell_rand = list_of_cell[rand]
             mobs = Monstre()
-            mobs.setPosi(cellRand.x, cellRand.y)
+            mobs.set_posi(cell_rand.x, cell_rand.y)
             mobs.color = i[0]
             mobs.typeMonstre = i[1]
-            mobs.life = i[2]
+            mobs.puissance = i[2]
+            self.pop_mobs(mobs.x, mobs.y)
             self.mobs.append(mobs)
-            del listOfCell[rand]
+            del list_of_cell[rand]
 
     def del_mobs(self, x, y):
         """
@@ -338,10 +360,10 @@ class Labyrinthe:  # creation du Labyrinthe
 
         POST : supprime un monstre en fonction de sa position et renvoie le monstre supprimé
         """
-        listMobs = list(map(lambda x: x.id, self.mobs))
-        id = "{},{}".format(x, y)
-        if id in listMobs:
-            index = listMobs.index(id)
+        list_mobs = list(map(lambda x: x.id, self.mobs))
+        ids = "{},{}".format(x, y)
+        if ids in list_mobs:
+            index = list_mobs.index(ids)
             mobs = self.mobs[index]
             del self.mobs[index]
             return mobs
@@ -354,9 +376,9 @@ class Labyrinthe:  # creation du Labyrinthe
 
         POST : renvoie True si l'objet exist, sinon renvoie False
         """
-        listItem = list(map(lambda x: x.id, self.item))
-        id = "{},{}".format(x, y)
-        return id in listItem
+        list_item = list(map(lambda x: x.id, self.item))
+        ids = "{},{}".format(x, y)
+        return ids in list_item
 
     def exist_mobs(self, x, y):
         """
@@ -367,8 +389,8 @@ class Labyrinthe:  # creation du Labyrinthe
         POST : renvoie True si le monstre exist, sinon renvoie False
         """
         listmobs = list(map(lambda x: x.id, self.mobs))
-        id = "{},{}".format(x, y)
-        return id in listmobs
+        ids = "{},{}".format(x, y)
+        return ids in listmobs
 
     def show(self):
         """permet de montrer le labyrinthe en
@@ -397,14 +419,14 @@ class Labyrinthe:  # creation du Labyrinthe
 
         POST : renvoi un list de tout les murs autour d'une cellule sélectionnée:
         """
-        list = []
+        liste = []
         dic = self.get_cell(x, y).cell_adj(self.width, self.height)
         for i in dic:
             if self.get_cell(**dic[i]).wall:
-                list.append(i)
-        return list
+                liste.append(i)
+        return liste
 
 
 if __name__ == "__main__":
-    l = Labyrinthe(3, 6)
-    l.show()
+    lab = Labyrinthe(3, 6)
+    lab.show()
