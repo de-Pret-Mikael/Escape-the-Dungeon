@@ -47,7 +47,8 @@ class Data:
         self.cursor.close()
         self.connection.close()
 
-    def __open_sql(self, path):
+    @staticmethod
+    def __open_sql(path):
         """
         PRE : path dois être un chemin existant
         POST : renvoie l intérieur d'un fichier
